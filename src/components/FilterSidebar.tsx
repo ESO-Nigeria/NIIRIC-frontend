@@ -120,9 +120,12 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     group: keyof FilterValues,
     val: string
   ) => {
-    const arr = value[group]?.includes(val)
-      ? value[group]!.filter((v) => v !== val)
-      : [...(value[group] || []), val];
+    const currentValues = value[group];
+    const arr = Array.isArray(currentValues)
+      ? currentValues.includes(val)
+        ? currentValues.filter((v) => v !== val)
+        : [...currentValues, val]
+      : [val]; // If it's not an array, start a new array with the value
     onChange({ ...value, [group]: arr });
   };
 

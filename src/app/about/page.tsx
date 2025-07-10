@@ -20,8 +20,6 @@ import Logo11 from "@/app/assets/images/logo15.png";
 
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 

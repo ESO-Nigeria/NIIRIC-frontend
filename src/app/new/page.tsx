@@ -262,7 +262,7 @@ export default function NewPage() {
                         </span>
                       </div>
                       <p className="text-sm text-gray-700 mt-1">
-                        Don't forget the team meeting at 3pm.
+                        Don &apos; t forget the team meeting at 3pm.
                       </p>
                     </div>
                   </div>

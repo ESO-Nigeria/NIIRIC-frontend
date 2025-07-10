@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export default function Hero() {
   return (
     <section className="relative pb-20 pt-15 md:pb-32 md:pt-48 bg-[#F2F5F2] px-6 lg:px-8">
-      <div className="container mx-auto ">
+      <div className="container mx-auto relative z-10">
         <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Left Content */}
           <div>
@@ -26,10 +26,15 @@ export default function Hero() {
           </div>
 
           {/* Right Image */}
-          <div className="rounded-xl h-full md:bg-muted/70 md:p-3.5 md:ring-1 md:ring-inset md:ring-border">
-            <div className="relative h-full overflow-hidden rounded-xl border md:rounded-lg">
+          <div className="">
+            <div className="relative h-full overflow-hidden">
             
-               <div className="relative z-10">
+              
+            </div>
+          </div>
+        </div>
+
+         {/* <div className="relative z-10"> */}
                 <div className="absolute left-1/2 bottom-[-40px] md:bottom-[-50px] -translate-x-1/2 z-20">
       <div className=" overflow-hidden w-[50px] h-[50px] md:w-[91px] md:h-[91px] flex items-center justify-center">
         <img
@@ -66,10 +71,11 @@ export default function Hero() {
       </div>
     </div>
      
-  </div>
-            </div>
-          </div>
-        </div>
+  
+  
+  
+  
+  {/* </div> */}
       </div>
       <div className="absolute right-0 top-0 h-full">
      

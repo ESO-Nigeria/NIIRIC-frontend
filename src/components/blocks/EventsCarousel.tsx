@@ -8,14 +8,8 @@ import {
   CarouselContent,
   CarouselDots,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel"
-import { EmblaOptionsType } from 'embla-carousel'
 import Autoplay from "embla-carousel-autoplay"
-import Link from "next/link"
-import { buttonVariants } from "../ui/button"
-import { Search } from "lucide-react"
 
 export function EventsCarousel() {
   return (

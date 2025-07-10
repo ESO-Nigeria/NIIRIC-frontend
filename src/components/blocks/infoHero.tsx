@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 import OverlayImage from "@/app/assets/images/header_rectangle.png";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ interface HeroSectionProps {
   title: string;
   subtitle?: string;
   description: string;
-  imageUrl?: any;
+  imageUrl?: string | StaticImageData;
   imageAlt?: string;
   showSearch?: boolean;
   searchValue?: string;
@@ -58,7 +58,7 @@ const InfoHero: React.FC<HeroSectionProps> = ({
       <div className="absolute inset-0 bg-[linear-gradient(90.13deg,#003302_31.95%,rgba(0,153,6,0)_97.69%)] z-10" />
 
       <Image
-        src={imageUrl}
+        src={`${imageUrl}`}
         alt={imageAlt}
         fill
         className="object-cover"
