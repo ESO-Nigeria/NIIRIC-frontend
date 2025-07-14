@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
 	return (
-		<section className="relative pb-20 pt-15 md:pb-32 md:pt-48 bg-[#F2F5F2] px-6 lg:px-8">
+		<section className="relative pb-20  md:pb-32  bg-[#F2F5F2] px-6 lg:px-8">
 			<div className="container mx-auto relative z-10">
 				<div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
 					{/* Left Content */}
@@ -34,55 +34,54 @@ export default function Hero() {
 					</div>
 
 					{/* Right Image */}
-					<div className="">
-						<div className="relative h-full overflow-hidden"></div>
-					</div>
+					
+					
+					 <div className="relative w-full h-[500px] md:h-[600px]">
+            {/* Main Image */}
+            <img
+              src="/assets/images/hero_image_1.png"
+              alt="Main Image"
+              className="scale-in-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full shadow-lg border-16 border-white"
+              style={{ zIndex: 4 }}
+            />
+           
+             <img
+              src="/assets/images/hero_image_2.png"
+              alt="Image 2"
+              className="scale-in-center absolute bottom-0 right-1/4 transform translate-x-1/2 rounded-full shadow-lg"
+              style={{ zIndex: 5 }}
+            />
+            {/* Third Image */}
+            <img
+              src="/assets/images/research.png"
+              alt="Image 3"
+              className="slide-in-tr absolute top-[61%] 2xl:top-[59%] right-[93px] 2xl:right-[21%] transform translate-x-1/2 -translate-y-1/2 "
+              style={{ zIndex: 3 }}
+            />
+            
+            {/* Fourth Image (Ellipse) */}
+            <img
+              src="/assets/images/ellipse_1.png"
+              alt="Image 4"
+              className="slide-in-bl absolute top-1/2 left-[52%] transform -translate-x-1/2 translate-y-1/2 "
+              style={{ zIndex: 2 }}
+            />
+            
+            {/* Fifth Image (Ellipse) */}
+            <img
+              src="/assets/images/ellipse_2.png"
+              alt="Image 5"
+              className="slide-in-bl absolute top-[48%] left-[54%] transform -translate-x-1/2 translate-y-2/3 "
+              style={{ zIndex: 1 }}
+            />
+          </div>
 				</div>
-
-				{/* <div className="relative z-10"> */}
-				<div className="absolute left-1/2 bottom-[-40px] md:bottom-[-50px] -translate-x-1/2 z-20">
-					<div className=" overflow-hidden w-[50px] h-[50px] md:w-[91px] md:h-[91px] flex items-center justify-center">
-						<img
-							src="/assets/images/research.png"
-							alt="Secondary"
-							className="object-cover w-full h-full"
-						/>
-					</div>
-				</div>
-				<div className="rounded-full border-8 border-white  overflow-hidden  md:w-[452px] md:h-[452px] flex items-center justify-center">
-					<img
-						src="/assets/images/hero_image_1.png"
-						alt="Main"
-						className="object-cover w-full h-full"
-					/>
-				</div>
-				{/* Small circle image, overlapping */}
-				<div className="absolute left-1/2 bottom-[-40px] md:bottom-[-50px] -translate-x-1/2 z-20">
-					<div className=" overflow-hidden w-[170px] h-[170px] md:w-[241px] md:h-[241px] flex items-center justify-center">
-						<img
-							src="/assets/images/hero_image_2.png"
-							alt="Secondary"
-							className="object-cover w-full h-full"
-						/>
-					</div>
-				</div>
-				<div className="absolute left-1/2 bottom-[-40px] md:bottom-[-50px] -translate-x-1/2 z-20">
-					<div className=" overflow-hidden w-[170px] h-[170px] md:w-[241px] md:h-[241px] flex items-center justify-center">
-						<img
-							src="/assets/images/hero_image_2.png"
-							alt="Secondary"
-							className="object-cover w-full h-full"
-						/>
-					</div>
-				</div>
-
-				{/* </div> */}
 			</div>
 			<div className="absolute right-0 top-0 h-full">
 				<img
 					src="/assets/images/rectangle.png"
 					alt="Secondary"
-					className="object-cover w-full h-full"
+					className="object-cover w-full h-full slide-in-tr"
 				/>
 			</div>
 		</section>

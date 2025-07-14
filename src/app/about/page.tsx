@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import AboutBanner from "@/app/assets/images/about_banner.png";
+// import AboutBanner from "@/app/assets/images/about_banner.png";
 import Image1 from "@/app/assets/images/banner1.png";
 import Image2 from "@/app/assets/images/banner2.png";
 import Logo1 from "@/app/assets/images/logo4.png";
@@ -88,9 +88,10 @@ function page() {
 				tag="About Niiric"
 				title="Catalyzing Impact Through Research and Collaboration"
 				description="Welcome to the Nigerian Impact Investing Research Industry Collaborative (NIIRIC) — a strategic multi-stakeholder initiative dedicated to advancing research, policy, and innovation in Nigeria’s impact investing ecosystem."
-				imageUrl={AboutBanner}
+				imageUrl={'/assets/images/about_banner.png'}
 				imageAlt="About Us Hero Image"
 			/>
+
 			<section>
 				<div className="container mx-auto px-4 py-16">
 					<div className=" mx-auto grid md:grid-cols-2 gap-12 items-start">

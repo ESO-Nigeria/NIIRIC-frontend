@@ -1,0 +1,91 @@
+@-webkit-keyframes slide-in-tr {
+  0% {
+    -webkit-transform: translateY(-1000px) translateX(1000px);
+            transform: translateY(-1000px) translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) translateX(0);
+            transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-tr {
+  0% {
+    -webkit-transform: translateY(-1000px) translateX(1000px);
+            transform: translateY(-1000px) translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) translateX(0);
+            transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes slide-in-bl {
+  0% {
+    -webkit-transform: translateY(1000px) translateX(-1000px);
+            transform: translateY(1000px) translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) translateX(0);
+            transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-bl {
+  0% {
+    -webkit-transform: translateY(1000px) translateX(-1000px);
+            transform: translateY(1000px) translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) translateX(0);
+            transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+}
+
+
+
+.slide-in-tr {
+	-webkit-animation: slide-in-tr 0.7s ease-in-out both;
+	        animation: slide-in-tr 0.7s ease-in-out both;
+}
+
+.scale-in-center {
+	-webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.slide-in-bl {
+	-webkit-animation: slide-in-bl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-bl 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}

@@ -135,7 +135,7 @@ export default function Header02() {
 																	href={item.href}
 																	title={item.title}
 																>
-																	{item.description}
+																	{item.description} {item.href}
 																</ListItem>
 															))}
 														</ul>
@@ -173,6 +173,7 @@ export default function Header02() {
 											<NavigationMenuItem key={idx}>
 												<Link
 													className={buttonVariants({ variant: "ghost" })}
+													
 													href={menu.href}
 												>
 													{menu.name}
@@ -202,8 +203,13 @@ export default function Header02() {
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
 							<Link href="/" className="flex items-center gap-1">
-								<Rocket size={32} strokeWidth={2.7} />
-								<span className="text-xl font-bold">StarterBlocks</span>
+								<Image
+									src={Logo}
+									alt={"IIF_Logo"}
+									width={92}
+									height={36}
+									className="object-cover w-full h-full object-center"
+								/>
 							</Link>
 						</div>
 						<Sheet>
@@ -216,8 +222,13 @@ export default function Header02() {
 								<SheetHeader className="pb-4 px-0 border-b">
 									<SheetTitle>
 										<Link href="/" className="flex items-center gap-1">
-											<Rocket size={32} strokeWidth={2.7} />
-											<span className="text-xl font-bold">StarterBlocks</span>
+											<Image
+												src={Logo}
+												alt={"IIF_Logo"}
+												width={92}
+												height={36}
+												className="object-cover w-full h-full object-center"
+											/>
 										</Link>
 									</SheetTitle>
 								</SheetHeader>

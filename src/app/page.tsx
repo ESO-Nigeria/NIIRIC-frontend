@@ -13,6 +13,7 @@ import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
+import HeroSection from "@/components/blocks/HeroSection";
 
 const features = [
 	{
@@ -51,6 +52,7 @@ export default function Home() {
 	return (
 		<GeneralLayout>
 			<Hero />
+			{/* <HeroSection /> */}
 			<section className="bg-white py-20 px-6 lg:px-8">
 				<div className="  container mx-auto  overflow-hidden relative lg:flex lg:items-center">
 					<div className="mx-auto grid md:grid-cols-2 gap-12 items-start">

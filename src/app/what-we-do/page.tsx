@@ -1,6 +1,5 @@
 import React from "react";
 import Image3 from "@/app/assets/images/panel.png";
-import PageBanner from "@/app/assets/images/what_we_do_banner.png";
 import InfoHero from "@/components/blocks/infoHero";
 import CommunityShowcase from "@/components/CommunityShowcase";
 import DecorativeCurve from "@/components/DecorativeCurve";
@@ -15,7 +14,7 @@ function page() {
 					tag="What we do"
 					title="Strengthening Impact Investing Through Research, Innovation, and Policy Collaboration"
 					description="Through strategic collaboration, commercialization of research, policy advocacy, and global engagement, NIIRIC drives inclusive growth and systemic change across Nigeria’s impact economy."
-					imageUrl={PageBanner}
+					imageUrl={'/assets/images/what_we_do_banner.png'}
 					imageAlt="About Us Hero Image"
 				/>
 				<section className="bg-white py-25 px-6 lg:px-10">

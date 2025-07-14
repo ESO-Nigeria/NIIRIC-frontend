@@ -2,7 +2,7 @@
 import type React from "react";
 import { useState } from "react";
 import OpportunityImage from "@/app/assets/images/oppo_card.jpg"; // Adjust the path as necessary
-import PageBanner from "@/app/assets/images/what_we_do_banner.png";
+// import PageBanner from "@/app/assets/images/what_we_do_banner.png";
 import InfoHero from "@/components/blocks/infoHero";
 import FilterSidebar, { type FilterValues } from "@/components/FilterSidebar";
 import OpportunityCard from "@/components/OpportunityCard";
@@ -50,7 +50,7 @@ function Page() {
 				tag="Opportunities"
 				title="Explore Opportunities for Growth, Funding, and Career Advancement"
 				description="Stay updated on curated opportunities in funding, training, fellowships, and impact-driven careers tailored for professionals, entrepreneurs, and organizations in Nigeria’s impact investing ecosystem."
-				imageUrl={PageBanner}
+				imageUrl={'/assets/images/what_we_do_banner.png'}
 				imageAlt="Opportunities Banner Image"
 				showSearch={true}
 				searchValue={searchValue}
