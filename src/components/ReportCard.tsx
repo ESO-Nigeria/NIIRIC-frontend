@@ -29,7 +29,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
 			<div className="w-31 h-44 rounded-md overflow-hidden flex-shrink-0">
 				<Image
 					src={imageSrc}
-					alt={imageAlt}
+					alt={imageAlt || "Report Image"}
 					width={123}
 					height={162}
 					className="object-cover w-full h-full object-center"

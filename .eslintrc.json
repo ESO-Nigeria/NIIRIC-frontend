@@ -4,10 +4,14 @@
 		"next/typescript",
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:prettier/recommended",
+		"plugin:jsx-a11y/recommended",
+		"plugin:import/typescript",
+		"plugin:import/react",
+		"plugin:import/warnings",
 		"plugin:react/recommended",
-		"plugin:react/jsx-runtime",
-		"plugin:import/errors",
-		"plugin:import/warnings"
+		"plugin:react/jsx-runtime"
 	],
 	"plugins": [""],
 	"ignore_patterns": ["dist/**"],

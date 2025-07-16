@@ -113,6 +113,7 @@
 				"noUnsafeDeclarationMerging": "error",
 				"noUnsafeNegation": "error",
 				"noWith": "error",
+				"useAwait": "error",
 				"useGetterReturn": "error",
 				"useNamespaceKeyword": "error"
 			}
@@ -123,6 +124,10 @@
 		"globals": ["Global1"]
 	},
 	"overrides": [
+		{
+			"includes": ["tests/**"],
+			"linter": { "rules": { "suspicious": { "noDoubleEquals": "off" } } }
+		},
 		{
 			"includes": ["tests/**"],
 			"linter": { "rules": { "suspicious": { "noDoubleEquals": "off" } } }
