@@ -265,7 +265,7 @@ export default function Carousel() {
 		return () => {
 			window.removeEventListener("resize", calculateVisibleSlides);
 		};
-	}, [items.length]);
+	}, []);
 
 	const handleNext = () => {
 		if (currentIndex < maxIndex) {

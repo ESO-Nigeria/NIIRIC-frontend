@@ -1,6 +1,5 @@
 // src/app/curriculum/page.tsx
 "use client";
-import React from "react";
 
 const imgEllipse253 =
 	"http://localhost:3845/assets/5ad8cbc04275ce0a12af0fdc70244e4e46e47f9d.png";

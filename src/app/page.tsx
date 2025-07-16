@@ -13,7 +13,6 @@ import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
-import HeroSection from "@/components/blocks/HeroSection";
 
 const features = [
 	{

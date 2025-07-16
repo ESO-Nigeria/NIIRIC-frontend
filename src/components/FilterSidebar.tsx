@@ -178,6 +178,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`opportunity-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.opportunities.includes(opt.value)}
@@ -200,6 +201,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.sectors.includes(opt.value)}
@@ -222,6 +224,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.deadlines.includes(opt.value)}
@@ -250,6 +253,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`funding-type-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.fundingTypes?.includes(opt.value) || false}
@@ -272,6 +276,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.sectors.includes(opt.value)}
@@ -294,6 +299,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`target-group-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.targetGroups?.includes(opt.value) || false}
@@ -316,6 +322,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.deadlines.includes(opt.value)}
@@ -344,6 +351,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`program-type-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.programTypes?.includes(opt.value) || false}
@@ -366,6 +374,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`format-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.formats?.includes(opt.value) || false}
@@ -388,6 +397,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.sectors.includes(opt.value)}
@@ -410,6 +420,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`eligibility-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.eligibilities?.includes(opt.value) || false}
@@ -432,6 +443,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
+									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.deadlines.includes(opt.value)}
@@ -460,6 +472,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center py-0.5 gap-2 text-[#3F434A] text-sm"
+									htmlFor={`job-type-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.jobTypes?.includes(opt.value) || false}
@@ -480,6 +493,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center py-0.5 gap-2 text-[#3F434A] text-sm"
+									htmlFor={`level-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.levels?.includes(opt.value) || false}
@@ -502,6 +516,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center py-0.5 gap-2 text-[#3F434A] text-sm"
+									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.sectors.includes(opt.value)}
@@ -524,6 +539,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center py-0.5 gap-2 text-[#3F434A] text-sm"
+									htmlFor={`location-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.locations?.includes(opt.value) || false}
@@ -546,6 +562,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 								<label
 									key={opt.value}
 									className="flex items-center py-0.5 gap-2 text-[#3F434A] text-sm"
+									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
 										checked={value.deadlines.includes(opt.value)}

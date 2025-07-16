@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Book, File, Menu, Rocket, Search, Trees } from "lucide-react";
+import { Badge, Book, File, Menu, Search, Trees } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -173,7 +173,6 @@ export default function Header02() {
 											<NavigationMenuItem key={idx}>
 												<Link
 													className={buttonVariants({ variant: "ghost" })}
-													
 													href={menu.href}
 												>
 													{menu.name}

@@ -34,47 +34,46 @@ export default function Hero() {
 					</div>
 
 					{/* Right Image */}
-					
-					
-					 <div className="relative w-full h-[500px] md:h-[600px]">
-            {/* Main Image */}
-            <img
-              src="/assets/images/hero_image_1.png"
-              alt="Main Image"
-              className="scale-in-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full shadow-lg border-16 border-white"
-              style={{ zIndex: 4 }}
-            />
-           
-             <img
-              src="/assets/images/hero_image_2.png"
-              alt="Image 2"
-              className="scale-in-center absolute bottom-0 right-1/4 transform translate-x-1/2 rounded-full shadow-lg"
-              style={{ zIndex: 5 }}
-            />
-            {/* Third Image */}
-            <img
-              src="/assets/images/research.png"
-              alt="Image 3"
-              className="slide-in-tr absolute top-[61%] 2xl:top-[59%] right-[93px] 2xl:right-[21%] transform translate-x-1/2 -translate-y-1/2 "
-              style={{ zIndex: 3 }}
-            />
-            
-            {/* Fourth Image (Ellipse) */}
-            <img
-              src="/assets/images/ellipse_1.png"
-              alt="Image 4"
-              className="slide-in-bl absolute top-1/2 left-[52%] transform -translate-x-1/2 translate-y-1/2 "
-              style={{ zIndex: 2 }}
-            />
-            
-            {/* Fifth Image (Ellipse) */}
-            <img
-              src="/assets/images/ellipse_2.png"
-              alt="Image 5"
-              className="slide-in-bl absolute top-[48%] left-[54%] transform -translate-x-1/2 translate-y-2/3 "
-              style={{ zIndex: 1 }}
-            />
-          </div>
+
+					<div className="relative w-full h-[500px] md:h-[600px]">
+						{/* Main Image */}
+						<img
+							src="/assets/images/hero_image_1.png"
+							alt="woman speaking"
+							className="scale-in-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full shadow-lg border-16 border-white"
+							style={{ zIndex: 4 }}
+						/>
+
+						<img
+							src="/assets/images/hero_image_2.png"
+							alt="group of people"
+							className="scale-in-center absolute bottom-0 right-1/4 transform translate-x-1/2 rounded-full shadow-lg"
+							style={{ zIndex: 5 }}
+						/>
+						{/* Third Image */}
+						<img
+							src="/assets/images/research.png"
+							alt="research icon"
+							className="slide-in-tr absolute top-[61%] 2xl:top-[59%] right-[93px] 2xl:right-[21%] transform translate-x-1/2 -translate-y-1/2 "
+							style={{ zIndex: 3 }}
+						/>
+
+						{/* Fourth Image (Ellipse) */}
+						<img
+							src="/assets/images/ellipse_1.png"
+							alt="ellipse"
+							className="slide-in-bl absolute top-1/2 left-[52%] transform -translate-x-1/2 translate-y-1/2 "
+							style={{ zIndex: 2 }}
+						/>
+
+						{/* Fifth Image (Ellipse) */}
+						<img
+							src="/assets/images/ellipse_2.png"
+							alt="ellipse"
+							className="slide-in-bl absolute top-[48%] left-[54%] transform -translate-x-1/2 translate-y-2/3 "
+							style={{ zIndex: 1 }}
+						/>
+					</div>
 				</div>
 			</div>
 			<div className="absolute right-0 top-0 h-full">

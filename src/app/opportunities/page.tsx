@@ -50,7 +50,7 @@ function Page() {
 				tag="Opportunities"
 				title="Explore Opportunities for Growth, Funding, and Career Advancement"
 				description="Stay updated on curated opportunities in funding, training, fellowships, and impact-driven careers tailored for professionals, entrepreneurs, and organizations in Nigeria’s impact investing ecosystem."
-				imageUrl={'/assets/images/what_we_do_banner.png'}
+				imageUrl={"/assets/images/what_we_do_banner.png"}
 				imageAlt="Opportunities Banner Image"
 				showSearch={true}
 				searchValue={searchValue}
@@ -66,7 +66,7 @@ function Page() {
 							<div className="space-y-5 w-full">
 								{Array(10)
 									.fill(null)
-									.map((opportunity, index) => (
+									.map((_opportunity, index) => (
 										<OpportunityCard
 											key={index + 1}
 											imageSrc={OpportunityImage}

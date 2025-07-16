@@ -113,7 +113,7 @@ const EmblaCarousel: React.FC<PropType> = ({
 				<div className="flex gap-2">
 					{scrollSnaps.map((_, index) => (
 						<DotButton
-							key={index}
+							key={index + 1}
 							onClick={() => onDotButtonClick(index)}
 							className={"embla__dot".concat(
 								index === selectedIndex ? " embla__dot--selected" : "",

@@ -120,8 +120,6 @@ function Carousel({
 			<div
 				onKeyDownCapture={handleKeyDown}
 				className={cn("relative", className)}
-				role="region"
-				aria-roledescription="carousel"
 				data-slot="carousel"
 				{...props}
 			>
@@ -286,10 +284,10 @@ function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
 		>
 			{scrollSnaps.map((_, idx) => (
 				<CarouselDot
-					key={idx}
+					key={idx + 1}
 					index={idx}
 					selected={selectedIndex === idx}
-					onClick={(() => api.scrollTo(idx))}
+					onClick={() => api.scrollTo(idx)}
 				/>
 			))}
 		</div>

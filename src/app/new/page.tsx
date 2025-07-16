@@ -1,6 +1,6 @@
 "use client";
 import { Calendar, Home, Settings, Users } from "lucide-react";
-import React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function NewPage() {
@@ -16,28 +16,28 @@ export default function NewPage() {
 					</div>
 					<ul className="flex gap-6 text-muted-foreground font-medium">
 						<li>
-							<a
-								href="#"
+							<Link
+								href="/"
 								className="hover:text-primary-green transition-colors"
 							>
 								Dashboard
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a
-								href="#"
+							<Link
+								href="/"
 								className="hover:text-primary-green transition-colors"
 							>
 								Community
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a
-								href="#"
+							<Link
+								href="/"
 								className="hover:text-primary-green transition-colors"
 							>
 								Events
-							</a>
+							</Link>
 						</li>
 					</ul>
 					<Button>Sign In</Button>
@@ -53,40 +53,40 @@ export default function NewPage() {
 					<nav>
 						<ul className="space-y-2">
 							<li>
-								<a
-									href="#"
+								<Link
+									href="/"
 									className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-green/10 text-muted-foreground hover:text-primary-green transition"
 								>
 									<Home />
 									<span>Dashboard</span>
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#"
+								<Link
+									href="/"
 									className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-green/10 text-muted-foreground hover:text-primary-green transition"
 								>
 									<Users />
 									<span>Community</span>
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#"
+								<Link
+									href="/"
 									className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-green/10 text-muted-foreground hover:text-primary-green transition"
 								>
 									<Calendar />
 									<span>Events</span>
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#"
+								<Link
+									href="/"
 									className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-green/10 text-muted-foreground hover:text-primary-green transition"
 								>
 									<Settings />
 									<span>Settings</span>
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</nav>
@@ -403,15 +403,15 @@ export default function NewPage() {
 								NIIRIC &copy; {new Date().getFullYear()}
 							</span>
 							<nav className="flex gap-6 mt-4 md:mt-0 text-white/80 text-sm">
-								<a href="#" className="hover:underline">
+								<Link href="/" className="hover:underline">
 									Privacy Policy
-								</a>
-								<a href="#" className="hover:underline">
+								</Link>
+								<Link href="/" className="hover:underline">
 									Terms of Service
-								</a>
-								<a href="#" className="hover:underline">
+								</Link>
+								<Link href="/" className="hover:underline">
 									Contact
-								</a>
+								</Link>
 							</nav>
 						</div>
 					</footer>

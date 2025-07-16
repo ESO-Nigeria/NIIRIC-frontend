@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
 import "./styles/embla.css";
-import "./styles/animations.css"
+import "./styles/animations.css";
 
 const raleway = Raleway({
 	variable: "--font-raleway",

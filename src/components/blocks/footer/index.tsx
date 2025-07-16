@@ -2,7 +2,6 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import Logo from "@/app/assets/images/iif_logo_white.png";
 import Risa from "@/app/assets/images/risa.png";
 import Ukaid from "@/app/assets/images/ukaid.png";
