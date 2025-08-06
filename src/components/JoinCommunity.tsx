@@ -5,16 +5,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 interface JoinCommunityProps {
-	image: StaticImageData;
+	image: StaticImageData | string;
 	imageAlt?: string;
 	imagePosition?: "left" | "right";
 	badgeText?: string;
 	title?: string;
 	description?: string;
-	primaryButtonText?: string;
-	secondaryButtonText?: string;
+	primaryButtonText?: string | boolean;
+	secondaryButtonText?: string | boolean;
 	onPrimaryClick?: () => void;
 	onSecondaryClick?: () => void;
+	containerClassName?: string;
+	imageAreaClassName?: string;
+	imageClassName?: string;
+	textAreaClassName?: string;
 }
 
 const JoinCommunity: React.FC<JoinCommunityProps> = ({
@@ -28,21 +32,34 @@ const JoinCommunity: React.FC<JoinCommunityProps> = ({
 	secondaryButtonText = "Learn More",
 	onPrimaryClick,
 	onSecondaryClick,
+	containerClassName = "",
+	imageAreaClassName = "",
+	imageClassName = "",
+	textAreaClassName = "",
 }) => {
 	const imageSection = (
-		<div className="w-full h-[407px] relative rounded-xl overflow-hidden shadow-lg">
+		<div
+			className={`w-full h-[407px] relative rounded-xl overflow-hidden shadow-lg ${imageAreaClassName}`}
+		>
 			<Image
 				src={image}
 				alt={imageAlt}
 				fill
-				className="object-cover object-right-bottom"
+				className={
+					"object-cover object-right-bottom *:imageClassName" + imageClassName
+				}
 				style={{ objectFit: "cover" }}
 			/>
 		</div>
 	);
 
 	const textSection = (
-		<div className="max-w-2xl space-y-4 mx-auto lg:mx-0 lg:pr-10 lg:pl-0 lg:text-left">
+		<div
+			className={
+				"max-w-2xl space-y-4 mx-auto lg:mx-0 lg:pr-10 lg:pl-0 lg:text-left" +
+				textAreaClassName
+			}
+		>
 			<Badge variant="primary-brown-25" className="uppercase rounded-8 ">
 				{badgeText}
 			</Badge>
@@ -51,26 +68,35 @@ const JoinCommunity: React.FC<JoinCommunityProps> = ({
 			</h2>
 			<p className="text-base text-main-text-color leading-7">{description}</p>
 			<div className="sm:flex sm:items-center space-x-4 sm:space-x-8">
-				<Button
-					variant="primary-green"
-					className="text-base mt-4 h-12 sm:mt-0"
-					onClick={onPrimaryClick}
-				>
-					{primaryButtonText} <ArrowRight className="size-5" />
-				</Button>
-				<Button
-					variant="primary-brown"
-					className="text-base mt-4 h-12 sm:mt-0"
-					onClick={onSecondaryClick}
-				>
-					{secondaryButtonText} <ArrowRight className="size-5" />
-				</Button>
+				{primaryButtonText && (
+					<Button
+						variant="primary-green"
+						className="text-base mt-4 h-12 sm:mt-0 cursor-pointer"
+						onClick={onPrimaryClick}
+					>
+						{primaryButtonText} <ArrowRight className="size-5" />
+					</Button>
+				)}
+				{secondaryButtonText && (
+					<Button
+						variant="primary-brown"
+						className="text-base mt-4 h-12 sm:mt-0 cursor-pointer"
+						onClick={onSecondaryClick}
+					>
+						{secondaryButtonText} <ArrowRight className="size-5" />
+					</Button>
+				)}
 			</div>
 		</div>
 	);
 
 	return (
-		<div className="container mx-auto overflow-hidden relative lg:flex lg:items-center">
+		<div
+			className={
+				"container mx-auto overflow-hidden relative lg:flex lg:items-center " +
+				containerClassName
+			}
+		>
 			{imagePosition === "left" ? (
 				<>
 					<div className="w-full lg:w-1/2 flex items-center justify-center mb-8 lg:mb-0">
