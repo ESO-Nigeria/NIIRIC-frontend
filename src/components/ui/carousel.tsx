@@ -233,12 +233,16 @@ function CarouselDot({
 	selected,
 	onClick,
 	className,
+	selectedstyle ='bg-primary-green',
+	dotstyle,
 	...props
 }: {
 	index: number;
 	selected: boolean;
 	onClick: (idx: number) => void;
 	className?: string;
+	selectedstyle?: string;
+	dotstyle?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
 		<button
@@ -247,7 +251,8 @@ function CarouselDot({
 			aria-pressed={selected}
 			className={cn(
 				"mx-1 w-3 h-3 rounded-full border border-primary-green transition-all duration-200",
-				selected ? "bg-primary-green" : "bg-white",
+				selected ? selectedstyle : "bg-white",
+				dotstyle,
 				className,
 			)}
 			onClick={() => onClick(index)}
@@ -257,7 +262,7 @@ function CarouselDot({
 }
 
 // Dots controller component
-function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
+function CarouselDots({ className, selectedstyle = "bg-primary-green", dotstyle, ...props }: React.ComponentProps<"div"> & { selectedstyle?: string, dotstyle?: string }) {
 	const { api } = useCarousel();
 	const [selectedIndex, setSelectedIndex] = React.useState(0);
 	const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);
@@ -288,6 +293,8 @@ function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
 					index={idx}
 					selected={selectedIndex === idx}
 					onClick={() => api.scrollTo(idx)}
+					selectedstyle={selectedstyle}
+					dotstyle={dotstyle}
 				/>
 			))}
 		</div>

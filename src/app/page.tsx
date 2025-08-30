@@ -14,6 +14,7 @@ import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
+import HeroCarouselWithIndicatorsAndAutoplay from "@/components/blocks/HeroWithSlider";
 import GeneralLayout from "@/layouts/General";
 
 const features = [
@@ -57,7 +58,8 @@ const features = [
 export default function Home() {
 	return (
 		<GeneralLayout>
-			<Hero />
+			<HeroCarouselWithIndicatorsAndAutoplay />
+			{/* <Hero /> */}
 
 			<section className=" relative py-20 px-6 lg:px-10 lg:h-[600px] -top-1/5">
 				<JoinCommunity

@@ -201,7 +201,7 @@ export default function Header02() {
 				<div className="block lg:hidden">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-2">
-							<Link href="/" className="flex items-center gap-1">
+							<Link href="/" className="flex w-23 h-9 items-center gap-1">
 								<Image
 									src={Logo}
 									alt={"IIF_Logo"}
@@ -220,7 +220,7 @@ export default function Header02() {
 							<SheetContent className="overflow-y-auto px-4">
 								<SheetHeader className="pb-4 px-0 border-b">
 									<SheetTitle>
-										<Link href="/" className="flex items-center gap-1">
+										<Link href="/" className="flex w-23 h-9 items-center gap-1">
 											<Image
 												src={Logo}
 												alt={"IIF_Logo"}
