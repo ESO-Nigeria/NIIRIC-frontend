@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { BanIcon, MoreHorizontalIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,16 +13,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { isTokenValid } from "@/helpers/helpers";
 import { RootState } from "@/store";
 
-const sideVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: { duration: 0.6, ease: "easeInOut" },
-	},
-	exit: {
-		opacity: 0,
-		transition: { duration: 0.3, ease: "easeInOut" },
-	},
+const sideVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { duration: 0.5, ease: "easeInOut" } 
+  },
+  exit: { 
+    opacity: 0,
+    transition: { duration: 0.3, ease: "easeOut" } 
+  },
 };
 
 const sideContent = {

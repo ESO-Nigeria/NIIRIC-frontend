@@ -2,7 +2,7 @@ import Image, { type StaticImageData } from "next/image";
 import type React from "react";
 
 interface CommunityShowcaseProps {
-	image: StaticImageData;
+	image?: StaticImageData | string;
 	imageAlt?: string;
 	imagePosition?: "left" | "right";
 	title?: string;
@@ -19,7 +19,7 @@ const CommunityShowcase: React.FC<CommunityShowcaseProps> = ({
 	const imageSection = (
 		<div className="w-full h-[407px] relative rounded-xl overflow-hidden shadow-lg">
 			<Image
-				src={image}
+				src={image ?? ''}
 				alt={imageAlt}
 				fill
 				className="object-cover object-right-bottom"

@@ -63,7 +63,12 @@ function Page() {
 			<section className="bg-white py-25 px-6 lg:px-10">
 				<div className="container mx-auto max-w-7xl space-y-8 sm:space-y-16">
 					{showcases.map((item, index) => (
-						<CommunityShowcase key={index} {...item} />
+						<CommunityShowcase 
+
+							key={index} 
+							{...item} 
+							imagePosition={item.imagePosition as "left" | "right"} 
+							/>
 					))}
 				</div>
 			</section>
