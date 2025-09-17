@@ -48,7 +48,7 @@ const Footer = ({
 										type="submit"
 										className="absolute right-2 h-11 top-1/2 -translate-y-1/2 bg-primary-green text-white rounded-lg px-4 py-2 flex items-center justify-center transition hover:bg-primary-green/90"
 									>
-										Submit Now{" "}
+										Submit Now
 										<ArrowRight className="ml-2 h-4 w-4" strokeWidth={3} />
 									</button>
 								</div>
@@ -84,105 +84,108 @@ const Footer = ({
 					</div>
 				</section>
 			)}
-			<footer className="text-white body-font bg-primary-green">
-				<div className="mx-auto relative container px-5 lg:px-0 py-16 md:py-24 flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-					<div className="lg:w-1/3 md:w-1/2 w-full px-4 mb-4 md:mb-0">
-						<Link
-							href="/"
-							className="w-40 h-16 flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
-						>
-							<Image
-								src={Logo}
-								alt={"IIF_Logo"}
-								width={163}
-								height={63}
-								className="object-cover w-full h-full object-center"
-							/>
-						</Link>
-						<p className="mt-2 text-base">
-							The Nigerian Impact Investing Research Industry Collaborative
-							(NIIRIC), established under the auspices of the Impact Investors
-							Foundation (IIF) and the Nigerian Advisory Board on Impact
-							Investing (NABII), is actively addressing the critical need for
-							high-quality research, cohesive industry collaboration,
-							capacity-building, and a robust policy framework in Nigeria.
-							{/* The Nigerian ESO Collaborative, a Programme of{' '} */}
-							{/* <a href="https://www.impactinvestorsfoundation.org" target="_blank" rel="noopener noreferrer">
-              Impact Investors Foundation
-            </a>{' '}
-            is a platform of Enterprise Support Organizations building a stronger MSME network in Nigeria */}
-						</p>
-					</div>
+			<footer className="text-white body-font bg-primary-green py-28">
+				<div className="mx-auto relative container ">
+					<div className="px-5 lg:px-0  flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+						<div className="lg:w-1/3 md:w-1/2 w-full px-4 mb-4 md:mb-0">
+							<Link
+								href="/"
+								className="w-40 h-16 flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
+							>
+								<Image
+									src={Logo}
+									alt={"IIF_Logo"}
+									width={163}
+									height={63}
+									className="object-cover w-full h-full object-center"
+								/>
+							</Link>
+							<p className="mt-2 text-base">
+								The Nigerian Impact Investing Research Industry Collaborative
+								(NIIRIC), established under the auspices of the Impact Investors
+								Foundation (IIF) and the Nigerian Advisory Board on Impact
+								Investing (NABII), is actively addressing the critical need for
+								high-quality research, cohesive industry collaboration,
+								capacity-building, and a robust policy framework in Nigeria.
+							</p>
+						</div>
 
-					<div className="lg:w-1/3 md:w-1/2 w-full mb-4 md:mb-0 px-4 text-base space-y-3">
-						<h2 className="title-font font-semibold tracking-widest">
-							Get Involved
-						</h2>
-						<nav className="list-none space-y-3">
-							<li>
-								<Link href="/general/esos">
-									Enterprise Support Organizations
-								</Link>
-							</li>
-							<li>
-								<a
-									href="https://docs.google.com/forms/d/1_lE4s9DZz2yhYYBUsCHc3YHrbtIRYbJ8OnzLt_wqpb0/viewform?edit_requested=true"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									Join the community
-								</a>
-							</li>
-							<li>
-								<Link href="/general/programmes">Programmes</Link>
-							</li>
-							<li>
-								<Link href="/general/events">Events</Link>
-							</li>
-						</nav>
-					</div>
+						<div className="lg:w-1/3 md:w-1/2 w-full mb-4 md:mb-0 px-4 text-base space-y-3">
+							<h2 className="title-font font-semibold tracking-widest">
+								Quick Links
+							</h2>
+							<nav className="list-none space-y-3">
+								<li>
+									<Link href="/about">About us</Link>
+								</li>
 
-					<div className="lg:w-1/3 md:w-1/2 w-full px-4 mb-4 md:mb-0 text-base space-y-3">
-						<h2 className="title-font font-semibold tracking-widest">
-							Contact Us
-						</h2>
-						<nav className="list-none space-y-3">
-							<li className="inline-flex items-start gap-2">
-								<span className="mt-2">
-									{/* Replace with icon component or keep SVG */}
-									<img
-										src="/assets/icons/location.svg"
-										alt="Location Icon"
-										className="w-4 h-4"
-									/>
-								</span>
-								<span>
-									Standard Chartered Building, 989 Workspace, 10th Floor, 142
-									Ahmadu Bello Way, Victoria Island Lagos.
-								</span>
-							</li>
-							<li className="inline-flex items-center gap-2">
-								<span>
-									<img
-										src="/assets/icons/email.svg"
-										alt="Email Icon"
-										className="w-4 h-4"
-									/>
-								</span>
-								<p>info@impactinvestorsfoundation.org</p>
-							</li>
-							<li className="inline-flex items-center gap-2">
-								<span>
-									<img
-										src="/assets/icons/phone.svg"
-										alt="Phone Icon"
-										className="w-4 h-4"
-									/>
-								</span>
-								<p>+234-000-000-0000</p>{" "}
-								{/* Replace with actual phone number if available */}
-							</li>
-						</nav>
+								<li>
+									<Link href="/what-we-do">What we do</Link>
+								</li>
+								<li>
+									<Link href="/resources">Resources</Link>
+								</li>
+								<li>
+									<Link href="/reports">Publications</Link>
+								</li>
+								<li>
+									<Link href="/reports">Reports</Link>
+								</li>
+							</nav>
+						</div>
+
+						<div className="lg:w-1/3 md:w-1/2 w-full px-4 mb-4 md:mb-0 text-base space-y-3">
+							<h2 className="title-font font-semibold tracking-widest">
+								Contact Us
+							</h2>
+							<nav className="flex-col flex list-none space-y-3">
+								<li className="inline-flex items-start gap-2">
+									<span className="mt-2">
+										{/* Replace with icon component or keep SVG */}
+										<img
+											src="/assets/icons/location.svg"
+											alt="Location Icon"
+											className="w-5 h-5"
+										/>
+									</span>
+									<span>
+										Standard Chartered Building, 989 Workspace, 10th Floor, 142
+										Ahmadu Bello Way, Victoria Island Lagos.
+									</span>
+								</li>
+
+								<li className="inline-flex items-center gap-2">
+									<span>
+										<img
+											src="/assets/icons/mail.svg"
+											alt="Email Icon"
+											className="w-4 h-4"
+										/>
+									</span>
+									<p>info@impactinvestorsfoundation.org</p>
+								</li>
+
+								<li className="inline-flex items-center gap-2">
+									<span>
+										<img
+											src="/assets/icons/phone.svg"
+											alt="Email Icon"
+											className="w-4 h-4"
+										/>
+									</span>
+									<p>+234 808360 2223</p>
+								</li>
+							</nav>
+						</div>
+					</div>
+					<Separator className="my-5" />
+					<div className="">
+						<div className="  relative  px-5 flex flex-wrap flex-col sm:flex-row">
+							<p className=" text-base text-center sm:text-left">
+								© {new Date().getFullYear()} All Rights Reserved. Powered by
+								NIIRIC
+							</p>
+						</div>
 					</div>
 				</div>
 			</footer>

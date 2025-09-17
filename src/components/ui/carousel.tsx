@@ -233,7 +233,7 @@ function CarouselDot({
 	selected,
 	onClick,
 	className,
-	selectedstyle ='bg-primary-green',
+	selectedstyle = "bg-primary-green",
 	dotstyle,
 	...props
 }: {
@@ -262,7 +262,15 @@ function CarouselDot({
 }
 
 // Dots controller component
-function CarouselDots({ className, selectedstyle = "bg-primary-green", dotstyle, ...props }: React.ComponentProps<"div"> & { selectedstyle?: string, dotstyle?: string }) {
+function CarouselDots({
+	className,
+	selectedstyle = "bg-primary-green",
+	dotstyle,
+	...props
+}: React.ComponentProps<"div"> & {
+	selectedstyle?: string;
+	dotstyle?: string;
+}) {
 	const { api } = useCarousel();
 	const [selectedIndex, setSelectedIndex] = React.useState(0);
 	const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);

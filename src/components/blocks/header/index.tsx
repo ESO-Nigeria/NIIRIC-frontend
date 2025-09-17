@@ -2,7 +2,8 @@
 import { Badge, Book, File, Menu, Search, Trees } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Logo from "@/app/assets/images/iif_logo.png";
 import {
 	Accordion,
@@ -27,6 +28,10 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useGetProfileQuery } from "@/store/features/auth/actions";
+import { logoutUser } from "@/store/features/auth/auth.slice";
+import { selectAuthenticatedUser } from "@/store/features/auth/selectors";
+import UserAvatarMenu from "./UserProfile";
 
 const TopMenu = [
 	{ name: "About Us", href: "/about" },
@@ -81,6 +86,15 @@ const TopMenu = [
 ];
 
 export default function Header02() {
+	const dispatch = useDispatch();
+	const user = useSelector(selectAuthenticatedUser);
+	const { data } = useGetProfileQuery(user);
+
+	const handleLogout = () => {
+		dispatch(logoutUser());
+	};
+	console.log(data, "data user", user);
+
 	return (
 		<header className="w-full py-4 px-6 lg:px-8 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
 			<div className="container mx-auto">
@@ -184,17 +198,26 @@ export default function Header02() {
 							</NavigationMenu>
 						</div>
 					</div>
-					<div className="flex gap-2">
-						<Link href="#" className={buttonVariants({ variant: "ghost" })}>
-							Log in
-						</Link>
-						<Link
-							href="#"
-							className={buttonVariants({ variant: "primary-green" })}
-						>
-							Get Started
-						</Link>
-					</div>
+					{!user && (
+						<div className="flex gap-2">
+							<Link
+								href="/auth/login"
+								className={buttonVariants({ variant: "ghost" })}
+							>
+								Log in
+							</Link>
+							<Link
+								href="/auth/register"
+								className={buttonVariants({ variant: "primary-green" })}
+							>
+								Get Started
+							</Link>
+						</div>
+					)}
+
+					{user && data && (
+						<UserAvatarMenu user={data} handleLogout={handleLogout} />
+					)}
 				</nav>
 
 				{/* Mobile Menu */}
@@ -288,13 +311,13 @@ export default function Header02() {
 								<div className="border-t pt-4">
 									<div className="mt-2 flex flex-col gap-2">
 										<Link
-											href="#"
+											href="/auth/login"
 											className={buttonVariants({ variant: "ghost" })}
 										>
 											Log in
 										</Link>
 										<Link
-											href="#"
+											href="/auth/register"
 											className={buttonVariants({ variant: "default" })}
 										>
 											Get Started

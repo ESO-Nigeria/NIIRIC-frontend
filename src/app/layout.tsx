@@ -3,6 +3,8 @@ import { Raleway } from "next/font/google";
 import "./globals.css";
 import "./styles/embla.css";
 import "./styles/animations.css";
+import { ToastContainer } from "react-toastify";
+import ReduxProvider from "./ReduxProvider";
 
 const raleway = Raleway({
 	variable: "--font-raleway",
@@ -31,7 +33,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${raleway.variable} ${raleway.variable} antialiased`}>
-				{children}
+				<ReduxProvider>
+					<ToastContainer limit={5} />
+					{children}
+				</ReduxProvider>
 			</body>
 		</html>
 	);

@@ -48,7 +48,7 @@ const CommunityShowcase: React.FC<CommunityShowcaseProps> = ({
 	);
 
 	return (
-		<div className="container mx-auto overflow-hidden relative lg:flex gap-8 sm:gap-16  lg:items-start">
+		<div className="container mx-auto overflow-hidden relative lg:flex gap-8 sm:gap-16  lg:items-center">
 			{imagePosition === "left" ? (
 				<>
 					<div className="w-full lg:w-1/2 flex items-center justify-center mb-8 lg:mb-0">

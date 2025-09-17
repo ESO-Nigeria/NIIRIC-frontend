@@ -1,0 +1,312 @@
+{
+	"message_1": "ok",
+	"message_2": "OK",
+	"status": 200,
+	"data": [
+		{
+			"id": "19893341-89cd-4da3-a9c0-33af242ad062",
+			"name": "COU-CAT",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": "https://sheba-swiss.org/wp-content/uploads/2024/12/bgproj5-1.jpg",
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "HERO-1",
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": "https://sheba-swiss.org/wp-content/uploads/2024/12/bgproj5-1.jpg",
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "CATALOGUE-1",
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "43092f0e-339a-4b20-9688-4da85d9234ef",
+			"name": "COU-IND",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "f0ac59e8-487b-48c7-8913-534becbb77fa",
+			"name": "DASHBOA",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": "HERO-1",
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": "HERO-2",
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "498dd469-4d2d-46df-9c1f-9eb580b27b38",
+			"name": "FOR-BUS",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "HTML",
+					"content_short_description": null,
+					"content_name": "FOR BUSINESS",
+					"content_html": "<p><strong>QUESTENCE FOR BUSINESS </strong></p>x000D\n_x000D_\n<p><strong>Learning Paths: 1</strong></p>x000D\n_x000D_\n<p>What does Questence business aim to offer:<br />x000D\nReduce training costs with trusted credentials from more than 50 prestigious colleges and corporations, together with in-demand material. Provide expert instruction from over 20 of the top business schools across the globe.</p>x000D\n_x000D_\n<ul>x000D\n\t<li>Provide career credentials from industry experts to employees so they are ready for digital roles.</li>x000D\n\t<li>Promote continuous learning with short videos, lessons, and practical assignments.</li>x000D\n\t<li>Utilise our job-aligned collections or curate your own content experiences.</li>x000D\n</ul>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p><strong>LANDING PAGE CONTENT</strong></p>x000D\n_x000D_\n<p><strong>Use of keywords to drive SEO and subscription</strong></p>x000D\n_x000D_\n<p><strong>Unlock Professional Advancement with Questence - Tailored Learning for Business Excellence</strong></p>x000D\n_x000D_\n<ul>x000D\n\t<li>Stay ahead of the curve with industry-specific courses</li>x000D\n\t<li>Develop, retain, and promote essential talent</li>x000D\n\t<li>Reduce training cost without compromising on quality</li>x000D\n\t<li>Monitor and assess abilities to show ROI.</li>x000D\n</ul>x000D\n_x000D_\n<p><strong>Professionals at over 100 companies in Nigeria develop their talents with Questence</strong></p>x000D\n_x000D_\n<p>Transform talent in your company at all levels. Select from our extensive array of all-inclusive upskilling and reskilling programmes created to support individual growth and boost organisational performance. (CTA: Contact Us)</p>x000D\n_x000D_\n<p><strong>Chosen and trusted by more than 100 enterprises across Nigeria</strong></p>x000D\n_x000D_\n<p><strong>Transform your company<br />x000D\nedX For Business provides focused learning options for staff and organisational development. </strong>(CTA: Contact Us)</p>x000D\n_x000D_\n<p><br />x000D\n<strong>BOT: Hey there! Welcome to Questence for Business, can I help you with anything today?</strong></p>x000D\n_x000D_\n<p>This page will also include all professional bodies and educational institution showing their logos.</p>x000D\n_x000D_\n<p>&quot;</p>",
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "0199ba12-e236-4a5f-8587-843ed730cf62",
+			"name": "FOR-GOV",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "HTML",
+					"content_short_description": null,
+					"content_name": "FOR GOVERNMENT",
+					"content_html": "<p>&quot;</p>x000D\n_x000D_\n<p><strong>QUESTENCE FOR GOVERNMENT</strong></p>x000D\n_x000D_\n<p><strong>Learning Paths: 2 (Train citizens and Train government employees)</strong></p>x000D\n_x000D_\n<p><strong>A form (to collect details, which will include a range of learners) </strong></p>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p>What does Questence for schools aim to offer:</p>x000D\n_x000D_\n<p><strong>Offer innovative educational programmes that give public servants and the citizens the fundamental abilities they&#39;ll need to succeed in the workplace of the future.</strong></p>x000D\n_x000D_\n<p><strong>LANDING PAGE CONTENT</strong></p>x000D\n_x000D_\n<p>Select the best job options for the Nigerians citizens and civil servants.</p>x000D\n_x000D_\n<p><strong>Train citizens </strong>(CITIZEN WORKFORCE DEVELOPMENT)</p>x000D\n_x000D_\n<p><strong>Train government employees </strong>(GOVERNMENT EMPLOYEE UPSKILLING)</p>x000D\n_x000D_\n<p><strong>Fuel the future of your workforce and equip your communities with the tools they need to succeed.</strong></p>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p><strong>BOT: Hey there! Welcome to Questence for Government, can I help you with anything today?</strong></p>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p>&quot;</p>",
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "adc657e9-ab85-40e6-9006-a5fb95bc5c29",
+			"name": "FOR-SCH",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "HTML",
+					"content_short_description": null,
+					"content_name": "FOR SCHOOLS",
+					"content_html": "<p>&quot;</p>x000D\n_x000D_\n<p><strong>QUESTENCE FOR SCHOOLS</strong></p>x000D\n_x000D_\n<p><strong>Learning Paths: 1, A form (to collect details, which will include a range of learners) </strong></p>x000D\n_x000D_\n<p>What does Questence for schools aim to offer:</p>x000D\n_x000D_\n<p>Our courses are thoughtfully designed to cater specifically to the needs and aspirations of students. From comprehensive study materials to interactive assessments, we&#39;ve got your academic success covered.</p>x000D\n_x000D_\n<p><strong>LANDING PAGE CONTENT</strong></p>x000D\n_x000D_\n<p>Boost employability to draw in additional students</p>x000D\n_x000D_\n<p><strong>The Questence course library is made of 500+ courses and certificates, which offer students the opportunity to develop 2000 of the most important skills for the workplace.</strong><br />x000D\n<br />x000D\nLearn anywhere, anytime.</p>x000D\n_x000D_\n<p>Equip students with in-demand skills &nbsp;</p>x000D\n_x000D_\n<p>Offer students 6,800 courses from 325+ leading universities and industry partners</p>x000D\n_x000D_\n<p>(CTA: contact us)</p>x000D\n_x000D_\n<p>This page will also include all professional bodies and educational institution showing their logos.</p>x000D\n_x000D_\n<p><strong>BOT: Hey there! Welcome to Questence for Schools, can I help you with anything today?</strong></p>x000D\n_x000D_\n<p>&nbsp;</p>x000D\n_x000D_\n<p>&nbsp;</p>",
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "344c87b5-6c13-43b8-aa21-9c89e923f940",
+			"name": "LANDING",
+			"number_of_sections": 6,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": "https://sheba-swiss.org/wp-content/uploads/2024/12/bgproj5-1.jpg",
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "HERO-2",
+					"content_html": "",
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": "#f9faf7",
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "FEATURES-1",
+					"content_html": "",
+					"content_url": null
+				},
+				{
+					"section_no": 3,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "CATEGORIES-1",
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 4,
+					"background_color": "#f9faf7",
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "CERTIFICATION-1",
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 5,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "FEATURED-COURSES-1",
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 6,
+					"background_color": "#f9faf7",
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": "COMPONENT",
+					"content_short_description": null,
+					"content_name": "FEATURED-BLOGS-1",
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "0e94dbec-8a44-42dd-a165-d57da38f2dfb",
+			"name": "PRO-CAT",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		},
+		{
+			"id": "3b9cc06d-f306-4602-8099-3b808751adea",
+			"name": "PRO-IND",
+			"number_of_sections": 2,
+			"section_belonging_to_page": [
+				{
+					"section_no": 1,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				},
+				{
+					"section_no": 2,
+					"background_color": null,
+					"background_image_url": null,
+					"parallax_background_image": null,
+					"content_type": null,
+					"content_short_description": null,
+					"content_name": null,
+					"content_html": null,
+					"content_url": null
+				}
+			]
+		}
+	]
+}

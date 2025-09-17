@@ -9,12 +9,12 @@ import Image3 from "@/app/assets/images/panel.png";
 import CaseCard from "@/components/blocks/CaseCard";
 import Carousel from "@/components/blocks/carousel";
 import { EventsCarousel } from "@/components/blocks/EventsCarousel";
+import HeroCarouselWithIndicatorsAndAutoplay from "@/components/blocks/HeroWithSlider";
 import Hero from "@/components/blocks/hero";
 import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import HeroCarouselWithIndicatorsAndAutoplay from "@/components/blocks/HeroWithSlider";
 import GeneralLayout from "@/layouts/General";
 
 const features = [
