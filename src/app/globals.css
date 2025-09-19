@@ -50,6 +50,8 @@
 	--font-inter: var(--font-inter);
 	--font-geist-sans: var(--font-geist-sans);
 	--font-raleway: var(--font-raleway);
+	--font-poppins: var(--font-poppins);
+	--font-dm_sans: var(--font-dm_sans);
 	--radius-8: var(--rounded-8);
 	--radius-12: var(--rounded-12);
 	--detail-high-contrast: rgb(192, 192, 192);
@@ -84,6 +86,8 @@
 	--main-text-color: #242424;
 	--font-inter: "Inter", sans-serif;
 	--font-raleway: "Raleway", sans-serif;
+	--font-poppins: 'Poppins', sans-serif;
+	--font-dm_sans: 'DM_Sans', sans-serif
 	--secondary-text-color: #6b6b6b;
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.145 0 0);

@@ -18,7 +18,6 @@ export const userSlice = createSlice({
 	initialState: initialUser,
 	reducers: {
 		setCredentials: (state, { payload: { access, refresh } }) => {
-			console.log(access, "setCredentials");
 			state.token = access;
 			state.accessToken = access;
 			state.refreshToken = refresh;

@@ -8,6 +8,8 @@ export const {
 	useRegisterMutation,
 	// useLogoutAllMutation,
 	useVerifyEmailMutation,
+	useSocialLoginMutation,
+	useSocialVerifyLoginMutation
 	// useEditProfileMutation,
 	// useResetPasswordMutation,
 	// useChangePasswordMutation,

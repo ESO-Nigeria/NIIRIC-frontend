@@ -97,7 +97,7 @@ export default function Header02() {
 
 	return (
 		<header className="w-full py-4 px-6 lg:px-8 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
-			<div className="container mx-auto">
+			<div className=" mx-auto">
 				<nav className="hidden justify-between lg:flex">
 					<div className="flex items-center gap-6">
 						<div className="flex items-center gap-2">

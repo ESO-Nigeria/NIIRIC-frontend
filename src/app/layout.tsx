@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Raleway, Poppins, DM_Sans } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import "./styles/embla.css";
 import "./styles/animations.css";
@@ -9,6 +10,19 @@ import ReduxProvider from "./ReduxProvider";
 const raleway = Raleway({
 	variable: "--font-raleway",
 	subsets: ["latin"],
+	weight:["400", "500", "600", "700"]
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"], // optional: choose the weights you need
+});
+
+const DmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm_sans",
+  weight: ["400", "500", "600", "700"], // optional: choose the weights you need
 });
 
 export const metadata: Metadata = {
@@ -32,10 +46,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${raleway.variable} ${raleway.variable} antialiased`}>
+			<body className={`${raleway.variable} ${raleway.variable} ${poppins.variable} ${DmSans.variable} antialiased`}>
 				<ReduxProvider>
-					<ToastContainer limit={5} />
-					{children}
+					{/* <SessionProvider> */}
+							<ToastContainer limit={5} />
+							{children}
+					{/* </SessionProvider> */}
+					
 				</ReduxProvider>
 			</body>
 		</html>

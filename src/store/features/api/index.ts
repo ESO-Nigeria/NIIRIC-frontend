@@ -7,7 +7,7 @@ const BASE_URL =
 
 // Base query with token injection
 const rawBaseQuery = fetchBaseQuery({
-	baseUrl: BASE_URL,
+	baseUrl: process.env.NEXT_PUBLIC_API_URL,
 	prepareHeaders: (headers, { getState }: any) => {
 		const token = getState()?.auth?.token;
 		console.log(token, "token", getState());

@@ -29,13 +29,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useLoginMutation } from "@/store/features/auth/actions";
+import { useLoginMutation, useSocialLoginMutation } from "@/store/features/auth/actions";
 import { setCredentials } from "@/store/features/auth/auth.slice";
 
 const formSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(8, "Password must be at least 8 characters long"),
 });
+const GOOGLE_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/google/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
+const LINKEDIN_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/linkedin/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -48,6 +50,7 @@ const Login = () => {
 		resolver: zodResolver(formSchema),
 	});
 	const [login, { isLoading }] = useLoginMutation();
+	const [socialLogin] = useSocialLoginMutation();
 
 	const { watch } = form;
 	const { email, password } = watch();
@@ -69,6 +72,33 @@ const Login = () => {
 		}
 	};
 
+// const handleOAuthLogin = (provider: string) => {
+//   const redirectUri = `${window.location.origin}/${provider}/callback/`;
+//   window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`;
+// };
+
+const handleOAuthLogin = async (provider: string) => {
+  try {
+    const result = await socialLogin({
+      provider,
+			// redirectUri: 'https://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/auth/o/google-oauth2/'
+      redirectUri: `${window.location.origin}/${provider}/callback/`,
+    }).unwrap();
+
+    if (result.authorization_url) {
+      window.location.href= result.authorization_url
+			
+			// (result.authorization_url, "_blank", "width=500,height=600");
+    } else if (result.access) {
+      localStorage.setItem("authToken", result.access);
+      toast.success("Logged in successfully!");
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("OAuth login failed");
+  }
+};
+
 	return (
 		<div className=" m-auto w-full flex flex-col items-center">
 			<h4 className="text-primary-green text-[28px] font-bold">Welcome back</h4>
@@ -76,12 +106,12 @@ const Login = () => {
 				Please sign in to your account to continue
 			</p>
 
-			<Button variant="outline" className="mt-8 w-full gap-3">
+			<Button type="button" onClick={() => handleOAuthLogin("google-oauth2")} variant="outline" className="mt-8 w-full gap-3">
 				<GoogleLogo />
 				Continue with Google
 			</Button>
 
-			<Button variant="outline" className="mt-8 w-full gap-3">
+			<Button onClick={() => handleOAuthLogin("linkedin-oauth2")}  variant="outline" className="mt-8 w-full gap-3">
 				{/* <GoogleLogo /> */}
 				<LucideLinkedin />
 				Continue with Google
