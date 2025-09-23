@@ -1,9 +1,11 @@
+'use client'
 import Image3 from "@/app/assets/images/panel.png";
 import InfoHero from "@/components/blocks/infoHero";
 import CommunityShowcase from "@/components/CommunityShowcase";
 import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 import GeneralLayout from "@/layouts/General";
+import { useRouter } from "next/navigation";
 
 // Config-driven showcases
 const showcases = [
@@ -23,7 +25,7 @@ const showcases = [
 		],
 	},
 	{
-		image: "/assets/images/partner_4.png",
+		image: "/assets/images/wed_3.png",
 		imagePosition: "left",
 		title: "Research & Policy Advocacy",
 		description: [
@@ -39,7 +41,7 @@ const showcases = [
 		],
 	},
 	{
-		image: Image3,
+		image: "/assets/images/wed_5.png",
 		imagePosition: "left",
 		title: "Industry Collaboration & Engagement",
 		description: [
@@ -49,6 +51,7 @@ const showcases = [
 ];
 
 function Page() {
+	const router = useRouter()
 	return (
 		<GeneralLayout>
 			<InfoHero
@@ -64,7 +67,6 @@ function Page() {
 				<div className="container mx-auto max-w-7xl space-y-8 sm:space-y-16">
 					{showcases.map((item, index) => (
 						<CommunityShowcase 
-
 							key={index} 
 							{...item} 
 							imagePosition={item.imagePosition as "left" | "right"} 
@@ -75,7 +77,9 @@ function Page() {
 
 			{/* Join Community Section */}
 			<section className="bg-[#F2F5F2] relative py-20 px-6 lg:px-10">
-				<JoinCommunity image={Image3} imagePosition="right" />
+				<JoinCommunity image={Image3} imagePosition="right" primaryButtonText="Become a member"
+					onPrimaryClick={() => router.push('/auth/register')}
+					onSecondaryClick={() => router.push('/about')} />
 				<DecorativeCurve
 					className=""
 					style={{ position: "absolute", top: "0", left: "150px" }}

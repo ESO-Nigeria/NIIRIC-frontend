@@ -30,7 +30,7 @@ const CommunityShowcase: React.FC<CommunityShowcaseProps> = ({
 
 	const textSection = (
 		<div className="max-w-2xl space-y-4 mx-auto lg:mx-0 lg:pr-10 lg:pl-0 lg:text-left">
-			<h2 className="text-2xl font-bold text-primary-green leading-12 sm:text-[32px]">
+			<h2 className="text-2xl font-medium text-primary-green leading-12 sm:text-[32px]">
 				<span className="block">{title}</span>
 			</h2>
 			{Array.isArray(description) ? (

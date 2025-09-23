@@ -31,7 +31,7 @@ export default function AuthLayout({ children, side }: AuthLayoutProps) {
 					<div className="hidden lg:block overflow-hidden">
 						{side ? side : <div className="w-full h-full bg-muted" />}
 					</div>
-					<div className="max-w-2xl m-auto w-full flex flex-col items-center">
+					<div className="max-w-lg m-auto w-full flex flex-col items-center">
 						{children}
 					</div>
 				</div>

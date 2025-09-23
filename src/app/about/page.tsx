@@ -21,6 +21,7 @@ import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import GeneralLayout from "@/layouts/General";
+import { useRouter } from "next/navigation";
 
 const sponsors = [
 	{
@@ -81,43 +82,31 @@ const sponsors = [
 ];
 
 function page() {
+	const router  = useRouter()
 	return (
 		<GeneralLayout>
 			<InfoHero
 				tag="About Niiric"
 				title="Catalyzing Impact Through Research and Collaboration"
 				description="Welcome to the Nigerian Impact Investing Research Industry Collaborative (NIIRIC) — a strategic multi-stakeholder initiative dedicated to advancing research, policy, and innovation in Nigeria’s impact investing ecosystem."
-				imageUrl={"/assets/images/about_banner.png"}
+				imageUrl={"/assets/images/about_us_banner.png"}
 				imageAlt="About Us Hero Image"
 			/>
 
 			<section>
 				<div className="container mx-auto px-4 py-16">
-					<div className=" mx-auto grid md:grid-cols-2 gap-12 items-start">
+					<div className=" mx-auto grid md:grid-cols-2 gap-12 items-center">
 						{/* Image Group */}
 						<div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
-							<div className="w-[297px] h-[407px] relative rounded-xl overflow-hidden shadow-lg">
-								<Image
-									src={Image1}
-									alt="Facilitator Group"
-									fill
-									className="object-cover"
-								/>
-								{/* <div className=""> */}
-								{/* </div> */}
-							</div>
-							<div className="w-[297px] -mb-24 h-[407px] relative rounded-xl overflow-hidden shadow-lg ">
-								<Image
-									src={Image2}
-									alt="Meeting Room"
-									fill
-									className="object-cover"
-								/>
-							</div>
-							<DecorativeCurve
-								className="absolute left-1/2 bottom-16 -translate-x-1/2 translate-y-1/2 scale-x-[-1]"
-								style={{ transform: "rotate(-90deg)" }}
-							/>
+								<img
+										src="/assets/images/section_banner.png"
+										alt=""
+										
+										className={
+											"object-cover object-right-bottom *:imageClassName"
+										}
+										style={{ objectFit: "cover" }}
+									/>
 						</div>
 
 						{/* Text Content */}
@@ -127,31 +116,12 @@ function page() {
 								ABOUT NIIRIC
 							</Badge>
 							<p className="text-gray-800 mb-6">
-								The Nigerian Impact Investing Research Industry Collaborative
-								(NIIRIC), established under the auspices of the Impact Investors
-								Foundation (IIF) and the Nigerian Advisory Board on Impact
-								Investing (NABII), is actively addressing the critical need for
-								high-quality research, cohesive industry collaboration,
-								capacity-building, and a robust policy framework in Nigeria.
+								The Nigerian Impact Investing Research Industry Collaborative (NIIRIC), established by the Impact Investors Foundation (IIF) and the Nigerian Advisory Board on Impact Investing (NABII), is the leading collaborative strengthening Nigeria’s impact investing, research, and innovation ecosystem.
 							</p>
 							<p className="text-gray-800 mb-6">
-								As the leading collaborative platform, NIIRIC is driving the
-								advancement of Nigeria’s impact investing, research, and
-								innovation ecosystem. We bring together academia, researchers,
-								think tanks, businesses, industry leaders, civil society, and
-								policymakers to foster collaboration, enhance capacity, promote
-								evidence-based advocacy, and implement impactful initiatives.
-								These efforts are transforming Nigeria’s impact investing and
-								innovation landscape, accelerating sustainable development
-								throughout the country.
+								We lead the drive to mainstream impact investing and play central role in advancing research-to-commercialization pathways, supporting national innovation systems, and bridging the gap between research outputs and enterprise development.
 							</p>
-							<p className="text-gray-800">
-								With funding from the Foreign, Commonwealth and Development
-								Office, The RISA Fund, and Ford Foundation, NIIRIC continues to
-								lead transformative initiatives that empower stakeholders,
-								catalyze innovation, and address Nigeria’s most pressing
-								development challenges.
-							</p>
+							
 						</div>
 					</div>
 				</div>
@@ -280,6 +250,9 @@ function page() {
 				<JoinCommunity
 					image={Image3}
 					imagePosition="right" // or "left"
+					primaryButtonText="Become a member"
+					onPrimaryClick={() => router.push('/auth/register')}
+					onSecondaryClick={() => router.push('/about')}
 					// You can also override badgeText, title, description, etc.
 				/>
 				<DecorativeCurve

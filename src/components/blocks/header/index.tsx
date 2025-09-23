@@ -219,7 +219,7 @@ export default function Header02() {
 								href="/auth/register"
 								className={buttonVariants({ variant: "primary-green" })}
 							>
-								Get Started
+								Sign up
 							</Link>
 						</div>
 					)}
@@ -330,7 +330,7 @@ export default function Header02() {
 											href="/auth/register"
 											className={buttonVariants({ variant: "default" })}
 										>
-											Get Started
+											Sign up
 										</Link>
 									</div>
 								</div>

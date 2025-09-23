@@ -129,11 +129,11 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground font-raleway antialiased text-main-text-color;
+		@apply bg-background text-foreground font-poppins antialiased text-main-text-color;
 	}
 }
 
 body {
-	@apply bg-background font-raleway antialiased text-main-text-color;
+	@apply bg-background font-poppins antialiased text-main-text-color;
 	@apply transition-colors duration-300 ease-in-out;
 }
