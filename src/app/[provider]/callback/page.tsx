@@ -6,13 +6,9 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Header02 from "@/components/blocks/header";
 import { buttonVariants } from "@/components/ui/button";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/store/features/auth/auth.slice";
-import { useSocialVerifyLoginMutation } from "@/store/features/auth/actions";
 import { toast } from "react-toastify";
 
 export default function ProviderPage() {
-  const dispatch = useDispatch()
   const { provider } = useParams()
    const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,7 +19,7 @@ export default function ProviderPage() {
 	// const { state } = useParams();
 	let title = "Success";
 	let description = "";
-  const [socialVerifyLogin, {isLoading}] = useSocialVerifyLoginMutation()
+  // const [socialVerifyLogin, {isLoading}] = useSocialVerifyLoginMutation()
 
 	// switch (state) {
 	// 	case "verification-sent":

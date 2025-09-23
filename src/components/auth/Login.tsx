@@ -31,13 +31,14 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useLoginMutation, useSocialLoginMutation } from "@/store/features/auth/actions";
 import { setCredentials } from "@/store/features/auth/auth.slice";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(8, "Password must be at least 8 characters long"),
 });
-const GOOGLE_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/google/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
-const LINKEDIN_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/linkedin/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
+// const GOOGLE_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/google/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
+// const LINKEDIN_AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/linkedin/?redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}`;
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Login = () => {
 	});
 	const [login, { isLoading }] = useLoginMutation();
 	const [socialLogin] = useSocialLoginMutation();
-
+	const router  = useRouter()
 	const { watch } = form;
 	const { email, password } = watch();
 
@@ -60,12 +61,19 @@ const Login = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
-		console.log(data);
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		console.log(values);
 		try {
-			const user = await login(data);
-			console.log(user, "login");
-			dispatch(setCredentials(user?.data));
+			const {data, error} = await login(values);
+			console.log(data, "login");
+				if(data){
+					dispatch(setCredentials(data));
+					router.push('/dashboard')
+					form.reset()
+				}
+				if (error) {
+						toast.error("Wrong username and password");
+				}
 		} catch (error) {
 			console.log(error, "error");
 			toast.error("Wrong username and password");

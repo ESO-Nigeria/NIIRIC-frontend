@@ -1,15 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logoutUser, setCredentials } from "../auth/auth.slice";
 
-const BASE_URL =
-	process.env.REACT_APP_API_URL ||
-	"https://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net";
-
 // Base query with token injection
 const rawBaseQuery = fetchBaseQuery({
 	baseUrl: process.env.NEXT_PUBLIC_API_URL,
 	prepareHeaders: (headers, { getState }: any) => {
-		const token = getState()?.auth?.token;
+		const token = getState()?.auth?.token ;
 		console.log(token, "token", getState());
 		if (token) {
 			headers.set("Authorization", `Bearer ${token}`);
@@ -33,7 +29,7 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (
 			// try refresh
 			const refreshResult: any = await rawBaseQuery(
 				{
-					url: "/auth/jwt/refresh/",
+					url: "/auth/token/refresh/",
 					method: "POST",
 					body: { refresh: refreshToken },
 				},
@@ -43,9 +39,7 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (
 
 			if (refreshResult.data) {
 				// save new tokens
-
 				api.dispatch(setCredentials(refreshResult.data));
-
 				// retry the original request with new token
 				result = await rawBaseQuery(args, api, extraOptions);
 			} else {

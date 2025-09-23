@@ -18,14 +18,16 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { useSendResetPasswordEmailMutation } from "@/store/features/auth/actions";
+import { toast } from "react-toastify";
 
 const formSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(8, "Password must be at least 8 characters long"),
+	// password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 const ForgetPassword = () => {
+	 const [sendResetEmail, { isLoading }] = useSendResetPasswordEmailMutation();
 	const form = useForm<z.infer<typeof formSchema>>({
 		defaultValues: {
 			email: "",
@@ -33,10 +35,23 @@ const ForgetPassword = () => {
 		resolver: zodResolver(formSchema),
 	});
 
-	const onSubmit = (data: z.infer<typeof formSchema>) => {
-		console.log(data);
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		console.log(values, 'val');
+		try {
+			const {data, error} = await sendResetEmail(values)
+			if (error) {
+				toast.error('Error sending email')
+			}
+			if(data){
+				toast.success('Reset Email sent, Please check your mailbox')
+				form.reset()
+			}
+		} catch (error) {
+			console.log('error', error)
+		}
 	};
 
+	console.log(isLoading, )
 	return (
 		<div>
 			<Header02 />
@@ -83,14 +98,14 @@ const ForgetPassword = () => {
 								<div>
 									<Button
 										variant={"primary-green"}
-										disabled
+										disabled={isLoading}
 										type="submit"
 										className="mt-4 h-11 w-full"
 									>
-										Request password request
+										Request password request 
 									</Button>
 									<Link
-										href="#"
+										href="/auth/login"
 										className="text-sm block mt-2 font-medium text-[#232E3F] "
 									>
 										Back to login{" "}

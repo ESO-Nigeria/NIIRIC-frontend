@@ -62,18 +62,27 @@ const Register = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const onSubmit = async (data: z.infer<typeof formSchema>) => {
-		console.log(data);
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		console.log(values);
 		const data_to_send = {
-			...data,
-			username: data?.first_name + "" + data?.last_name,
+			"email": values?.email,
+			"password1": values?.password,
+			"password2": values?.re_password,
+			"first_name": values?.first_name,
+			"last_name": values?.last_name
 		};
 		try {
-			const user = await register(data_to_send);
-			console.log(user, "login");
+			const {data, error} = await register(data_to_send);
+			console.log(data, "login");
+			if(data){
+					router.push("/auth/success/verification-sent");
+					form.reset()
+					toast.success("Email sent");
+			}
+			if (error) {
+				toast.error("Error registering");
+			}
 			// dispatch(setCredentials(user?.data));
-			router.push("/auth/success/verification-sent");
-			toast.success("Email sent");
 		} catch (error) {
 			console.log(error, "error");
 			toast.error("Wrong username and password");

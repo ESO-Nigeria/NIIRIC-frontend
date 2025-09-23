@@ -3,6 +3,7 @@ import Storage from "@/lib/storage";
 
 const cachedUser = Storage.get("user");
 
+
 const defaultUser = {
 	user: null,
 	user_data: null,
@@ -17,13 +18,15 @@ export const userSlice = createSlice({
 	name: "auth",
 	initialState: initialUser,
 	reducers: {
-		setCredentials: (state, { payload: { access, refresh } }) => {
+		setCredentials: (state, { payload: { access, refresh, user } }) => {
 			state.token = access;
 			state.accessToken = access;
 			state.refreshToken = refresh;
+			state.user = user
 			Storage.set("user", {
 				token: access,
 				refreshToken: refresh,
+				user: user
 			});
 		},
 		logoutUser: (state) => {
@@ -33,6 +36,11 @@ export const userSlice = createSlice({
 			state.token = null;
 			Storage.remove("user");
 		},
+		setProfile: (state, {payload }) => {
+			console.log('payload', payload)
+			state.user_data = payload
+			state.user = payload
+		}
 	},
 });
 
@@ -133,6 +141,6 @@ export const userSlice = createSlice({
 //   }),
 // });
 
-export const { logoutUser, setCredentials } = userSlice.actions;
+export const { logoutUser, setCredentials, setProfile } = userSlice.actions;
 
 export default userSlice.reducer;

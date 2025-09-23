@@ -50,12 +50,13 @@ export default function AuthTabs() {
 	const currentTab = tab === "login" ? "login" : "register";
 	const { image, heading, subheading, description } = sideContent[currentTab];
 
-	useEffect(() => {
-		if (isTokenValid(token)) {
-			router.replace("/"); // or "/"
-		}
-	}, [token, router]);
+	// useEffect(() => {
+	// 	if (isTokenValid(token)) {
+	// 		router.replace("/");
+	// 	}
+	// }, [token, router]);
 
+	console.log(token, router, 'hi', isTokenValid(token) )
 	return (
 		<AuthLayout
 			side={

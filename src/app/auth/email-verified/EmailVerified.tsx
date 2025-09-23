@@ -9,6 +9,7 @@ import {
   useRegisterMutation,
   useVerifyEmailMutation,
 } from "@/store/features/auth/actions";
+import { Button } from "@/components/ui/button";
 
 export default function EmailVerified() {
   const searchParams = useSearchParams();
@@ -16,16 +17,16 @@ export default function EmailVerified() {
 
   const email = searchParams.get("email");
   const uid = searchParams.get("uid");
-  const token = searchParams.get("token");
+  // const token = searchParams.get("token");
 
   const [verifyEmail, { isLoading, isSuccess, isError }] =
     useVerifyEmailMutation();
 
   useEffect(() => {
-    if (uid && token) {
-      verifyEmail({ uid, token });
+    if (uid ) {
+      verifyEmail({ key: uid });
     }
-  }, [uid, token, verifyEmail]);
+  }, [uid, verifyEmail]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -56,6 +57,9 @@ export default function EmailVerified() {
                 The verification link is invalid or has expired. Please request
                 a new one.
               </p>
+              <Button>
+                Resend Verification Link
+              </Button>
             </div>
           )}
         </div>

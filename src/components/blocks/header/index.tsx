@@ -29,8 +29,8 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useGetProfileQuery } from "@/store/features/auth/actions";
-import { logoutUser } from "@/store/features/auth/auth.slice";
-import { selectAuthenticatedUser } from "@/store/features/auth/selectors";
+import { logoutUser, setProfile } from "@/store/features/auth/auth.slice";
+import { selectAuthenticatedUser, selectCurrentUser } from "@/store/features/auth/selectors";
 import UserAvatarMenu from "./UserProfile";
 
 const TopMenu = [
@@ -87,13 +87,19 @@ const TopMenu = [
 
 export default function Header02() {
 	const dispatch = useDispatch();
-	const user = useSelector(selectAuthenticatedUser);
-	const { data } = useGetProfileQuery(user);
+	const user  = useSelector(selectCurrentUser);
+	 
+	const { data } = useGetProfileQuery({});
 
 	const handleLogout = () => {
 		dispatch(logoutUser());
 	};
-	console.log(data, "data user", user);
+
+	useEffect(() => {
+		 dispatch(setProfile(data))
+	}, [data])
+	
+	console.log("data user", user, data);
 
 	return (
 		<header className="w-full py-4 px-6 lg:px-8 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
@@ -215,9 +221,10 @@ export default function Header02() {
 						</div>
 					)}
 
-					{user && data && (
-						<UserAvatarMenu user={data} handleLogout={handleLogout} />
+					{user && (
+						<UserAvatarMenu user={user} handleLogout={handleLogout} />
 					)}
+
 				</nav>
 
 				{/* Mobile Menu */}

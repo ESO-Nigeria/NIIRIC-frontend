@@ -3,30 +3,44 @@ import { nirricApi } from "../api";
 export const authApi = nirricApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getProfile: builder.query({
-			query: () => "/auth/users/me/",
+			query: () => "/auth/user/",
 		}),
 		login: builder.mutation({
 			query: (body) => ({
-				url: "/auth/jwt/create/",
+				url: "/auth/login/",
 				method: "POST",
 				body,
 			}),
 		}),
 		register: builder.mutation({
 			query: (credentials) => ({
-				url: "/auth/users/",
+				url: "/auth/registration/",
 				method: "POST",
 				body: credentials,
 			}),
 		}),
 		verifyEmail: builder.mutation({
 			query: (credentials) => ({
-				url: "/auth/users/activation/",
+				url: "/auth/registration/verify-email/",
 				method: "POST",
 				body: credentials,
 			}),
 		}),
-		  // ✅ New: Social OAuth mutation
+		sendResetPasswordEmail: builder.mutation({
+			query: (credentials) => ({
+				url: "/auth/password/reset/",
+				method: "POST",
+				body: credentials,
+			}),
+		}),
+		resetPassword: builder.mutation({
+				query: (credentials) => ({
+					url: "/auth/password/reset/confirm/",
+					method: "POST",
+					body: credentials,
+				}),
+			}),
+		
     socialLogin: builder.mutation({
       query: ({ provider, redirectUri }) => ({
 				url: `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`,
@@ -42,7 +56,74 @@ export const authApi = nirricApi.injectEndpoints({
 				// body: body
       }),
     }),
+		getUserProfile: builder.query({
+				query: () => "/api/profile/",
+			}),
+	updateUserProfile: builder.mutation({
+		query: (credentials) => ({
+			url: "/api/profile/",
+			method: "POST",
+			body: credentials,
+		}),
 	}),
-
+	editUserProfile: builder.mutation({
+		query: (credentials) => ({
+			url: `/api/profile/${credentials?.id}/`,
+			method: "PUT",
+			body: credentials,
+		}),
+	}),
+	getUserQualifications: builder.query({
+				query: () => "/api/qualifications/",
+			}),
+	updateUserQualification: builder.mutation({
+		query: (credentials) => ({
+			url: "/api/qualifications/",
+			method: "POST",
+			body: credentials,
+		}),
+	}),
+	editUserQualification: builder.mutation({
+		query: (credentials) => ({
+			url: `/api/qualifications/${credentials?.id}/`,
+			method: "PUT",
+			body: credentials,
+		}),
+	}),
+	getUserInterests: builder.query({
+				query: () => "/api/research-interests/",
+			}),
+	updateUserInterests: builder.mutation({
+		query: (credentials) => ({
+			url: "/api/research-interests/",
+			method: "POST",
+			body: credentials,
+		}),
+	}),
+	editUserInterests: builder.mutation({
+		query: (credentials) => ({
+			url: `/api/research-interests/${credentials?.id}/`,
+			method: "PUT",
+			body: credentials,
+		}),
+	}),
+	getUserResearchArea: builder.query({
+				query: () => "/api/research-areas/",
+			}),
+	updateUserResearchArea: builder.mutation({
+		query: (credentials) => ({
+			url: "/api/research-areas/",
+			method: "POST",
+			body: credentials,
+		}),
+	}),
+	editUserResearchArea: builder.mutation({
+		query: (credentials) => ({
+			url: `/api/research-areas/${credentials?.id}/`,
+			method: "PUT",
+			body: credentials,
+		}),
+	}),
+}),
 	overrideExisting: false,
 });

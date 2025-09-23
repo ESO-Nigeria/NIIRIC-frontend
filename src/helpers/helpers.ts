@@ -14,3 +14,7 @@ export const isTokenValid = (token: string | null): boolean => {
 		return false;
 	}
 };
+
+export const ORCID_ID_REGEX = /^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/i;
+export const ORCID_URL_REGEX = /^https?:\/\/(www\.)?orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/i;
+export const LINKEDIN_URL_REGEX = /^https?:\/\/(www\.)?linkedin\.com\/(in|pub|company)\/[A-Za-z0-9\-_./?=#%]+$/i;

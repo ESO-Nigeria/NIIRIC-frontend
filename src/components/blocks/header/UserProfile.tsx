@@ -21,6 +21,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 interface UserProps {
 	first_name: string;
@@ -59,8 +60,9 @@ export default function UserAvatarMenu({ user, handleLogout }: Props) {
           </p>
         </DropdownMenuItem> */}
 				{/* <DropdownMenuSeparator /> */}
-				<DropdownMenuItem>
-					<User className="mr-1" /> Dashboard
+				<DropdownMenuItem asChild>
+          <Link href='/dashboard'><User className="mr-1" /> Dashboard</Link>
+					
 				</DropdownMenuItem>
 				{/* <DropdownMenuSeparator />
         <DropdownMenuItem>

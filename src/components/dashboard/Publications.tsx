@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, ArrowUp, ArrowRight } from "lucide-react";
+import { Calendar, ArrowUp, ArrowRight, BookUp, BookTextIcon } from "lucide-react";
 
 export function Publications() {
   const stats = [
-    { label: "All", value: 0, icon: Calendar, color: '' },
-    { label: "Published", value: 0, icon: ArrowUp },
+    { label: "All", value: 0, icon: BookTextIcon, color: '' },
+    { label: "Published", value: 0, icon: BookUp },
     { label: "Pending Approval", value: 0, icon: ArrowRight },
   ];
 
