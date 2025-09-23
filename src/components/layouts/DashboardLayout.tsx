@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import {
@@ -12,6 +12,10 @@ import {
   Settings,
 } from "lucide-react";
 import Header02 from "../blocks/header";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { isTokenValid } from "@/helpers/helpers";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -23,6 +27,17 @@ const navItems = [
 ];
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+
+    const router = useRouter()
+    const token = useSelector((state: RootState) => state.auth.token);
+
+    useEffect(() => {
+        if (!token && !isTokenValid(token)) {
+          router.replace("/auth/login"); 
+        }
+      }, [token]);
+
+      console.log('token, ', token, isTokenValid(token))
   return (
     <div>
       <Header02 />
