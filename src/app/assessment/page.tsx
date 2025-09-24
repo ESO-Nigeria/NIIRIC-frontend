@@ -85,7 +85,8 @@ function Page() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     First Name <span className="text-[#F04438]">*</span>
                   </label>
-                  <input
+                  <input 
+                  required
                     type="text"
                     placeholder="Enter first name"
                     className="w-full px-4 py-4 border rounded-lg focus:ring-2 focus:ring-[#1B4137] focus:outline-none"
@@ -95,7 +96,8 @@ function Page() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Last Name <span className="text-[#F04438]">*</span>
                   </label>
-                  <input
+                  <input 
+                  required
                     type="text"
                     placeholder="Enter last name"
                     className="w-full px-4 py-4 border rounded-lg focus:ring-2 focus:ring-[#1B4137] focus:outline-none"
@@ -113,7 +115,8 @@ function Page() {
                     <i className="fi-rr-envelope absolute left-3 top-4.5 w-5 h-5 text-gray-400"></i>
 
                     {/* <FaEnvelope className="absolute left-3 top-4.5 w-5 h-5 text-gray-400" /> */}
-                    <input
+                    <input 
+                    required
                       type="email"
                       placeholder="Enter email address"
                       className="w-full pl-10 pr-4 py-4 border rounded-lg focus:ring-2 focus:ring-[#1B4137] focus:outline-none"
@@ -128,7 +131,8 @@ function Page() {
                     {/* <FaPhoneAlt className="absolute left-3 top-4 w-5 h-5 text-gray-400" /> */}
                     <i className="fi-rr-phone-call absolute left-3 top-4.5 w-5 h-5 text-gray-400"></i>
 
-                    <input
+                    <input 
+                    required
                       type="tel"
                       placeholder="Enter phone number"
                       className="w-full pl-10 pr-4 py-4 border rounded-lg focus:ring-2 focus:ring-[#1B4137] focus:outline-none"
@@ -142,7 +146,8 @@ function Page() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Subject <span className="text-[#F04438]">*</span>
                 </label>
-                <input
+                <input 
+                required
                   type="text"
                   placeholder="Enter subject"
                   className="w-full px-4 py-4 border rounded-lg focus:ring-2 focus:ring-[#1B4137] focus:outline-none"
@@ -163,7 +168,8 @@ function Page() {
 
               {/* Checkbox */}
               <div className="flex items-center space-x-2 my-5">
-                <input
+                <input 
+                required
                   id="not-robot"
                   type="checkbox"
                   className="h-4 w-4 text-[#1B4137] border rounded focus:ring-[#1B4137]"
