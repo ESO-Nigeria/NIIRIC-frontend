@@ -46,6 +46,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			 <head>
+        {/* FlatIcon UIcons CDN */}
+        <link
+          rel="stylesheet"
+          href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
+        />
+      </head>
 			<body className={`${raleway.variable} ${raleway.variable} ${poppins.variable} ${DmSans.variable} antialiased`}>
 				<ReduxProvider>
 					{/* <SessionProvider> */}
