@@ -23,7 +23,9 @@ export const {
 	useResetPasswordMutation,
 	useEditUserInterestsMutation,
 	useEditUserQualificationMutation,
-	useEditUserResearchAreaMutation
+	useEditUserResearchAreaMutation,
+	useGetAllUsersQuery,
+	useGetAllPublishersProfileQuery,
 	// useEditProfileMutation,
 	// useResetPasswordMutation,
 	// useChangePasswordMutation,

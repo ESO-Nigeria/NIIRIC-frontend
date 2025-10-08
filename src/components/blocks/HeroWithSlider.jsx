@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Carousel,
@@ -9,8 +11,6 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import Link from "next/link";
-import clsx from "clsx";
 
 // If you want multiple slides later, just add more objects to this array.
 const slides = [
@@ -87,15 +87,19 @@ export default function HeroCarouselWithIndicatorsAndAutoplay() {
 								<div className="mt-10 sm:flex sm:items-center space-x-4 sm:space-x-8">
 									<Link
 										href={"/auth/register"}
-										className={clsx(buttonVariants({variant: 'primary-green'}),"text-base mt-4 h-12 sm:mt-0")}
-										
+										className={clsx(
+											buttonVariants({ variant: "primary-green" }),
+											"text-base mt-4 h-12 sm:mt-0",
+										)}
 									>
 										Become a member <ArrowRight className="size-5" />{" "}
 									</Link>
 									<Link
-
-										href={'/about'}
-										className={clsx(buttonVariants({variant: 'primary-brown'}),"text-base mt-4 h-12 sm:mt-0")}
+										href={"/about"}
+										className={clsx(
+											buttonVariants({ variant: "primary-brown" }),
+											"text-base mt-4 h-12 sm:mt-0",
+										)}
 									>
 										Learn More <ArrowRight className="size-5" />
 									</Link>

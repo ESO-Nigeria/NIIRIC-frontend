@@ -34,96 +34,105 @@ export const authApi = nirricApi.injectEndpoints({
 			}),
 		}),
 		resetPassword: builder.mutation({
-				query: (credentials) => ({
-					url: "/auth/password/reset/confirm/",
-					method: "POST",
-					body: credentials,
-				}),
+			query: (credentials) => ({
+				url: "/auth/password/reset/confirm/",
+				method: "POST",
+				body: credentials,
 			}),
-		
-    socialLogin: builder.mutation({
-      query: ({ provider, redirectUri }) => ({
+		}),
+
+		socialLogin: builder.mutation({
+			query: ({ provider, redirectUri }) => ({
 				url: `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`,
-        method: "GET",
-				credentials: 'include',
-      }),
-    }),
+				method: "GET",
+				credentials: "include",
+			}),
+		}),
 		socialVerifyLogin: builder.mutation({
-      query: ({ provider, body }) => ({
+			query: ({ provider, body }) => ({
 				url: `/auth/o/${provider}/?state=${body?.state}&code=${encodeURIComponent(body?.code)}`,
-				credentials: 'include',
-        method: "POST",
+				credentials: "include",
+				method: "POST",
 				// body: body
-      }),
-    }),
+			}),
+		}),
 		getUserProfile: builder.query({
-				query: () => "/api/profile/",
+			query: () => "/api/profile/",
+		}),
+		updateUserProfile: builder.mutation({
+			query: (credentials) => ({
+				url: "/api/profile/",
+				method: "POST",
+				body: credentials,
 			}),
-	updateUserProfile: builder.mutation({
-		query: (credentials) => ({
-			url: "/api/profile/",
-			method: "POST",
-			body: credentials,
 		}),
-	}),
-	editUserProfile: builder.mutation({
-		query: (credentials) => ({
-			url: `/api/profile/${credentials?.id}/`,
-			method: "PUT",
-			body: credentials,
-		}),
-	}),
-	getUserQualifications: builder.query({
-				query: () => "/api/qualifications/",
+		editUserProfile: builder.mutation({
+			query: (credentials) => ({
+				url: `/api/profile/${credentials?.id}/`,
+				method: "PUT",
+				body: credentials,
 			}),
-	updateUserQualification: builder.mutation({
-		query: (credentials) => ({
-			url: "/api/qualifications/",
-			method: "POST",
-			body: credentials,
 		}),
-	}),
-	editUserQualification: builder.mutation({
-		query: (credentials) => ({
-			url: `/api/qualifications/${credentials?.id}/`,
-			method: "PUT",
-			body: credentials,
+		getUserQualifications: builder.query({
+			query: () => "/api/qualifications/",
 		}),
-	}),
-	getUserInterests: builder.query({
-				query: () => "/api/research-interests/",
+		updateUserQualification: builder.mutation({
+			query: (credentials) => ({
+				url: "/api/qualifications/",
+				method: "POST",
+				body: credentials,
 			}),
-	updateUserInterests: builder.mutation({
-		query: (credentials) => ({
-			url: "/api/research-interests/",
-			method: "POST",
-			body: credentials,
 		}),
-	}),
-	editUserInterests: builder.mutation({
-		query: (credentials) => ({
-			url: `/api/research-interests/${credentials?.id}/`,
-			method: "PUT",
-			body: credentials,
-		}),
-	}),
-	getUserResearchArea: builder.query({
-				query: () => "/api/research-areas/",
+		editUserQualification: builder.mutation({
+			query: (credentials) => ({
+				url: `/api/qualifications/${credentials?.id}/`,
+				method: "PUT",
+				body: credentials,
 			}),
-	updateUserResearchArea: builder.mutation({
-		query: (credentials) => ({
-			url: "/api/research-areas/",
-			method: "POST",
-			body: credentials,
+		}),
+		getUserInterests: builder.query({
+			query: () => "/api/research-interests/",
+		}),
+		updateUserInterests: builder.mutation({
+			query: (credentials) => ({
+				url: "/api/research-interests/",
+				method: "POST",
+				body: credentials,
+			}),
+		}),
+		editUserInterests: builder.mutation({
+			query: (credentials) => ({
+				url: `/api/research-interests/${credentials?.id}/`,
+				method: "PUT",
+				body: credentials,
+			}),
+		}),
+		getUserResearchArea: builder.query({
+			query: () => "/api/research-areas/",
+		}),
+		updateUserResearchArea: builder.mutation({
+			query: (credentials) => ({
+				url: "/api/research-areas/",
+				method: "POST",
+				body: credentials,
+			}),
+		}),
+		editUserResearchArea: builder.mutation({
+			query: (credentials) => ({
+				url: `/api/research-areas/${credentials?.id}/`,
+				method: "PUT",
+				body: credentials,
+			}),
+		}),
+		getAllUsers: builder.query({
+			query: (params) => ({
+				url: "/api/users/",
+				params,
+			}),
+		}),
+		getAllPublishersProfile: builder.query({
+			query: () => "/api/users/profiles/",
 		}),
 	}),
-	editUserResearchArea: builder.mutation({
-		query: (credentials) => ({
-			url: `/api/research-areas/${credentials?.id}/`,
-			method: "PUT",
-			body: credentials,
-		}),
-	}),
-}),
 	overrideExisting: false,
 });

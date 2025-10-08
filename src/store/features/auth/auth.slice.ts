@@ -3,16 +3,16 @@ import Storage from "@/lib/storage";
 
 const cachedUser = Storage.get("user");
 
-
 const defaultUser = {
 	user: null,
 	user_data: null,
 	token: null,
 	accessToken: null,
 	refreshToken: null,
+	profile: null,
 };
 
-const initialUser = cachedUser || defaultUser;
+const initialUser = defaultUser || cachedUser;
 
 export const userSlice = createSlice({
 	name: "auth",
@@ -22,25 +22,30 @@ export const userSlice = createSlice({
 			state.token = access;
 			state.accessToken = access;
 			state.refreshToken = refresh;
-			state.user = user
+			state.user = user;
 			Storage.set("user", {
 				token: access,
 				refreshToken: refresh,
-				user: user
+				user: user,
 			});
 		},
 		logoutUser: (state) => {
 			state.user = null;
+			state.user_data = null;
 			state.accessToken = null;
 			state.refreshToken = null;
 			state.token = null;
 			Storage.remove("user");
 		},
-		setProfile: (state, {payload }) => {
-			console.log('payload', payload)
-			state.user_data = payload
-			state.user = payload
-		}
+		setProfile: (state, { payload }) => {
+			console.log("payload", payload);
+			state.user_data = payload;
+			state.user = payload;
+		},
+		setPublisherProfile: (state, { payload }) => {
+			console.log("payload", payload);
+			state.profile = payload ? payload[0] : null;
+		},
 	},
 });
 
@@ -141,6 +146,7 @@ export const userSlice = createSlice({
 //   }),
 // });
 
-export const { logoutUser, setCredentials, setProfile } = userSlice.actions;
+export const { logoutUser, setCredentials, setProfile, setPublisherProfile } =
+	userSlice.actions;
 
 export default userSlice.reducer;

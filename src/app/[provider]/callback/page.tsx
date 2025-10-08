@@ -3,73 +3,58 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import Header02 from "@/components/blocks/header";
 import { buttonVariants } from "@/components/ui/button";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { setCredentials } from "@/store/features/auth/auth.slice";
 
 export default function ProviderPage() {
-  const { provider } = useParams()
-   const router = useRouter();
-  const searchParams = useSearchParams();
-  const code = searchParams.get("code");
-  const state = searchParams.get("state");
+	const { provider } = useParams();
+	const { data: session, status } = useSession();
+	const dispatch = useDispatch();
+	const router = useRouter();
+	const searchParams = useSearchParams();
 	const email = searchParams.get("email");
-  const auth_state = searchParams.get('state')
-	// const { state } = useParams();
-	let title = "Success";
+
+	const title = "Success";
 	let description = "";
-  // const [socialVerifyLogin, {isLoading}] = useSocialVerifyLoginMutation()
 
-	// switch (state) {
-	// 	case "verification-sent":
-	// 		title = "Verification Email Sent";
-	// 		description = "Please check your inbox to verify your account.";
-	// 		break;
-	// 	case "reset-link-sent":
-	// 		title = "Password Reset Email Sent";
-	// 		description = "We’ve sent you a link to reset your password.";
-	// 		break;
-	// 	case "verified":
-	// 		title = "Email Verification";
-	// 		description = "Your email has been successfully verified.";
-	// 		break;
-	// 	default:
-	// 		description = "Your request was successful.";
-	// }
+	useEffect(() => {
+		if (status === "loading") return; // don't run effects during loading
 
-  // const verifyLogin = async () => {
-  //   try {
-  //     const response = await socialVerifyLogin({provider: `${provider}`,body: {state: auth_state, code: code, last_name: 'john', first_name: 'doe'}})
-  //     console.log(response, 'response')
-  //     //  dispatch(setCredentials(user?.data));
-  //   } catch (error) {
-  //     console.log(error, "error");
-  //           toast.error("error");
-  //   }
-  // }
-  // useEffect(() => {
-  //   verifyLogin()
-  // }, [code, auth_state])
+		if (status === "unauthenticated") {
+			toast.error("Authentication failed, please try again.");
+			router.push("/auth/login");
+			return;
+		}
 
-    useEffect(() => {
-    if (code && state) {
-      // Call backend to exchange code for JWT
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?state=${state}&code=${code}`, {method: 'POST'})
-        .then(res => res.json())
-        .then(data => {
-          if (data.access) {
-            localStorage.setItem("authToken", data.access);
-            toast.success("Logged in successfully!");
-            router.push("/dashboard"); // redirect after login
-          } else {
-            toast.error("OAuth login failed");
-          }
-        });
-    }
-  }, [code, state, provider, router]);
+		if (status === "authenticated" && session) {
+			console.log("Session data:", session);
+			description = `You have successfully authenticated using ${provider}.`;
 
-  console.log(code, auth_state, 'hold')
+			dispatch(setCredentials({ ...session }));
+			router.push("/dashboard");
+			toast.success("Authentication successful!");
+		}
+	}, [session, status, dispatch, router]);
+
+	if (status === "loading") {
+		return (
+			<div>
+				<Header02 />
+				<div className="min-h-[80vh] flex items-center justify-center">
+					<div className="text-center">
+						<div className="animate-spin h-10 w-10 border-4 border-green-500 border-t-transparent rounded-full mx-auto mb-4" />
+						<p className="text-gray-600">Authenticating, please wait...</p>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div>
 			<Header02 />
@@ -77,22 +62,22 @@ export default function ProviderPage() {
 				<div className="w-full flex items-center justify-center h-full p-4">
 					<div className="max-w-lg m-auto space-y-4 w-full flex flex-col items-center">
 						<h4 className="text-[28px] font-bold">{title}</h4>
-						<div className="bg-[#F6FEF9] px-6 py-3  space-y-4 rounded-2xl text-center w-full">
+						<div className="bg-[#F6FEF9] px-6 py-3 space-y-4 rounded-2xl text-center w-full">
 							<h4 className="text-[#039855] text-[28px] font-bold">
 								Successful
 							</h4>
-							<p className=" text-base font-normal tracking-tight">
+							<p className="text-base font-normal tracking-tight">
 								{description} <br /> {email}
 							</p>
 						</div>
 						<Link
-							href={"/auth/login"}
+							href={"/dashboard"}
 							className={clsx(
 								buttonVariants({ variant: "primary-green" }),
 								"mt-4 h-11 w-full",
 							)}
 						>
-							Continue to login
+							Continue to dashboard
 						</Link>
 					</div>
 				</div>

@@ -1,9 +1,9 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
-import Header02 from "@/components/blocks/header";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { ReactNode, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Header02 from "@/components/blocks/header";
 import { isTokenValid } from "@/helpers/helpers";
 import { RootState } from "@/store";
 
@@ -13,15 +13,14 @@ interface AuthLayoutProps {
 }
 
 export default function AuthLayout({ children, side }: AuthLayoutProps) {
+	const router = useRouter();
+	const token = useSelector((state: RootState) => state.auth.token);
 
-			const router = useRouter()
-			const token = useSelector((state: RootState) => state.auth.token);
-	
-			useEffect(() => {
-					if (token && isTokenValid(token)) {
-						router.replace("/"); 
-					}
-				}, [token]);
+	useEffect(() => {
+		if (token && isTokenValid(token)) {
+			router.replace("/");
+		}
+	}, [token]);
 
 	return (
 		<div>

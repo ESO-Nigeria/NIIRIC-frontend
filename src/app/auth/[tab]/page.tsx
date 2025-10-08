@@ -14,15 +14,15 @@ import { isTokenValid } from "@/helpers/helpers";
 import { RootState } from "@/store";
 
 const sideVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1,
-    transition: { duration: 0.5, ease: "easeInOut" } 
-  },
-  exit: { 
-    opacity: 0,
-    transition: { duration: 0.3, ease: "easeOut" } 
-  },
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: { duration: 0.5, ease: "easeInOut" },
+	},
+	exit: {
+		opacity: 0,
+		transition: { duration: 0.3, ease: "easeOut" },
+	},
 };
 
 const sideContent = {
@@ -56,7 +56,7 @@ export default function AuthTabs() {
 	// 	}
 	// }, [token, router]);
 
-	console.log(token, router, 'hi', isTokenValid(token) )
+	console.log(token, router, "hi", isTokenValid(token));
 	return (
 		<AuthLayout
 			side={

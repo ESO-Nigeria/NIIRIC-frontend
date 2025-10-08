@@ -10,31 +10,24 @@ import {
 	REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+// import persistStorage from "@/lib/persistStorage";
 import { nirricApi } from "./features/api";
-import { authReducer, reportReducer } from "./slices";
-
-// import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { authReducer, publicationReducer, reportReducer } from "./slices";
 
 const persistConfig = {
-	key: "cart",
+	key: "root",
 	storage,
-	whitelist: [],
+	whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({
 	auth: authReducer,
 	reports: reportReducer,
+	publications: publicationReducer,
 	[nirricApi.reducerPath]: nirricApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = configureStore({
-//   reducer: persistedReducer,
-//   // reducer: {
-//   //   auth: authReducer,
-//   // },
-// });
 
 export const store = configureStore({
 	reducer: persistedReducer,
@@ -46,7 +39,7 @@ export const store = configureStore({
 		}).concat(nirricApi.middleware),
 });
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

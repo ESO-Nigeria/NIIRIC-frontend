@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, MailIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import Header02 from "@/components/blocks/header";
 import { Logo } from "@/components/logo";
@@ -19,7 +20,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useSendResetPasswordEmailMutation } from "@/store/features/auth/actions";
-import { toast } from "react-toastify";
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -27,7 +27,7 @@ const formSchema = z.object({
 });
 
 const ForgetPassword = () => {
-	 const [sendResetEmail, { isLoading }] = useSendResetPasswordEmailMutation();
+	const [sendResetEmail, { isLoading }] = useSendResetPasswordEmailMutation();
 	const form = useForm<z.infer<typeof formSchema>>({
 		defaultValues: {
 			email: "",
@@ -36,22 +36,22 @@ const ForgetPassword = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values, 'val');
+		console.log(values, "val");
 		try {
-			const {data, error} = await sendResetEmail(values)
+			const { data, error } = await sendResetEmail(values);
 			if (error) {
-				toast.error('Error sending email')
+				toast.error("Error sending email");
 			}
-			if(data){
-				toast.success('Reset Email sent, Please check your mailbox')
-				form.reset()
+			if (data) {
+				toast.success("Reset Email sent, Please check your mailbox");
+				form.reset();
 			}
 		} catch (error) {
-			console.log('error', error)
+			console.log("error", error);
 		}
 	};
 
-	console.log(isLoading, )
+	console.log(isLoading);
 	return (
 		<div>
 			<Header02 />
@@ -102,7 +102,7 @@ const ForgetPassword = () => {
 										type="submit"
 										className="mt-4 h-11 w-full"
 									>
-										Request password request 
+										Request password request
 									</Button>
 									<Link
 										href="/auth/login"

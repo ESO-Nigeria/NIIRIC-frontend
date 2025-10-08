@@ -8,6 +8,7 @@ import {
 	Settings2,
 	User,
 } from "lucide-react";
+import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -21,7 +22,6 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 
 interface UserProps {
 	first_name: string;
@@ -61,8 +61,9 @@ export default function UserAvatarMenu({ user, handleLogout }: Props) {
         </DropdownMenuItem> */}
 				{/* <DropdownMenuSeparator /> */}
 				<DropdownMenuItem asChild>
-          <Link href='/dashboard'><User className="mr-1" /> Dashboard</Link>
-					
+					<Link href="/dashboard">
+						<User className="mr-1" /> Dashboard
+					</Link>
 				</DropdownMenuItem>
 				{/* <DropdownMenuSeparator />
         <DropdownMenuItem>

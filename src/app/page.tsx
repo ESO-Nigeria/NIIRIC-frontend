@@ -1,7 +1,8 @@
-'use client'
+"use client";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image1 from "@/app/assets/images/banner1.png";
 import Image2 from "@/app/assets/images/banner2.png";
 import Image3 from "@/app/assets/images/panel.png";
@@ -17,7 +18,6 @@ import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
-import { useRouter } from "next/navigation";
 
 const features = [
 	{
@@ -58,7 +58,7 @@ const features = [
 ];
 
 export default function Home() {
-	const router = useRouter()
+	const router = useRouter();
 	return (
 		<GeneralLayout>
 			<HeroCarouselWithIndicatorsAndAutoplay />
@@ -81,7 +81,7 @@ export default function Home() {
 					containerClassName="gap-x-8 sm:gap-x-16 py-5 lg:py-0 -mt-[30%] lg:mt-0  rounded-lg lg:h-[669px] -top-[26%] bg-white px-4 lg:px-8 shadow-lg absolute z-10"
 					secondaryButtonText={false}
 					primaryButtonText="Learn More"
-					onPrimaryClick={() => router.push('/about')}
+					onPrimaryClick={() => router.push("/about")}
 				/>
 			</section>
 
@@ -199,8 +199,8 @@ export default function Home() {
 					image={Image3}
 					imagePosition="right" // or "left"
 					primaryButtonText="Become a member"
-					onPrimaryClick={() => router.push('/auth/register')}
-					onSecondaryClick={() => router.push('/about')}
+					onPrimaryClick={() => router.push("/auth/register")}
+					onSecondaryClick={() => router.push("/about")}
 				/>
 				<DecorativeCurve
 					className=""

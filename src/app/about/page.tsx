@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 // import AboutBanner from "@/app/assets/images/about_banner.png";
 import Image1 from "@/app/assets/images/banner1.png";
 import Image2 from "@/app/assets/images/banner2.png";
@@ -21,7 +22,6 @@ import DecorativeCurve from "@/components/DecorativeCurve";
 import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import GeneralLayout from "@/layouts/General";
-import { useRouter } from "next/navigation";
 
 const sponsors = [
 	{
@@ -82,7 +82,7 @@ const sponsors = [
 ];
 
 function page() {
-	const router  = useRouter()
+	const router = useRouter();
 	return (
 		<GeneralLayout>
 			<InfoHero
@@ -98,15 +98,12 @@ function page() {
 					<div className=" mx-auto grid md:grid-cols-2 gap-12 items-center">
 						{/* Image Group */}
 						<div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-10">
-								<img
-										src="/assets/images/section_banner.png"
-										alt=""
-										
-										className={
-											"object-cover object-right-bottom *:imageClassName"
-										}
-										style={{ objectFit: "cover" }}
-									/>
+							<img
+								src="/assets/images/section_banner.png"
+								alt=""
+								className={"object-cover object-right-bottom *:imageClassName"}
+								style={{ objectFit: "cover" }}
+							/>
 						</div>
 
 						{/* Text Content */}
@@ -116,12 +113,18 @@ function page() {
 								ABOUT NIIRIC
 							</Badge>
 							<p className="text-gray-800 mb-6">
-								The Nigerian Impact Investing Research Industry Collaborative (NIIRIC), established by the Impact Investors Foundation (IIF) and the Nigerian Advisory Board on Impact Investing (NABII), is the leading collaborative strengthening Nigeria’s impact investing, research, and innovation ecosystem.
+								The Nigerian Impact Investing Research Industry Collaborative
+								(NIIRIC), established by the Impact Investors Foundation (IIF)
+								and the Nigerian Advisory Board on Impact Investing (NABII), is
+								the leading collaborative strengthening Nigeria’s impact
+								investing, research, and innovation ecosystem.
 							</p>
 							<p className="text-gray-800 mb-6">
-								We lead the drive to mainstream impact investing and play central role in advancing research-to-commercialization pathways, supporting national innovation systems, and bridging the gap between research outputs and enterprise development.
+								We lead the drive to mainstream impact investing and play
+								central role in advancing research-to-commercialization
+								pathways, supporting national innovation systems, and bridging
+								the gap between research outputs and enterprise development.
 							</p>
-							
 						</div>
 					</div>
 				</div>
@@ -251,8 +254,8 @@ function page() {
 					image={Image3}
 					imagePosition="right" // or "left"
 					primaryButtonText="Become a member"
-					onPrimaryClick={() => router.push('/auth/register')}
-					onSecondaryClick={() => router.push('/about')}
+					onPrimaryClick={() => router.push("/auth/register")}
+					onSecondaryClick={() => router.push("/about")}
 					// You can also override badgeText, title, description, etc.
 				/>
 				<DecorativeCurve

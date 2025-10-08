@@ -27,13 +27,16 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { isTokenValid } from "@/helpers/helpers";
 import { cn } from "@/lib/utils";
+import { RootState } from "@/store";
 import { useGetProfileQuery } from "@/store/features/auth/actions";
 import { logoutUser, setProfile } from "@/store/features/auth/auth.slice";
-import { selectAuthenticatedUser, selectCurrentUser } from "@/store/features/auth/selectors";
+import {
+	selectAuthenticatedUser,
+	selectCurrentUser,
+} from "@/store/features/auth/selectors";
 import UserAvatarMenu from "./UserProfile";
-import { RootState } from "@/store";
-import { isTokenValid } from "@/helpers/helpers";
 
 const TopMenu = [
 	{ name: "About Us", href: "/about" },
@@ -89,19 +92,21 @@ const TopMenu = [
 
 export default function Header02() {
 	const dispatch = useDispatch();
-	const user  = useSelector(selectCurrentUser);
+	const user = useSelector(selectCurrentUser);
 	const token = useSelector((state: RootState) => state.auth.token);
-	 
-	const { data } = useGetProfileQuery({});
+
+	const { data } = useGetProfileQuery(token!, {
+		skip: !token || !isTokenValid(token),
+	});
 
 	const handleLogout = () => {
 		dispatch(logoutUser());
 	};
 
 	useEffect(() => {
-		 dispatch(setProfile(data))
-	}, [data])
-	
+		dispatch(setProfile(data));
+	}, [data]);
+
 	console.log("data user", user, data);
 
 	return (
@@ -207,7 +212,7 @@ export default function Header02() {
 							</NavigationMenu>
 						</div>
 					</div>
-					{!token && !isTokenValid(token) && (
+					{(!token || !isTokenValid(token)) && (
 						<div className="flex gap-2">
 							<Link
 								href="/auth/login"
@@ -224,10 +229,9 @@ export default function Header02() {
 						</div>
 					)}
 
-					{token && isTokenValid(token) && (
+					{(token || isTokenValid(token)) && (
 						<UserAvatarMenu user={user} handleLogout={handleLogout} />
 					)}
-
 				</nav>
 
 				{/* Mobile Menu */}

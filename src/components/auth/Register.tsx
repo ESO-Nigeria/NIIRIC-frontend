@@ -65,19 +65,19 @@ const Register = () => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log(values);
 		const data_to_send = {
-			"email": values?.email,
-			"password1": values?.password,
-			"password2": values?.re_password,
-			"first_name": values?.first_name,
-			"last_name": values?.last_name
+			email: values?.email,
+			password1: values?.password,
+			password2: values?.re_password,
+			first_name: values?.first_name,
+			last_name: values?.last_name,
 		};
 		try {
-			const {data, error} = await register(data_to_send);
+			const { data, error } = await register(data_to_send);
 			console.log(data, "login");
-			if(data){
-					router.push("/auth/success/verification-sent");
-					form.reset()
-					toast.success("Email sent");
+			if (data) {
+				router.push("/auth/success/verification-sent");
+				form.reset();
+				toast.success("Email sent");
 			}
 			if (error) {
 				toast.error("Error registering");

@@ -19,7 +19,7 @@ const CommunityShowcase: React.FC<CommunityShowcaseProps> = ({
 	const imageSection = (
 		<div className="w-full h-[407px] relative rounded-xl overflow-hidden shadow-lg">
 			<Image
-				src={image ?? ''}
+				src={image ?? ""}
 				alt={imageAlt}
 				fill
 				className="object-cover object-right-bottom"

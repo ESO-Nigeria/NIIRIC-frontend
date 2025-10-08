@@ -12,6 +12,8 @@ import {
 	MailIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -29,9 +31,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useLoginMutation, useSocialLoginMutation } from "@/store/features/auth/actions";
+import {
+	useLoginMutation,
+	useSocialLoginMutation,
+} from "@/store/features/auth/actions";
 import { setCredentials } from "@/store/features/auth/auth.slice";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -42,7 +46,7 @@ const formSchema = z.object({
 
 const Login = () => {
 	const dispatch = useDispatch();
-
+	const { data: session, status } = useSession();
 	const form = useForm<z.infer<typeof formSchema>>({
 		defaultValues: {
 			email: "",
@@ -52,7 +56,7 @@ const Login = () => {
 	});
 	const [login, { isLoading }] = useLoginMutation();
 	const [socialLogin] = useSocialLoginMutation();
-	const router  = useRouter()
+	const router = useRouter();
 	const { watch } = form;
 	const { email, password } = watch();
 
@@ -64,48 +68,48 @@ const Login = () => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log(values);
 		try {
-			const {data, error} = await login(values);
+			const { data, error } = await login(values);
 			console.log(data, "login");
-				if(data){
-					dispatch(setCredentials(data));
-					router.push('/dashboard')
-					form.reset()
-				}
-				if (error) {
-						toast.error("Wrong username and password");
-				}
+			if (data) {
+				dispatch(setCredentials(data));
+				router.push("/dashboard");
+				form.reset();
+			}
+			if (error) {
+				toast.error("Wrong username and password");
+			}
 		} catch (error) {
 			console.log(error, "error");
 			toast.error("Wrong username and password");
 		}
 	};
 
-// const handleOAuthLogin = (provider: string) => {
-//   const redirectUri = `${window.location.origin}/${provider}/callback/`;
-//   window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`;
-// };
+	// const handleOAuthLogin = (provider: string) => {
+	//   const redirectUri = `${window.location.origin}/${provider}/callback/`;
+	//   window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`;
+	// };
 
-const handleOAuthLogin = async (provider: string) => {
-  try {
-    const result = await socialLogin({
-      provider,
-			// redirectUri: 'https://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/auth/o/google-oauth2/'
-      redirectUri: `${window.location.origin}/${provider}/callback/`,
-    }).unwrap();
+	const handleOAuthLogin = async (provider: string) => {
+		try {
+			const result = await socialLogin({
+				provider,
+				// redirectUri: 'https://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/auth/o/google-oauth2/'
+				redirectUri: `${window.location.origin}/${provider}/callback/`,
+			}).unwrap();
 
-    if (result.authorization_url) {
-      window.location.href= result.authorization_url
-			
-			// (result.authorization_url, "_blank", "width=500,height=600");
-    } else if (result.access) {
-      localStorage.setItem("authToken", result.access);
-      toast.success("Logged in successfully!");
-    }
-  } catch (err) {
-    console.error(err);
-    toast.error("OAuth login failed");
-  }
-};
+			if (result.authorization_url) {
+				window.location.href = result.authorization_url;
+
+				// (result.authorization_url, "_blank", "width=500,height=600");
+			} else if (result.access) {
+				// localStorage.setItem("authToken", result.access);
+				toast.success("Logged in successfully!");
+			}
+		} catch (err) {
+			console.error(err);
+			toast.error("OAuth login failed");
+		}
+	};
 
 	return (
 		<div className=" m-auto w-full flex flex-col items-center">
@@ -114,12 +118,21 @@ const handleOAuthLogin = async (provider: string) => {
 				Please sign in to your account to continue
 			</p>
 
-			<Button type="button" onClick={() => handleOAuthLogin("google-oauth2")} variant="outline" className="mt-8 w-full gap-3">
+			<Button
+				type="button"
+				onClick={() => signIn()}
+				variant="outline"
+				className="mt-8 w-full gap-3"
+			>
 				<GoogleLogo />
 				Continue with Google
 			</Button>
 
-			<Button onClick={() => handleOAuthLogin("linkedin-oauth2")}  variant="outline" className="mt-8 w-full gap-3">
+			<Button
+				onClick={() => handleOAuthLogin("linkedin-oauth2")}
+				variant="outline"
+				className="mt-8 w-full gap-3"
+			>
 				{/* <GoogleLogo /> */}
 				<LucideLinkedin />
 				Continue with Google
