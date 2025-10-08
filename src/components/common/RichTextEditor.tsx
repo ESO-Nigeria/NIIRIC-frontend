@@ -65,10 +65,6 @@ export default function RichTextEditor({
 	const editor = useEditor({
 		extensions: [
 			StarterKit,
-			History.configure({
-				depth: 100, // optional
-				newGroupDelay: 500, // optional
-			}),
 			Underline,
 			LinkExtension.configure({
 				openOnClick: true,
