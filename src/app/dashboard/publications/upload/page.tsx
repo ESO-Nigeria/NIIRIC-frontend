@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
 import { useGetAllPublishersProfileQuery } from "@/store/features/auth/actions";
 import { selectCurrentUser } from "@/store/features/auth/selectors";
-import { useUploadPublicationMutation } from "@/store/features/publications/actions";
+import { useGetSectorsQuery, useUploadPublicationMutation } from "@/store/features/publications/actions";
 import { publicationTypeOptions } from "@/store/mockData/mockdata";
 
 const DEFAULT_OPTIONS = {
@@ -107,7 +107,7 @@ export default function UploadPublication(): JSX.Element {
 		resolver: zodResolver(publicationSchema),
 		mode: "onChange",
 		defaultValues: {
-			publicationTypes: ["Research"],
+			publicationTypes: ["research"],
 			title: "",
 			abstract: "",
 			publicationDate: null,
@@ -159,6 +159,9 @@ export default function UploadPublication(): JSX.Element {
 		isLoading: publishersLoading,
 		error,
 	} = useGetAllPublishersProfileQuery(_queryArgs) as any;
+	const {data: sectors, isLoading: sectorsLoading} = useGetSectorsQuery({})
+
+	
 	// console.log("profile", profile);
 	// watch file in form
 	const watchedFile = watch("file");
@@ -182,7 +185,10 @@ export default function UploadPublication(): JSX.Element {
 
 	// Toggle Publication Type
 	const publicationTypes = watch("publicationTypes") || [];
+
 	function togglePublicationType(type: string) {
+
+		console.log(type)
 		const current = publicationTypes || [];
 		if (current.includes(type)) {
 			setValue(
@@ -231,22 +237,26 @@ export default function UploadPublication(): JSX.Element {
 			return;
 		}
 
+		console.log(pendingData, 'pd')
 		// Prepare payload keys for backend expectations
 		const payload: Record<string, any> = {
-			...pendingData,
+			// ...pendingData,
 			author: profile?.[0]?.id ?? null,
 			// map to backend names
 			publication_date: pendingData.publicationDate
 				? pendingData.publicationDate.toISOString().split("T")[0]
 				: null,
-			sector: "8ca46a20-f12b-4932-999b-6fb1f7946bbf", //pendingData.sectors[0],
+			sectors_ids: pendingData?.sectors, //pendingData.sectors[0],
 			co_authors_ids: pendingData.coAuthors,
 			collaborators_ids: pendingData.contributors,
+			abstract: pendingData?.abstract,
+			title: pendingData?.title,
+			doi: pendingData?.doi,
 
-			publication_types: pendingData.publicationTypes
-				? pendingData.publicationTypes[0]
-				: ["Research"],
-			keywords: pendingData.keywords ? pendingData.keywords[0] : [],
+			publication_type: pendingData.publicationTypes
+				? pendingData.publicationTypes
+				: ["research"],
+			keywords: pendingData.keywords ? pendingData.keywords : [],
 			document: pendingData.file ?? null, // file is renamed 'document' for backend
 			status: "published",
 		};
@@ -285,7 +295,8 @@ export default function UploadPublication(): JSX.Element {
 			setFilteredProfiles([]);
 		}
 	}, [publishers]);
-	console.log("publishers", publishers, filtererdProfiles);
+
+	console.log("publishers", publishers, filtererdProfiles, sectors);
 
 	return (
 		<DashboardLayout>
@@ -339,13 +350,13 @@ export default function UploadPublication(): JSX.Element {
 
 						<CardContent>
 							<div className="flex gap-3 flex-wrap mb-4">
-								{pubTypeButtons.map(({ label, icon: Icon, color }) => {
-									const active = publicationTypes.includes(label);
+								{pubTypeButtons.map(({ label, icon: Icon, color, value }) => {
+									const active = publicationTypes.includes(value);
 									return (
 										<button
-											key={label}
+											key={value}
 											type="button"
-											onClick={() => togglePublicationType(label)}
+											onClick={() => togglePublicationType(value)}
 											className={cn(
 												"px-4 py-2 rounded border flex items-center gap-2",
 												active
@@ -563,7 +574,10 @@ export default function UploadPublication(): JSX.Element {
 								label="Sectors"
 								name="sectors"
 								control={control}
-								options={DEFAULT_OPTIONS.sectors}
+								options={sectors?.map((p: any) => ({
+									label: `${p.name}`,
+									value: p.id,
+								})) ?? []}
 							/>
 							{errors.sectors && (
 								<p className="text-xs text-red-500 mt-1">

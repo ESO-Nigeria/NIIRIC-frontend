@@ -1,3 +1,4 @@
+import { publicationTypeOptions } from "@/store/mockData/mockdata";
 import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
@@ -27,19 +28,47 @@ export default function objectToFormData(payload: Record<string, any>) {
 		typeof window.File !== "undefined" && v instanceof window.File;
 
 	Object.entries(payload).forEach(([key, value]) => {
-		if (value === undefined || value === null) return;
+    if (value === undefined || value === null) return;
+    if (Array.isArray(value)) {
+      value.forEach((v) => fd.append(`${key}`, v));
+    } else if (value instanceof File) {
+      fd.append(key, value);
+    } else {
+      fd.append(key, String(value));
+    }
+  });
+	// Object.entries(payload).forEach(([key, value]) => {
+	// 	if (value === undefined || value === null) return;
 
-		if (Array.isArray(value)) {
-			value.forEach((v) => {
-				// append arrays as field[]
-				if (isFile(v)) fd.append(`${key}[]`, v);
-				else fd.append(`${key}[]`, String(v));
-			});
-		} else if (isFile(value)) {
-			fd.append(key, value, value.name);
-		} else {
-			fd.append(key, String(value));
-		}
-	});
+	// 	if (Array.isArray(value)) {
+	// 		value.forEach((v) => {
+	// 			// append arrays as field[]
+	// 			if (isFile(v)) fd.append(`${key}[]`, v);
+	// 			else fd.append(`${key}[]`, String(v));
+	// 		});
+	// 	} else if (isFile(value)) {
+	// 		fd.append(key, value, value.name);
+	// 	} else {
+	// 		fd.append(key, String(value));
+	// 	}
+	// });
 	return fd;
+}
+
+export function mapTagsToPublicationColors(tagLabels: string[]) {
+  return tagLabels.map((label) => {
+    const matchedType = publicationTypeOptions.find(
+      (type) => type.value === label
+    );
+
+    const fallbackColor = "bg-gray-100 text-gray-600";
+    const [bgColor, textColor] =
+      matchedType?.color?.split(" ") || fallbackColor.split(" ");
+
+    return {
+      label: matchedType?.label || label.replace(/_/g, " "),
+      colorClass: bgColor,
+      textClass: textColor,
+    };
+  });
 }

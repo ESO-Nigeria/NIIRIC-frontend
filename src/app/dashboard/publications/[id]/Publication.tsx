@@ -26,7 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { events, team } from "../timeline/page";
+import {  team } from "../timeline/page";
 import { useParams } from "next/navigation";
 import { useGetPublicationByIdQuery } from "@/store/features/publications/actions";
 
@@ -404,14 +404,14 @@ const ResearchPublicationPage = () => {
                   Opportunities
                 </h3>
                 <div className="space-y-4">
-                  {events.map((event) => (
+                  {/* {events.map((event) => (
                     <EventAndOpportunityCard
                       key={event.id}
                       title={event.title}
                       deadline={event.deadline}
                       description={event.description}
                     />
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>

@@ -21,6 +21,10 @@ export const publicationApi = nirricApi.injectEndpoints({
 			query: (id) => `/api/publications/${id}/`,
 			// providesTags: ["Publications"],
 		}),
+
+		getSectors: builder.query({
+			query: () => "/api/sectors/"
+		})
 	}),
 
 	overrideExisting: false,

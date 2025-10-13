@@ -125,63 +125,46 @@ export const interestTopics = [
 
 export const publicationTypeOptions = [
 	{
-		value: "journal_article",
-		label: "Journal Article",
+		value: "research",
+		label: "Research",
 		icon: BookText,
 		color: "bg-[#D1FADF] text-[#039855]",
 	},
 	{
-		value: "conference_paper",
-		label: "Conference Paper",
+		value: "report",
+		label: "Report",
 		icon: BookMarked,
 		color: "bg-[#D1E9FF] text-[#0086C9]",
 	},
 	{
-		value: "book_chapter",
-		label: "Book Chapter",
+		value: "case_study",
+		label: "Case Study",
 		icon: NotebookTextIcon,
 		color: "bg-[#F4F3FF] text-[#6927DA]",
 	},
 	{
-		value: "book",
-		label: "Book",
+		value: "industry_insight",
+		label: "Industry Insight",
 		icon: Notebook,
 		color: "bg-[#F4F3FF] text-[#6927DA]",
 	},
 	{
-		value: "technical_report",
-		label: "Technical Report",
+		value: "policy",
+		label: "Policy",
 		icon: FileSearchIcon,
 		color: "bg-[#D1E9FF] text-[#0086C9]",
-	},
-	{
-		value: "thesis",
-		label: "Thesis",
-		icon: ScrollTextIcon,
-		color: "bg-[#FFF2E0] text-[#C2410C]",
-	},
-	{
-		value: "patent",
-		label: "Patent",
-		icon: FileSearchIcon,
-		color: "bg-[#E0F2FE] text-[#0369A1]",
-	},
-	{
-		value: "preprint",
-		label: "Preprint",
-		icon: BookMarked,
-		color: "bg-[#FEE2E2] text-[#B91C1C]",
-	},
-	{
-		value: "working_paper",
-		label: "Working Paper",
-		icon: NotebookTextIcon,
-		color: "bg-[#E0E7FF] text-[#4338CA]",
-	},
-	{
-		value: "other",
-		label: "Other",
-		icon: FileSearchIcon,
-		color: "bg-[#E5E7EB] text-[#374151]",
-	},
+	}
+	
 ];
+
+export const tagColor = [
+	
+]
+
+export const badgeColors = [
+  "bg-[#F6EDE1] text-[#7C5A2C]",
+  "bg-[#E1F6ED] text-[#2C7C55]",
+  "bg-[#E1E9F6] text-[#2C447C]",
+  "bg-[#F6E1EC] text-[#7C2C5A]",
+  "bg-[#F6F3E1] text-[#7C6B2C]",
+]

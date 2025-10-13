@@ -12,7 +12,7 @@ import {
 import storage from "redux-persist/lib/storage";
 // import persistStorage from "@/lib/persistStorage";
 import { nirricApi } from "./features/api";
-import { authReducer, publicationReducer, reportReducer } from "./slices";
+import { authReducer, publicationReducer, reportReducer, generalReducer } from "./slices";
 
 const persistConfig = {
 	key: "root",
@@ -24,6 +24,7 @@ const rootReducer = combineReducers({
 	auth: authReducer,
 	reports: reportReducer,
 	publications: publicationReducer,
+	general: generalReducer,
 	[nirricApi.reducerPath]: nirricApi.reducer,
 });
 

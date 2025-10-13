@@ -18,7 +18,7 @@ export function Publications() {
 
 	return (
 		<div className="space-y-4 font-dm_sans">
-			<h2 className="text-xl font-normal font-poppins">Publications</h2>
+			{/* <h2 className="text-xl font-normal font-poppins">Publications</h2> */}
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 				{stats.map((stat) => (
 					<Card key={stat.label} className="shadow-none border-none">

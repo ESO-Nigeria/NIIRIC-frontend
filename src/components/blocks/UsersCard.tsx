@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 interface TeamMemberCardProps {
 	name: string;
 	role: string;
-	avatarColor?: string; // fallback background color if no avatar image
+	avatarColor?: string;
 	avatarUrl?: string;
 	onActionClick?: () => void;
 	className?: string;
@@ -20,6 +20,14 @@ export function TeamMemberCard({
 	onActionClick,
 	className,
 }: TeamMemberCardProps) {
+
+	const initials = name
+		.split(" ")
+		.map((n) => n[0])
+		.join("")
+		.toUpperCase();
+
+
 	return (
 		<div
 			className={cn("flex items-center justify-between w-full py-2", className)}
@@ -34,13 +42,18 @@ export function TeamMemberCard({
 					/>
 				) : (
 					<div
-						className={cn("w-11 h-11 rounded-full flex-shrink-0", avatarColor)}
-					/>
+						className={cn(
+							"w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-medium text-gray-700",
+							avatarColor
+						)}
+					>
+						{initials}
+					</div>
 				)}
 
 				<div>
 					<div className="font-normal text-base text-[#3F434A]">{name}</div>
-					<div className="text-sm text-[#667085]">{role}</div>
+					<div className="text-sm text-[#667085] capitalize">{role}</div>
 				</div>
 			</div>
 

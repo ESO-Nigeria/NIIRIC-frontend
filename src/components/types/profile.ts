@@ -16,6 +16,8 @@ export interface User {
 	user_email?: string;
 	user_first_name?: string;
 	user_last_name?: string;
+	publication_count?: string;
+	follower_count?: string;
 }
 
 export interface Qualification {
@@ -86,7 +88,9 @@ export interface Publication {
 	title?: string;
 	abstract?: string;
 	author_name?: string;
-	document?: string
+	document?: string;
+	publication_type?: string[]
+
 
 }
 // Example usage:

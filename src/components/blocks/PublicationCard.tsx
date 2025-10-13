@@ -5,6 +5,7 @@ import Image, { StaticImageData } from "next/image";
 import { PiShareFat } from "react-icons/pi";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface PublicationCardProps {
 	id?: string;
@@ -58,9 +59,9 @@ export function PublicationCard({
 				{/* Content */}
 				<div className="flex-1">
 					{/* Title */}
-					<h5 className="font-normal capitalize text-base text-[#242424]">
+					<Link href={`/dashboard/publications/${id}`} className="font-normal capitalize text-base text-[#242424]">
 						{title}
-					</h5>
+					</Link>
 
 					{/* Tags */}
 					{tags.length > 0 && (
@@ -85,7 +86,7 @@ export function PublicationCard({
 								__html: abstract ?? "",
 							}}
 						></span>
-						<span className="text-primary-green cursor-pointer">Read more</span>
+						<Link href={`/dashboard/publications/${id}`} className="text-primary-green cursor-pointer">Read more</Link>
 					</p>
 
 					{/* Action buttons */}
@@ -113,27 +114,27 @@ export function PublicationCard({
 			{/* Bottom actions */}
 			{showLikeShareButtons && (
 				<div className="flex items-center gap-6 mt-4 text-gray-500 text-sm">
-					<Button
+				{onLike &&	<Button
 						variant={"ghost"}
 						className="flex items-center gap-1 cursor-pointer"
 						onClick={onLike}
 					>
 						<ThumbsUp className="w-4 h-4" /> Like
-					</Button>
-					<Button
+					</Button>}
+				{onComment &&	<Button
 						variant={"ghost"}
 						className="flex items-center gap-1 cursor-pointer"
 						onClick={onComment}
 					>
 						<MessageSquare className="w-4 h-4" /> Comments
-					</Button>
-					<Button
+					</Button>}
+					{onShare && <Button
 						variant={"ghost"}
 						className="flex items-center gap-1 cursor-pointer"
 						onClick={onShare}
 					>
 						<PiShareFat className="w-4 h-4" /> Share
-					</Button>
+					</Button>}
 				</div>
 			)}
 		</div>
