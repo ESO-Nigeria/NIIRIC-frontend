@@ -162,7 +162,6 @@ export default function UploadPublication(): JSX.Element {
 	const {data: sectors, isLoading: sectorsLoading} = useGetSectorsQuery({})
 
 	
-	// console.log("profile", profile);
 	// watch file in form
 	const watchedFile = watch("file");
 
@@ -188,7 +187,6 @@ export default function UploadPublication(): JSX.Element {
 
 	function togglePublicationType(type: string) {
 
-		console.log(type)
 		const current = publicationTypes || [];
 		if (current.includes(type)) {
 			setValue(
@@ -236,8 +234,6 @@ export default function UploadPublication(): JSX.Element {
 			setConfirmOpen(false);
 			return;
 		}
-
-		console.log(pendingData, 'pd')
 		// Prepare payload keys for backend expectations
 		const payload: Record<string, any> = {
 			// ...pendingData,
@@ -263,7 +259,6 @@ export default function UploadPublication(): JSX.Element {
 		const formData = objectToFormData(payload);
 		try {
 			const data = await uploadPublication(formData).unwrap();
-			console.log("Upload response", data);
 			setPublicationData(data);
 			setShowModal(true);
 			// reset form

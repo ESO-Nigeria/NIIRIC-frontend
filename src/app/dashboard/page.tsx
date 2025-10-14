@@ -17,6 +17,7 @@ import {
 import { selectCurrentUser } from "@/store/features/auth/selectors";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
+import PublicationsTab from "@/components/common/PublicationTab";
 
 /**
  * Dashboard page
@@ -146,8 +147,8 @@ export default function DashboardPage(): JSX.Element {
         userInterests?.results &&
         userProfile?.[0]) ? (
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-normal font-poppins">Dashboard</h2>
+            <div className="flex items-center justify-end mb-4">
+              {/* <h2 className="text-xl font-normal font-poppins">Dashboard</h2> */}
               <Button
                 variant="primary-green"
                 className="h-11 px-3"
@@ -158,7 +159,7 @@ export default function DashboardPage(): JSX.Element {
                 <Upload className="mr-2 h-4 w-4" /> Upload New Publication
               </Button>
             </div>
-            <Publications />
+            <PublicationsTab />
           </div>
         ) : (
           <ProfileJourney

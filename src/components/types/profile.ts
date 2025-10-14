@@ -73,6 +73,7 @@ export interface Profile {
 	created_at: string; // ISO date string
 	updated_at: string; // ISO date string
 	user_email: string;
+	publication_count?: string
 }
 
 export interface Publication {

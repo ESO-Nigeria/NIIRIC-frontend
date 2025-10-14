@@ -37,7 +37,9 @@ import {
 	useGetPublicationsQuery,
 	useGetUserPublicationsQuery,
 } from "@/store/features/publications/actions";
-import { Profile } from "@/components/types/profile";
+import { Profile, User } from "@/components/types/profile";
+import { selectCurrentUser } from "@/store/features/auth/selectors";
+import PublicationsTab from "@/components/common/PublicationTab";
 
 export const team = [
 	{
@@ -71,26 +73,7 @@ export const events = [
 	},
 ];
 
-const stats = [
-	{
-		label: "All",
-		value: 0,
-		icon: BookTextIcon,
-		color: "text-[#12B76A] bg-[#A6F4C5]/20 ",
-	},
-	{
-		label: "Published",
-		value: 0,
-		icon: BookUp,
-		color: "text-[#12B76A] bg-[#A6F4C5]/20",
-	},
-	{
-		label: "Pending Approval",
-		value: 0,
-		icon: ArrowRight,
-		color: "bg-[#FEF0C7] text-[#DC6803]",
-	},
-];
+
 export default function Publications() {
 	const {
 		data: myPubications,
@@ -102,10 +85,12 @@ export default function Publications() {
 		isLoading: isRecLoading,
 		isError: isRecError,
 	} = useGetPublicationsQuery({}); //useGetRecommendedPublicationsQuery();
+
+		// const user = useSelector(selectCurrentUser);
+	const user = useSelector((state) => (state as RootState).auth.user as User | null);
+		
 	const profile = useSelector((state: RootState) => state.auth.profile as Profile | null);
 
-	console.log("My Publications:", profile, myPubications);
-	console.log("Recommended Publications:", recommendedPublications);
 
 	return (
 		<DashboardLayout>
@@ -113,7 +98,7 @@ export default function Publications() {
 				<Breadcrumbs />
 			</div>
 			<h1 className="text-[28px] font-poppins text-[#242424] font-normal mb-6">
-				Hi, {profile?.first_name}
+				Hi, {user?.first_name}
       </h1>
 			<div className="space-y-4 font-dm_sans">
 				<div className="flex items-center justify-between mb-4">
@@ -128,29 +113,8 @@ export default function Publications() {
 						<Upload className="mr-2 h-4 w-4" /> Upload New Publication
 					</Button>
 				</div>
-
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-					{stats.map((stat) => (
-						<Card key={stat.label} className="shadow-none border-none">
-							<CardContent className="flex gap-4 items-center ">
-								<span
-									className={` p-2 size-8 rounded-lg flex items-center justify-center ${stat.color}`}
-								>
-									<stat.icon className="h-6 w-6 " />
-								</span>
-
-								<div className="flex gap-3 flex-col ">
-									<span className="text-base text-[#667085] font-medium">
-										{stat.label}
-									</span>
-									<span className="text-base text-[#3F434A] font-medium">
-										{stat.value}
-									</span>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</div>
+				<PublicationsTab />
+				
 			</div>
 		</DashboardLayout>
 	);

@@ -14,7 +14,6 @@ export default function MultiSelectWithCreateExample() {
 
 	const onSubmit = (data: FormShape) => {
 		// In your real app replace with proper submit handling
-		console.log("Form submit", data);
 		alert(JSON.stringify(data, null, 2));
 	};
 

@@ -48,7 +48,6 @@ function Page() {
 		console.log("✅ Submitted:", values);
 		try {
 			const { data, error } = await updateUserResearchArea(values);
-			console.log(data, "response");
 			if (data) {
 				router.push("/dashboard");
 				toast.success("successful");

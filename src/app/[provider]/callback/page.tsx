@@ -32,7 +32,6 @@ export default function ProviderPage() {
 		}
 
 		if (status === "authenticated" && session) {
-			console.log("Session data:", session);
 			description = `You have successfully authenticated using ${provider}.`;
 		// const callbackUrl =
     //   router.query?.callbackUrl ||

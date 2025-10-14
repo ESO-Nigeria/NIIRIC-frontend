@@ -64,7 +64,6 @@ export default function QualificationForm() {
 			const { data, error } = await updateUserQualification(
 				values?.qualifications,
 			);
-			console.log(data, "response");
 			if (data) {
 				router.push("/dashboard");
 				toast.success("successful");

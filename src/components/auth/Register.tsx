@@ -63,7 +63,6 @@ const Register = () => {
 	};
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values);
 		const data_to_send = {
 			email: values?.email,
 			password1: values?.password,

@@ -214,7 +214,7 @@ export default function Publications() {
           </Card>
 
           {/* My Publications */}
-          <section>
+          {/* <section>
 						<h3 className="font-medium text-lg mb-3 text-primary-green">
 							My Publications
 						</h3>
@@ -267,7 +267,7 @@ export default function Publications() {
 								))
 							) : null}
 						</Card>
-					</section>
+					</section> */}
 
           {/* Recommended Section */}
           <section>

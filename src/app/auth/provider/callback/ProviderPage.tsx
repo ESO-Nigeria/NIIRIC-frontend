@@ -48,7 +48,6 @@ export default function ProviderPage() {
 					first_name: "doe",
 				},
 			});
-			console.log(response, "response");
 			//  dispatch(setCredentials(user?.data));
 		} catch (error) {
 			console.log(error, "error");

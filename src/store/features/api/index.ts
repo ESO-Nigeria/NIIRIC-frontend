@@ -6,7 +6,6 @@ const rawBaseQuery = fetchBaseQuery({
 	baseUrl: process.env.NEXT_PUBLIC_API_URL,
 	prepareHeaders: (headers, { getState }: any) => {
 		const token = getState()?.auth?.token;
-		console.log(token, "token", getState());
 		if (token) {
 			headers.set("Authorization", `Bearer ${token}`);
 		}
@@ -25,7 +24,6 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (
 	if (result.error && result.error.status === 401) {
 		// token expired or invalid
 		const refreshToken = (api.getState() as any).auth.refreshToken;
-		console.log(refreshToken, "refreshToken");
 		if (refreshToken) {
 			// try refresh
 			const refreshResult: any = await rawBaseQuery(

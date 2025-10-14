@@ -36,7 +36,6 @@ const ForgetPassword = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values, "val");
 		try {
 			const { data, error } = await sendResetEmail(values);
 			if (error) {

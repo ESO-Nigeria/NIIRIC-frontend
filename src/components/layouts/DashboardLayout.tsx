@@ -24,8 +24,8 @@ const navItems = [
 	{ label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 	{ label: "Publications", href: "/dashboard/publications", icon: FileText },
 	{ label: "Messages", href: "/messages", icon: MessageSquare },
-	{ label: "Analytics", href: "/analytics", icon: BarChart },
-	{ label: "Notifications", href: "/notifications", icon: Bell },
+	// { label: "Analytics", href: "/analytics", icon: BarChart },
+	// { label: "Notifications", href: "/notifications", icon: Bell },
 	{ label: "Settings", href: "/settings", icon: Settings },
 ];
 

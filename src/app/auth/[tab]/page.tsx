@@ -56,7 +56,6 @@ export default function AuthTabs() {
 	// 	}
 	// }, [token, router]);
 
-	console.log(token, router, "hi", isTokenValid(token));
 	return (
 		<AuthLayout
 			side={

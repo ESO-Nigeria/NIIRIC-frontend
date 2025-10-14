@@ -54,7 +54,6 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
-	console.log(data, "data reports");
 	return (
 		<GeneralLayout withSubscribe={false}>
 			<InfoHero
