@@ -1,6 +1,6 @@
 "use client";
 import type React from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import OpportunityImage from "@/app/assets/images/oppo_card.jpg"; // Adjust the path as necessary
 import { EmptyState } from "@/components/blocks/EmptyState";
 // import PageBanner from "@/app/assets/images/what_we_do_banner.png";
@@ -19,19 +19,39 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import GeneralLayout from "@/layouts/General";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
+import PaginationControls from "@/components/common/Pagination";
+import { Opportunity } from "@/components/types/opportunity";
 
 const defaultFilters: FilterValues = {
-	category: "",
-	opportunities: [],
-	sectors: [],
-	deadlines: [],
+  category: "",
+  deadline: "",
+  eligibility: "",
+  funding_types: [],
+  job_levels: [],
+  job_types: [],
+  locations: [],
+  ordering: "",
+  program_formats: [],
+  program_types: [],
+  sectors: [],
+  target_groups: [],
+  page_size: 3,
 };
-
 function Page() {
 	const [searchValue, setSearchValue] = useState("");
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
-	const { data, isLoading } = useGetOpportunitiesQuery({});
+	  const [currentPage, setCurrentPage] = useState(1);
+		const queryParams = useMemo(
+				() => ({
+					...filters,
+					page: currentPage,
+				}),
+				[filters, currentPage]
+			);
+
+
+	const { data, isLoading } = useGetOpportunitiesQuery(queryParams);
 
 	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -39,12 +59,15 @@ function Page() {
 	};
 
 	const handleFilterChange = (newFilters: FilterValues) => {
+		console.log('newFIlters', newFilters)
 		setFilters(newFilters);
+		 setCurrentPage(1); 
 		// Optionally trigger filtering logic here
 	};
 
 	const handleFilterReset = () => {
 		setFilters(defaultFilters);
+		 setCurrentPage(1); 
 		// Optionally reset filtering logic here
 	};
 
@@ -77,47 +100,28 @@ function Page() {
 							)}
 							{!isLoading && data?.results?.length > 0 && (
 								<div className="space-y-5 w-full">
-									{Array(10)
-										.fill(null)
-										.map((_opportunity, index) => (
+									{data?.results?.map((opportunity: Opportunity) => (
 											<OpportunityCard
-												key={index + 1}
+												key={opportunity?.id}
 												imageSrc={OpportunityImage}
 												imageAlt="Opportunity image"
-												title="Catalyst Impact Fund – Small Grants for Early-Stage Solutions"
-												deadline="August 30, 2025"
-												type="Grant"
-												sector="SDGs, Social Innovation"
-												description="The Catalyst Impact Fund is offering up to $25,000 in seed funding for early-stage startups and nonprofits focused on sustainable development goals (SDGs) in Sub-Saharan Africa. Priority areas include clean energy, gender equity, and inclusive fintech."
+												title={opportunity?.title}
+												deadline={opportunity?.deadline}
+												type={opportunity?.funding_types?.map((s: any) => s.name).join(", ")}
+												sector={opportunity?.sectors?.map((s: any) => s.name).join(", ")}
+												description={opportunity?.description}
 											/>
 										))}
 								</div>
 							)}
 							<div className="my-8 *:flex justify-center">
-								<Pagination>
-									<PaginationContent>
-										<PaginationItem>
-											<PaginationPrevious className="border" href="#" />
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink href="#">1</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink className="" href="#" isActive>
-												2
-											</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink href="#">3</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationEllipsis />
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationNext className="border" href="#" />
-										</PaginationItem>
-									</PaginationContent>
-								</Pagination>
+								
+								<PaginationControls
+									currentPage={currentPage}
+									totalCount={data?.count || 0}
+									pageSize={filters?.page_size || 0}
+									onPageChange={setCurrentPage}
+								/>
 							</div>
 						</div>
 						<div className="w-2/6">

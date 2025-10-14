@@ -96,8 +96,12 @@ export function PublicationCard({
 								variant="outline"
 								className="rounded-lg font-normal shadow-none text-base text-[#475467]"
 								onClick={onViewPaper}
+								asChild
 							>
+								<Link href={`/dashboard/publications/${id}`}>
 								<FileText className="w-4 h-4" /> View Paper
+								</Link>
+								
 							</Button>
 							<Button
 								variant="outline"

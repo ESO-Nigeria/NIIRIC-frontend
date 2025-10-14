@@ -38,12 +38,10 @@ export const userSlice = createSlice({
 			Storage.remove("user");
 		},
 		setProfile: (state, { payload }) => {
-			console.log("payload", payload);
 			state.user_data = payload;
 			state.user = payload;
 		},
 		setPublisherProfile: (state, { payload }) => {
-			console.log("payload", payload);
 			state.profile = payload ? payload[0] : null;
 		},
 	},

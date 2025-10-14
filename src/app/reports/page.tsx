@@ -1,6 +1,6 @@
 "use client";
 import type React from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import OpportunityImage from "@/app/assets/images/oppo_card.jpg"; // Adjust the path as necessary
 import { EmptyState } from "@/components/blocks/EmptyState";
 // import PageBanner from "@/app/assets/images/what_we_do_banner.png";
@@ -21,17 +21,23 @@ import GeneralLayout from "@/layouts/General";
 import { useGetReportsQuery } from "@/store/features/reports/actions";
 
 const defaultFilters: FilterValues = {
-	category: "",
-	opportunities: [],
-	sectors: [],
-	deadlines: [],
+	page_size: 3,
 };
 
 function Page() {
 	const [searchValue, setSearchValue] = useState("");
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
-	const { data, isLoading } = useGetReportsQuery({});
+		const [currentPage, setCurrentPage] = useState(1);
+			const queryParams = useMemo(
+					() => ({
+						...filters,
+						page: currentPage,
+					}),
+					[filters, currentPage]
+				);
+	
+	const { data, isLoading } = useGetReportsQuery(queryParams);
 
 	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

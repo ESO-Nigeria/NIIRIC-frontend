@@ -9,6 +9,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils";
 
 // Default options
 const OPPORTUNITY_OPTIONS = [
@@ -87,18 +93,21 @@ const LOCATION_OPTIONS = [
 ];
 
 export interface FilterValues {
-	category: string;
-	opportunities: string[];
-	sectors: string[];
-	deadlines: string[];
-	fundingTypes?: string[];
-	targetGroups?: string[];
-	programTypes?: string[];
+	category?: string;
+	opportunities?: string[];
+	sectors?: string[];
+	deadline?: string;
+	funding_types?: string[];
+	target_groups?: string[];
+	program_types?: string[];
 	formats?: string[];
-	eligibilities?: string[];
-	jobTypes?: string[];
-	levels?: string[];
+	eligibility?: string;
+	job_types?: string[];
+	job_levels?: string[];
 	locations?: string[];
+	ordering?: string;
+	 program_formats?: string[];
+	 page_size?: number
 }
 
 interface FilterSidebarProps {
@@ -181,7 +190,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`opportunity-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.opportunities.includes(opt.value)}
+										checked={value?.opportunities?.includes(opt.value)}
 										onCheckedChange={() =>
 											handleCheckboxChange("opportunities", opt.value)
 										}
@@ -204,7 +213,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.sectors.includes(opt.value)}
+										checked={value?.sectors?.includes(opt.value)}
 										onCheckedChange={() =>
 											handleCheckboxChange("sectors", opt.value)
 										}
@@ -220,22 +229,36 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 							Deadline
 						</h3>
 						<div className="flex flex-col gap-2">
-							{DEADLINE_OPTIONS.map((opt) => (
-								<label
-									key={opt.value}
-									className="flex items-center gap-2 py-0.5 text-[#3F434A] text-sm"
-									htmlFor={`deadline-${opt.value}`}
-								>
-									<Checkbox
-										checked={value.deadlines.includes(opt.value)}
-										onCheckedChange={() =>
-											handleCheckboxChange("deadlines", opt.value)
-										}
-										id={`deadline-${opt.value}`}
-									/>
-									{opt.label}
-								</label>
-							))}
+							<Popover>
+									<PopoverTrigger asChild>
+										<Button
+											variant="outline"
+											className={cn(
+												"w-full justify-start text-left font-normal",
+												!value.deadline && "text-muted-foreground"
+											)}
+										>
+											<CalendarIcon className="mr-2 h-4 w-4" />
+											{value.deadline
+												? format(new Date(value.deadline), "PPP")
+												: "Pick a date"}
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent className="w-auto p-0" align="start">
+										<Calendar
+											mode="single"
+											selected={value.deadline ? new Date(value.deadline) : undefined}
+											onSelect={(date) =>
+												onChange({
+													...value,
+													deadline: date ? date.toISOString().split("T")[0] : "",
+												})
+											}
+											initialFocus
+										/>
+									</PopoverContent>
+								</Popover>
+							
 						</div>
 					</div>
 				</>
@@ -256,9 +279,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`funding-type-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.fundingTypes?.includes(opt.value) || false}
+										checked={value?.funding_types?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("fundingTypes", opt.value)
+											handleCheckboxChange("funding_types", opt.value)
 										}
 										id={`funding-type-${opt.value}`}
 									/>
@@ -279,7 +302,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.sectors.includes(opt.value)}
+										checked={value?.sectors?.includes(opt.value)}
 										onCheckedChange={() =>
 											handleCheckboxChange("sectors", opt.value)
 										}
@@ -302,9 +325,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`target-group-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.targetGroups?.includes(opt.value) || false}
+										checked={value?.target_groups?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("targetGroups", opt.value)
+											handleCheckboxChange("target_groups", opt.value)
 										}
 										id={`target-group-${opt.value}`}
 									/>
@@ -325,9 +348,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.deadlines.includes(opt.value)}
+										checked={value?.deadline?.includes(opt.value)}
 										onCheckedChange={() =>
-											handleCheckboxChange("deadlines", opt.value)
+											handleCheckboxChange("deadline", opt.value)
 										}
 										id={`deadline-${opt.value}`}
 									/>
@@ -354,9 +377,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`program-type-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.programTypes?.includes(opt.value) || false}
+										checked={value.program_types?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("programTypes", opt.value)
+											handleCheckboxChange("program_types", opt.value)
 										}
 										id={`program-type-${opt.value}`}
 									/>
@@ -400,7 +423,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.sectors.includes(opt.value)}
+										checked={value.sectors?.includes(opt.value)}
 										onCheckedChange={() =>
 											handleCheckboxChange("sectors", opt.value)
 										}
@@ -423,9 +446,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`eligibility-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.eligibilities?.includes(opt.value) || false}
+										checked={value.eligibility?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("eligibilities", opt.value)
+											handleCheckboxChange("eligibility", opt.value)
 										}
 										id={`eligibility-${opt.value}`}
 									/>
@@ -446,9 +469,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.deadlines.includes(opt.value)}
+										checked={value.deadline?.includes(opt.value)}
 										onCheckedChange={() =>
-											handleCheckboxChange("deadlines", opt.value)
+											handleCheckboxChange("deadline", opt.value)
 										}
 										id={`deadline-${opt.value}`}
 									/>
@@ -475,9 +498,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`job-type-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.jobTypes?.includes(opt.value) || false}
+										checked={value.job_types?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("jobTypes", opt.value)
+											handleCheckboxChange("job_types", opt.value)
 										}
 										id={`job-type-${opt.value}`}
 									/>
@@ -496,9 +519,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`level-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.levels?.includes(opt.value) || false}
+										checked={value.job_levels?.includes(opt.value) || false}
 										onCheckedChange={() =>
-											handleCheckboxChange("levels", opt.value)
+											handleCheckboxChange("job_levels", opt.value)
 										}
 										id={`level-${opt.value}`}
 									/>
@@ -519,7 +542,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.sectors.includes(opt.value)}
+										checked={value.sectors?.includes(opt.value)}
 										onCheckedChange={() =>
 											handleCheckboxChange("sectors", opt.value)
 										}
@@ -565,9 +588,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`deadline-${opt.value}`}
 								>
 									<Checkbox
-										checked={value.deadlines.includes(opt.value)}
+										checked={value.deadline?.includes(opt.value)}
 										onCheckedChange={() =>
-											handleCheckboxChange("deadlines", opt.value)
+											handleCheckboxChange("deadline", opt.value)
 										}
 										id={`deadline-${opt.value}`}
 									/>

@@ -1,17 +1,18 @@
 import Image, { type StaticImageData } from "next/image";
 import type React from "react";
+import { Opportunity } from "./types/opportunity";
 
-interface OpportunityCardProps {
-	imageSrc: string | StaticImageData;
-	imageAlt?: string;
-	title: string;
-	deadline: string;
-	description: string;
-	type: string;
-	sector: string;
-}
+// interface OpportunityCardProps {
+// 	imageSrc: string | StaticImageData;
+// 	imageAlt?: string;
+// 	title: string;
+// 	deadline: string;
+// 	description: string;
+// 	type: string;
+// 	sector: string;
+// }
 
-const OpportunityCard: React.FC<OpportunityCardProps> = ({
+const OpportunityCard: React.FC<Opportunity> = ({
 	imageSrc,
 	imageAlt = "Opportunity image",
 	title = "Catalyst Impact Fund – Small Grants for Early-Stage Solutions",
