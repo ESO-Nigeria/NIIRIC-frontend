@@ -39,10 +39,10 @@ export default function Messages() {
 
         <MessageTab />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+        <div className="flex flex-col md:flex-row gap-4 pt-4">
           {/* Left Column */}
-          <div>
-            <Card className="border-none h-screen">
+          <div className="flex-1">
+            <Card className="border-none h-screen ">
               <CardHeader>
                 {/* Filter Buttons */}
                 <div className="flex gap-4 w-full overflow-hidden mb-2">
@@ -90,8 +90,7 @@ export default function Messages() {
           </div>
 
           {/* Right Column */}
-          <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex-[1.5]">
               <Card className="border-none h-fit w-full">
                 <CardHeader>
                   <h2 className="text-xl font-normal font-poppins mb-3">Send Message</h2>
@@ -109,10 +108,11 @@ export default function Messages() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-4 text-gray-400 flex items-center justify-center border-b md:h-[450px]">
+                <CardContent className="m-4 text-gray-400 flex items-center justify-center border-b md:h-[450px]">
                   No researchers found
                 </CardContent>
 
+            <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Rich Text Message Input */}
                 <CardContent className="p-4">
                   <div className="border rounded-md overflow-hidden">
@@ -141,8 +141,8 @@ export default function Messages() {
                     Send
                   </Button>
                 </CardFooter>
-              </Card>
             </form>
+              </Card>
           </div>
         </div>
       </div>
