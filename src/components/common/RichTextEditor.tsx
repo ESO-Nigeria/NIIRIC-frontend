@@ -49,6 +49,7 @@ interface RichTextEditorProps {
 	value: string;
 	onChange: (html: string) => void;
 	placeholder?: string;
+	className?: string;
 }
 
 /**
@@ -61,6 +62,7 @@ export default function RichTextEditor({
 	value,
 	onChange,
 	placeholder = "Write the abstract...",
+	className = "",
 }: RichTextEditorProps) {
 	const editor = useEditor({
 		extensions: [
@@ -131,7 +133,7 @@ export default function RichTextEditor({
 	);
 
 	return (
-		<div className="border rounded-md bg-white relative">
+		<div className={`border rounded-md bg-white relative ${className}`}>
 			{/* sticky toolbar */}
 			<div className="sticky top-0 z-20 bg-white border-b p-2 flex flex-wrap gap-1 items-center">
 				{IconButton({
@@ -259,7 +261,7 @@ export default function RichTextEditor({
 			>
 				<EditorContent
 					editor={editor}
-					className="prose max-w-none min-h-[220px] focus:outline-none"
+					className="prose max-w-none  focus:outline-none"
 				/>
 			</div>
 		</div>
