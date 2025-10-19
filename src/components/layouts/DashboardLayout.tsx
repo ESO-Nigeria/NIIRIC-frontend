@@ -43,13 +43,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 		dispatch(setPublisherProfile(userProfile));
 	}, [userProfile]);
 
-	useEffect(() => {
-		if (!token || !isTokenValid(token)) {
-			router.replace("/auth/login");
-		}
-	}, [token]);
+	// useEffect(() => {
+	// 	if (!token || !isTokenValid(token)) {
+	// 		router.replace("/auth/login");
+	// 	}
+	// }, [token]);
 
-	console.log("token, ", token);
+	// console.log("token, ", token);
 	return (
 		<div>
 			<DashBoardHeader />

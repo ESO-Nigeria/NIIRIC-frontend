@@ -9,16 +9,18 @@ type User = {
   name: string;
   university: string;
   avatar: string;
-};
+  };
 
 export default function FindResearchers({
   onSelect,
-}: {
+  selectedUser,
+  }: {
   onSelect?: (user: User | null) => void;
-}) {
+  selectedUser?: User | null;
+  }) {
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null); // ✅ store full user object
+
 
   const users: User[] = [
     {
@@ -61,21 +63,16 @@ export default function FindResearchers({
         )
       : [];
 
-  // ✅ Toggle single user selection
   const handleSelect = (id: number) => {
     const user = users.find((u) => u.id === id) || null;
-    const newUser = selectedUser?.id === id ? null : user;
-
-    setSelectedUser(newUser);
+    onSelect?.(user);
     setShowSuggestions(false);
-    onSelect?.(newUser); // send full user object to parent
   };
 
-  // ✅ Remove selected user
   const handleRemove = () => {
-    setSelectedUser(null);
     onSelect?.(null);
   };
+
 
   return (
     <div className="relative w-full">
@@ -106,7 +103,7 @@ export default function FindResearchers({
         />
       </div>
 
-      {/* ✅ Selected User */}
+      {/* Selected User */}
       {selectedUser && (
         <div className="flex flex-wrap gap-2 mt-3">
           <div
@@ -136,7 +133,7 @@ export default function FindResearchers({
         </div>
       )}
 
-      {/* ✅ Suggestions Dropdown */}
+      {/* Suggestions Dropdown */}
       {showSuggestions && filtered.length > 0 && (
         <div className="absolute top-[100%] mt-2 left-0 w-full bg-white border rounded-xl shadow-lg max-h-64 overflow-y-auto z-50">
           {filtered.map((user) => {
@@ -144,7 +141,7 @@ export default function FindResearchers({
             return (
               <div
                 key={user.id}
-                onClick={() => handleSelect(user.id)}
+                onMouseDown={() => handleSelect(user.id)}
                 className={`flex items-center justify-between gap-3 p-3 hover:bg-gray-100 transition-colors cursor-pointer ${
                   isSelected ? "bg-green-50" : ""
                 }`}
