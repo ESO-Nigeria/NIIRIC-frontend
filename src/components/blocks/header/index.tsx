@@ -87,7 +87,7 @@ const TopMenu = [
 			},
 		],
 	},
-	{ name: "Contact", href: "/#pricing" },
+	{ name: "Contact", href: "/contact-us" },
 ];
 
 export default function Header02() {
