@@ -23,7 +23,7 @@ import DashBoardHeader from "../blocks/header/dashboardHeader";
 const navItems = [
 	{ label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 	{ label: "Publications", href: "/dashboard/publications", icon: FileText },
-	{ label: "Messages", href: "/messages", icon: MessageSquare },
+	{ label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
 	// { label: "Analytics", href: "/analytics", icon: BarChart },
 	// { label: "Notifications", href: "/notifications", icon: Bell },
 	{ label: "Settings", href: "/settings", icon: Settings },
@@ -43,13 +43,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 		dispatch(setPublisherProfile(userProfile));
 	}, [userProfile]);
 
-	useEffect(() => {
-		if (!token || !isTokenValid(token)) {
-			router.replace("/auth/login");
-		}
-	}, [token]);
+	// useEffect(() => {
+	// 	if (!token || !isTokenValid(token)) {
+	// 		router.replace("/auth/login");
+	// 	}
+	// }, [token]);
 
-	console.log("token, ", token);
+	// console.log("token, ", token);
 	return (
 		<div>
 			<DashBoardHeader />
