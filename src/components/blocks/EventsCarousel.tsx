@@ -17,9 +17,19 @@ export function EventsCarousel() {
 					<CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
 						<div className="p-1">
 							<Card className="relative overflow-hidden group">
-								<CardContent className="flex aspect-square items-center justify-center p-6">
-									<span className="text-2xl font-semibold">{index + 1}</span>
+								{/* Thumbnail Photo */}
+								<img
+									src={"/assets/images/events_hero.jpg"}
+									alt={`Event ${index + 1}`}
+									className="absolute inset-0 w-full h-full object-cover"
+								/>
+
+								<CardContent className="flex aspect-square items-center justify-center p-6 relative z-10">
+									<span className="text-2xl font-semibold text-white drop-shadow-md">
+										{index + 1}
+									</span>
 								</CardContent>
+
 								{/* Overlay - hidden until hover */}
 								<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,51,2,0)_0%,rgba(0,51,2,0.95)_61.92%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -50,8 +60,6 @@ export function EventsCarousel() {
 					</CarouselItem>
 				))}
 			</CarouselContent>
-			{/* <CarouselPrevious />
-      <CarouselNext /> */}
 			<CarouselDots />
 		</Carousel>
 	);
