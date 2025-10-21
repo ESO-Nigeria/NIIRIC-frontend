@@ -44,7 +44,7 @@ import { badgeColors } from "@/store/mockData/mockdata";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetEventsQuery, useGetSuggestedConnectionsQuery } from "@/store/features/general/actions";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
-import { mapTagsToPublicationColors } from "@/helpers/helpers";
+import { downloadPdfFromUrl, forceDownloadPdf, getInitials, mapTagsToPublicationColors } from "@/helpers/helpers";
 
 export const team = [
   {
@@ -105,15 +105,6 @@ export default function Publications() {
   );
 
   const router = useRouter();
-  const downloadPDF = (url: string) => {
-    // Create a temporary anchor element to trigger the download
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = url.split("/").pop() || "document.pdf"; // Use the file name from the URL or a default name
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   const user = useSelector((state) => (state as RootState).auth.user as User | null);
   const { data: publishers } = useGetAllPublishersProfileQuery({});
@@ -128,7 +119,7 @@ export default function Publications() {
           <Card className="shadow-none border-0 rounded-xl">
             <CardHeader className="flex flex-col items-center p-4">
               <Avatar className="w-26 h-26">
-                <AvatarImage src={publisher?.image_url} alt="Profile" />
+                <AvatarImage src={publisher?.profile_pic} alt="Profile" />
                 <AvatarFallback>
                   {publisher?.first_name?.[0]}
                   {publisher?.last_name?.[0]}
@@ -194,7 +185,7 @@ export default function Publications() {
           {/* Upload Post */}
           <Card className="shadow-none border rounded-xl p-4 flex flex-row items-center gap-3">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={publisher?.image_url} alt="User" />
+              <AvatarImage src={publisher?.profile_pic} alt="User" />
               <AvatarFallback>
                 {publisher?.first_name?.[0]}
                 {publisher?.last_name?.[0]}
@@ -286,7 +277,7 @@ export default function Publications() {
               <p>No publications found.</p>
             ) : recommendedPublications ? (
               recommendedPublications?.results?.map((pub: Publication) => (
-                //  <PublicationCard
+                
                 <Card
                   key={pub?.id}
                   className="shadow-none mb-4 gap-3 rounded-xl p-6"
@@ -294,16 +285,18 @@ export default function Publications() {
                   <div className="flex justify-between">
                     <div className="flex gap-3">
                       <Avatar className="size-12">
-                        <AvatarImage src="/assets/avatar.png" />
-                        <AvatarFallback>AC</AvatarFallback>
+                        <AvatarImage src={pub?.profile_pic || undefined} />
+                        <AvatarFallback>{getInitials(pub?.author_name)}</AvatarFallback>
                       </Avatar>
                       <div>
                         <h4 className="font-normal text-base text-[#3F434A]">
                           {pub?.author_name}
                         </h4>
-                        {/* <p className="text-sm text-[#667085]">
-                          Senior Researcher
-                        </p> */}
+                        <p className="text-sm text-[#667085]">
+                      {pub?.qualifications?.length
+                      ? pub.qualifications.map((item: any) => item?.position).filter(Boolean).join(', ')
+                      : "No qualifications listed"}
+                        </p>
                       </div>
                     </div>
                     <MoreHorizontal className="text-gray-500" />
@@ -312,11 +305,11 @@ export default function Publications() {
                     image={DocPlaceholder}
                     title={pub?.title}
                     abstract={pub?.abstract}
-                   tags={mapTagsToPublicationColors(pub?.publication_type ?? []) ?? null}
+                    tags={mapTagsToPublicationColors(pub?.publication_type ?? []) ?? null}
                     onViewPaper={() =>
                       router.push(`/dashboard/publications/${pub.id}`)
                     }
-                    onDownload={() => downloadPDF(pub.document ?? "")}
+                    onDownload={() => forceDownloadPdf(pub.document ?? "", pub?.title)}
                     // onLike={() => console.log("Liked")}
                     // onComment={() => console.log("Comment")}
                     // onShare={() => console.log("Shared")}
@@ -339,7 +332,7 @@ export default function Publications() {
               <EventAndOpportunityCard
                 key={event.id}
                 title={event.title}
-                deadline={event.registration_deadline || "No Deadline"}
+                deadline={event?.registration_deadline || "No Deadline"}
                 description={event.description}
               />
               // <p>events</p>

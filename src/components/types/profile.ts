@@ -55,6 +55,7 @@ export interface Profile {
 	id: string;
 	user: string; // user ID reference
 	profile_picture_url?: string; // URL to profile picture
+	profile_pic?: string
 	image_url?: string;
 	title?: string;
 	cv_url?: string; // URL to CV document
@@ -91,7 +92,12 @@ export interface Publication {
 	author_name?: string;
 	document?: string;
 	publication_type?: string[]
-
+	profile_pic?: string;
+	user_first_name?: string
+	user_last_name?: string
+	first_name?: string
+	last_name?: string
+	qualifications?: string[]
 
 }
 // Example usage:

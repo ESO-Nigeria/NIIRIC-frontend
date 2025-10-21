@@ -143,8 +143,8 @@ export const publicationTypeOptions = [
 		color: "bg-[#F4F3FF] text-[#6927DA]",
 	},
 	{
-		value: "industry_insight",
-		label: "Industry Insight",
+		value: "industry_insights",
+		label: "Industry Insights",
 		icon: Notebook,
 		color: "bg-[#F4F3FF] text-[#6927DA]",
 	},

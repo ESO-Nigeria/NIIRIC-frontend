@@ -72,13 +72,6 @@ export default function DashboardPage(): JSX.Element {
     refetchResearchArea();
   }, [refetch, refetchQualifications, refetchInterest, refetchResearchArea]);
 
-  console.log(
-    "dashboard",
-    userQualifications?.results,
-    userInterests?.results,
-    userProfile,
-  );
-
   return (
     <DashboardLayout>
       <div className="pb-2">
