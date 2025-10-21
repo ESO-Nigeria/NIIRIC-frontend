@@ -127,43 +127,81 @@ export default function ProfileCompletionForm() {
 				orcid: user_data?.orcid || "",
 				state: user_data?.state || "",
 				bio: user_data?.bio || "",
-				profilePicture: undefined,
+				profilePicture: user_data?.profile_pic || "",
 			});
 			setBioCount(user_data?.bio?.length || 0);
 			// if (user_data?.profilePicture) setPreview(user_data.profilePicture);
 		}
 	}, [userProfile, user, id]);
 
-	const onSubmit = async (values: FormValues) => {
-		const data_to_send = {
-			title: values?.title,
-			first_name: values?.firstName,
-			last_name: values?.lastName,
-			email: values?.email,
-			phone_number: values?.phone,
-			linkedin_url: values?.linkedin,
-			orcid: values?.orcid,
-			state: values?.state,
-			bio: values?.bio,
-			id: id ? id : null,
+	// const onSubmit = async (values: FormValues) => {
+	// 	const data_to_send = {
+	// 		title: values?.title,
+	// 		first_name: values?.firstName,
+	// 		last_name: values?.lastName,
+	// 		email: values?.email,
+	// 		phone_number: values?.phone,
+	// 		linkedin_url: values?.linkedin,
+	// 		orcid: values?.orcid,
+	// 		state: values?.state,
+	// 		bio: values?.bio,
+	// 		profile_picture: values?.profilePicture,
+	// 		id: id ? id : null,
+	// 	};
+	// 	try {
+	// 		const { data, error } = await (id
+	// 			? editUserProfile(data_to_send)
+	// 			: updateUserProfile(data_to_send));
+	// 		if (data) {
+	// 			router.push("/dashboard");
+	// 			toast.success("successful");
+	// 		}
+	// 		if (error) {
+	// 			toast.error("Error registering");
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error, "error");
+	// 		toast.error("Error registering");
+	// 	}
+	// 	console.log("✅ Form Submitted:", values);
+	// };
+
+		// ✅ Submit handler using FormData
+		const onSubmit = async (values: FormValues) => {
+			try {
+				const formData = new FormData();
+				formData.append("title", values.title);
+				formData.append("first_name", values.firstName);
+				formData.append("last_name", values.lastName);
+				formData.append("email", values.email);
+				formData.append("phone_number", values.phone);
+				formData.append("linkedin_url", values.linkedin);
+				formData.append("orcid", values.orcid || "");
+				formData.append("state", values.state);
+				formData.append("bio", values.bio);
+	
+				if (values.profilePicture instanceof File) {
+					formData.append("profile_pic", values.profilePicture);
+				}
+	
+				if (id) formData.append("id", id);
+	
+				const { data, error } = await (id
+					? editUserProfile(formData)
+					: updateUserProfile(formData));
+	
+				if (data) {
+					toast.success("Profile updated successfully");
+					router.push("/dashboard");
+				} else if (error) {
+					toast.error("Error updating profile");
+				}
+			} catch (err) {
+				console.error(err);
+				toast.error("Something went wrong");
+			}
 		};
-		try {
-			const { data, error } = await (id
-				? editUserProfile(data_to_send)
-				: updateUserProfile(data_to_send));
-			if (data) {
-				router.push("/dashboard");
-				toast.success("successful");
-			}
-			if (error) {
-				toast.error("Error registering");
-			}
-		} catch (error) {
-			console.log(error, "error");
-			toast.error("Error registering");
-		}
-		console.log("✅ Form Submitted:", values);
-	};
+
 
 	const handleOpenModal = async () => {
 		const isValid = await form.trigger();

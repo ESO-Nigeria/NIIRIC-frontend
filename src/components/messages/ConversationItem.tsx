@@ -15,10 +15,8 @@ export default function ConversationItem({ conv, selectedUser, onSelect }: any) 
       />
       <div className="flex-1 min-w-0">
         <h4 className="font-medium text-gray-800 truncate">{conv.name}</h4>
-       <p className="text-sm text-gray-500 w-50 overflow-hidden whitespace-nowrap">
-  {conv.lastMessage}
-</p>
-
+       <p dangerouslySetInnerHTML={{ __html: conv.lastMessage ?? "" }} className="text-sm text-gray-500 line-clamp-2 overflow-hidden " />
+          
       </div>
       <p className="text-xs text-gray-400 whitespace-nowrap">
         {getRelativeTime(conv.timestamp)}

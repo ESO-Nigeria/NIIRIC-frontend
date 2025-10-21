@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { PublicationCard } from "../blocks/PublicationCard";
 import { Separator } from "../ui/separator";
+import { mapTagsToPublicationColors } from "@/helpers/helpers";
 
 interface PublicationUploadModalProps {
 	isOpen: boolean;
@@ -23,7 +24,20 @@ interface PublicationUploadModalProps {
 		tags: string[];
 		thumbnail?: string;
 		publicationLink: string;
+		publication_type: string[];
+		id: string;
 	};
+	successTitle?: string;
+		successMessage?: string;
+		primaryAction?: {
+			label: string;
+			onClick: () => void;
+			color?: string;
+		};
+		secondaryAction?: {
+			label: string;
+			onClick: () => void;
+		};
 	onViewPaper?: () => void;
 }
 
@@ -32,23 +46,33 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 	onClose,
 	publication,
 	onViewPaper,
+	successTitle,
+	successMessage,
+	primaryAction,
+	secondaryAction,
+
 }) => {
 	const [copied, setCopied] = React.useState(false);
 
+	const shareUrl =
+	typeof window !== "undefined"
+		? `${window.origin}/dashboard/publications/${publication.id}`
+		: "";
+
 	const handleCopyLink = () => {
-		navigator.clipboard.writeText(publication.publicationLink);
+		navigator.clipboard.writeText(shareUrl);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	};
 
 	const handleShare = (platform: string) => {
-		const url = publication.publicationLink;
+		const url = shareUrl;
 		const text = publication.title;
 
 		switch (platform) {
 			case "linkedin":
 				window.open(
-					`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+					`https://www.linkedin.com/sharing/share-offsite/?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
 					"_blank",
 				);
 				break;
@@ -76,37 +100,25 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent className="sm:max-w-[625px] max-h-[90vh] overflow-y-auto p-0 gap-0">
-				{/* Header with Close Button */}
-				{/* <DialogHeader className="absolute right-6 top-6 z-10">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="h-8 w-8 rounded-sm hover:bg-gray-100"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        </DialogHeader> */}
-
 				<div className="p-8 pb-6">
 					{/* Success Banner */}
-					<div className=" mt-4 bg-green-50 border border-green-100 rounded-lg p-6 mb-8">
-						<div className="flex items-start gap-4">
-							<div className="flex-shrink-0">
-								<div className="w-10 h-10 text-primary-green rounded-full flex items-center justify-center">
-									<Check className="h-6 w-6 " />
+					{successTitle && successMessage && (
+						<div className="mt-4 bg-green-50 border border-green-100 rounded-lg p-6 mb-8">
+							<div className="flex items-start gap-4">
+								<div className="flex-shrink-0">
+									<div className="w-10 h-10 text-primary-green rounded-full flex items-center justify-center">
+										<Check className="h-6 w-6" />
+									</div>
+								</div>
+								<div>
+									<h3 className="text-sm font-semibold text-gray-900 mb-1">
+										{successTitle}
+									</h3>
+									<p className="text-gray-600 text-sm">{successMessage}</p>
 								</div>
 							</div>
-							<div>
-								<h3 className="text-sm font-semibold text-gray-900 mb-1">
-									Publication uploaded Successfully!
-								</h3>
-								<p className="text-gray-600 text-sm">
-									Your publication have been successfully uploaded.
-								</p>
-							</div>
 						</div>
-					</div>
+					)}
 
 					{/* Share Publication Section */}
 					<h2 className="text-base font-semibold text-gray-900 ">
@@ -117,22 +129,12 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 					{/* Publication Card */}
 					<div className="w-full mb-6">
 						<PublicationCard
+							id={publication?.id ?? ""}
 							title={publication.title}
 							abstract={publication.abstract}
-							tags={[
-								{ label: "Research", colorClass: "bg-blue-100", textClass: "text-blue-800" },
-								{ label: "Case Study", colorClass: "bg-green-100", textClass: "text-green-800" },
-							]}
+							tags={mapTagsToPublicationColors(publication?.publication_type ?? []) ?? null}
 							thumbnail={publication.thumbnail}
-							publicationLink="https://www.niiric.org/impact-investing-on-research..."
-							// publication={{
-							// 	title: publication.title,
-							// 	abstract: publication.abstract,
-							// 	tags: ["Research", "Case Study"],
-							// 	thumbnail: "/path/to/image.png",
-							// 	publicationLink:
-							// 		"https://www.niiric.org/impact-investing-on-research...",
-							// }}
+							publicationLink={shareUrl}
 							showActionButtons={false}
 							showLikeShareButtons={false}
 						/>
@@ -159,6 +161,7 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 							className="w-12 h-12  rounded-full bg-[#F6F8FA] flex cursor-pointer items-center justify-center hover:bg-gray-50 transition-colors"
 							aria-label="Share on Twitter/X"
 						>
+
 							<svg
 								className="w-5 h-5 text-gray-900"
 								fill="currentColor"
@@ -236,10 +239,11 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 							<div className="flex-1 font-medium max-w-full">
 								<p
 									className="truncate whitespace-normal break-all cursor-pointer"
-									title={publication.publicationLink}
+									onClick={() => navigator.clipboard.writeText(shareUrl)}
+									title={shareUrl}
 								>
 									{" "}
-									{publication.publicationLink}
+									{shareUrl.length > 50 ? shareUrl.slice(0, 50) + "..." : shareUrl	}
 								</p>
 							</div>
 							<Button
@@ -258,21 +262,31 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 					</div>
 
 					{/* Action Buttons */}
-					<div className="flex gap-4">
-						<Button
-							onClick={onClose}
-							variant="outline"
-							className="flex-1 h-12 text-base font-medium border-gray-300 hover:bg-gray-50"
-						>
-							Skip for Later
-						</Button>
-						<Button
-							onClick={onViewPaper}
-							className="flex-1 h-12 text-base font-medium bg-primary-green hover:bg-primary-green/90 text-white"
-						>
-							View Paper
-						</Button>
-					</div>
+					{(primaryAction || secondaryAction) && (
+						<div className="flex gap-4">
+							{secondaryAction && (
+								<Button
+									onClick={secondaryAction.onClick}
+									variant="outline"
+									className="flex-1 h-12 text-base font-medium border-gray-300 hover:bg-gray-50"
+								>
+									{secondaryAction.label}
+								</Button>
+							)}
+
+							{primaryAction && (
+								<Button
+									onClick={primaryAction.onClick }
+									className={`flex-1 h-12 text-base font-medium ${
+										primaryAction.color ??
+										"bg-primary-green hover:bg-primary-green/90 text-white"
+									}`}
+								>
+									{primaryAction.label}
+								</Button>
+							)}
+						</div>
+					)}
 				</div>
 			</DialogContent>
 		</Dialog>

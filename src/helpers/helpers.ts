@@ -1,4 +1,5 @@
 import { publicationTypeOptions } from "@/store/mockData/mockdata";
+import { parseISO, isValid, format } from "date-fns";
 import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
@@ -37,21 +38,6 @@ export default function objectToFormData(payload: Record<string, any>) {
       fd.append(key, String(value));
     }
   });
-	// Object.entries(payload).forEach(([key, value]) => {
-	// 	if (value === undefined || value === null) return;
-
-	// 	if (Array.isArray(value)) {
-	// 		value.forEach((v) => {
-	// 			// append arrays as field[]
-	// 			if (isFile(v)) fd.append(`${key}[]`, v);
-	// 			else fd.append(`${key}[]`, String(v));
-	// 		});
-	// 	} else if (isFile(value)) {
-	// 		fd.append(key, value, value.name);
-	// 	} else {
-	// 		fd.append(key, String(value));
-	// 	}
-	// });
 	return fd;
 }
 
@@ -71,4 +57,92 @@ export function mapTagsToPublicationColors(tagLabels: string[]) {
       textClass: textColor,
     };
   });
+}
+
+export function parseDate(value?: string | null): Date | null {
+  if (!value) return null;
+
+  try {
+    // Try ISO format first
+    const isoParsed = parseISO(value);
+    if (isValid(isoParsed)) return isoParsed;
+
+    const fallback = new Date(value);
+    return isValid(fallback) ? fallback : null;
+  } catch {
+    return null;
+  }
+}
+
+
+export function formatDeadline(deadline?: string | null): string {
+  const parsed = parseDate(deadline);
+  if (!parsed) return "No deadline";
+
+  const hasTime = typeof deadline === "string" && deadline.includes("T");
+  return format(parsed, hasTime ? "PPP p" : "PPP");
+}
+
+/**
+ * Downloads a PDF directly from a given URL.
+ * 
+ * @param {string} url - The URL of the PDF file.
+ * @param {string} [fileName='document.pdf'] - The desired download file name.
+ */
+export function downloadPdfFromUrl(url: string, fileName = 'document.pdf') {
+  if (!url) return console.error('No URL provided for PDF download');
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  link.target = '_blank'; 
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+/**
+ * Force-downloads a PDF file from a given URL, even if the server serves it inline.
+ *
+ * @param {string} url - The URL of the PDF file.
+ * @param {string} [fileName='document.pdf'] - The name to save the file as.
+ */
+export async function forceDownloadPdf(url: string, fileName = 'document.pdf') {
+  if (!url) {
+    console.error('No URL provided for PDF download');
+    return;
+  }
+
+  try {
+    const response = await fetch(url, { mode: 'cors' });
+    if (!response.ok) throw new Error('Failed to fetch PDF');
+
+    const blob = await response.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+
+    link.click(); // force download
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error('Error downloading PDF:', error);
+  }
+}
+
+export function getInitials(fullName?: string, limit?: number): string {
+  if (!fullName) return "";
+
+  const initials = fullName
+    .trim()
+    .split(/\s+/) // split by any whitespace
+    .filter(Boolean)
+    .map(word => word[0].toUpperCase())
+    .join("");
+
+  return limit ? initials.slice(0, limit) : initials;
 }

@@ -6,9 +6,11 @@ import { PiShareFat } from "react-icons/pi";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Publication } from "../types/profile";
+import { PDFfile } from "@/app/assets/icons/icons";
 
-interface PublicationCardProps {
-	id?: string;
+interface PublicationCardProps extends Publication {
+	id: string;
 	image?: string | StaticImageData;
 	title?: string;
 	abstract?: string;
@@ -23,6 +25,7 @@ interface PublicationCardProps {
 	showLikeShareButtons?: boolean;
 	thumbnail?: string;
 	publicationLink?: string;
+	
 }
 
 export function PublicationCard({
@@ -47,12 +50,8 @@ export function PublicationCard({
 			<div className="flex gap-4">
 				{/* Thumbnail */}
 				<div className="relative">
-					<div className="w-16 h-20 bg-gray-100 relative rounded flex-shrink-0">
-						{/* <iframe
-                  title="pdf-preview"
-                  src={image as string}
-                  className="w-full h-full  border rounded"
-                /> */}
+					<div className="w-16 h-20 bg-gray-100 relative rounded flex-shrink-0 flex items-center justify-center">
+						<PDFfile className="w-8 h-8 text-primary-green" />
 					</div>
 				</div>
 
@@ -103,13 +102,14 @@ export function PublicationCard({
 								</Link>
 								
 							</Button>
-							<Button
+							{onDownload && <Button
 								variant="outline"
 								className="rounded-lg font-normal shadow-none text-base text-[#475467]"
 								onClick={onDownload}
 							>
 								<Download className="w-4 h-4" /> Download PDF
-							</Button>
+							</Button>}	
+						
 						</div>
 					)}
 				</div>

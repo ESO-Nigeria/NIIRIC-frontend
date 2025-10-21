@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   FileText,
   Share2,
@@ -32,10 +32,11 @@ import PublisherProfileCard from "@/components/common/PublishersProfileCard";
 import ResearchInterestsCard from "@/components/common/ResearchInterestCard";
 import SuggestedConnectionsCard from "@/components/common/SuggestionConnectionsCard";
 import { EventAndOpportunityCard } from "@/components/blocks/EventsAndOpportunityCard";
-import { mapTagsToPublicationColors } from "@/helpers/helpers";
+import { forceDownloadPdf, mapTagsToPublicationColors } from "@/helpers/helpers";
 
 import DocPlaceholder from "@/assets/doc_placeholder.png";
 import PageLoader from "@/components/common/PageLoader";
+import PublicationShareModal from "@/components/common/PublicationShareModal";
 
 
 // ---------- SMALL REUSABLE UI COMPONENTS ---------- //
@@ -79,7 +80,7 @@ const InfoBlock = ({ label, value }: { label: string; value: string }) => (
 const ResearchPublicationPage = () => {
   const { id } = useParams();
   const router = useRouter();
-
+  const [showShareModal, setShowShareModal] = useState(false);
   // --- API CALLS ---
   const { data, isLoading } = useGetPublicationByIdQuery(id);
   const { data: interests, isLoading: interestLoading } = useGetUserInterestsQuery({});
@@ -108,6 +109,7 @@ const ResearchPublicationPage = () => {
       </div>
     ));
 
+
   const renderSectors = (sectors?: { name: string }[]) =>
     sectors?.map((s) => s.name).join(", ");
 
@@ -135,6 +137,7 @@ const ResearchPublicationPage = () => {
           abstract={pub.abstract}
           tags={mapTagsToPublicationColors(pub.publication_type ?? []) ?? null}
           onViewPaper={() => router.push(`/dashboard/publications/${pub.id}`)}
+          
           {...pub}
         />
       </Card>
@@ -205,10 +208,10 @@ const ResearchPublicationPage = () => {
 
               {/* Actions */}
               <div className="flex gap-3 mb-4">
-                <Button variant="primary-green" className="px-6 py-2 w-[161px]">
+                <Button onClick={() => forceDownloadPdf (data?.document ?? "", data?.title ? `${data?.title}.pdf` : "publication.pdf")} variant="primary-green" className="px-6 py-2 w-[161px]">
                   <FileText className="w-4 h-4" /> Download PDF
                 </Button>
-                <Button variant="outline" className="px-6 py-2 w-[161px] border-primary-green text-primary-green">
+                <Button onClick={() => setShowShareModal(true)} variant="outline" className="px-6 py-2 w-[161px] border-primary-green text-primary-green">
                   <Share2 className="w-4 h-4" /> Share
                 </Button>
               </div>
@@ -299,6 +302,20 @@ const ResearchPublicationPage = () => {
 
         </div>
       </div>
+      <PublicationShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        publication={{
+          title: data?.title ?? "",
+          abstract: data?.abstract ?? "",
+          tags: data?.publication_type ?? [],
+          thumbnail: data?.thumbnail ?? "",
+          publicationLink: data?.document ?? "",
+          publication_type: data?.publication_type ?? [],
+          id: data?.id ?? "",
+        }}
+       
+      />
     </PublicationsLayout>
   );
 };

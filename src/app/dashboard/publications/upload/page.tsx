@@ -229,7 +229,7 @@ export default function UploadPublication(): JSX.Element {
 		setConfirmOpen(true);
 	};
 
-	async function submitConfirmed() {
+	async function submitConfirmed(status: "published" | "draft" = "published") {
 		if (!pendingData) {
 			setConfirmOpen(false);
 			return;
@@ -254,7 +254,7 @@ export default function UploadPublication(): JSX.Element {
 				: ["research"],
 			keywords: pendingData.keywords ? pendingData.keywords : [],
 			document: pendingData.file ?? null, // file is renamed 'document' for backend
-			status: "published",
+			status: status,
 		};
 		const formData = objectToFormData(payload);
 		try {
@@ -290,6 +290,12 @@ export default function UploadPublication(): JSX.Element {
 			setFilteredProfiles([]);
 		}
 	}, [publishers]);
+
+	const onSubmitDraft: SubmitHandler<FormValues> = (data) => {
+		setPendingData(data);
+		// directly submit as draft
+		submitConfirmed("draft");
+	};
 
 	console.log("publishers", publishers, filtererdProfiles, sectors);
 
@@ -624,7 +630,7 @@ export default function UploadPublication(): JSX.Element {
 
 							{/* actions */}
 							<div className="mt-6 flex gap-4 justify-end">
-								<Button type="button" variant="ghost" className="px-4 h-10">
+								<Button onClick={handleSubmit(onSubmitDraft)}  type="button" variant="ghost" className="px-4 h-10">
 									Save as draft
 								</Button>
 								<Button type="button" variant="outline" className="px-4 h-10">
@@ -654,6 +660,8 @@ export default function UploadPublication(): JSX.Element {
 								tags: publicationData.publication_types || [],
 								thumbnail: publicationData.thumbnail || "",
 								publicationLink: publicationData.document || "",
+								publication_type: publicationData.publication_type || [],
+								id: publicationData.id || "",
 							}
 						: {
 								title: "",
@@ -661,8 +669,20 @@ export default function UploadPublication(): JSX.Element {
 								tags: [],
 								thumbnail: "",
 								publicationLink: "",
+								publication_type: [],
+								id: "",
 							}
 				}
+				successTitle="Publication uploaded successfully!"
+				successMessage="Your publication has been successfully uploaded."
+				primaryAction={{
+					label: "View Publication",
+					onClick: () => router.push(`/dashboard/publications/${publicationData?.id}` || "/"),
+				}}
+				secondaryAction={{
+					label: "Close",
+					onClick: () => setShowModal(false),
+				}}
 				onViewPaper={() =>
 					router.push(`/dashboard/publications/${publicationData?.id}` || "/")
 				}

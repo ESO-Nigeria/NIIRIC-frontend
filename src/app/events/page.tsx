@@ -46,9 +46,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
 
   // Filter Logic
   const filteredAndSortedEvents = useMemo(() => {
-    const now = new Date();
-
-    let filtered = events.filter((event) => {
+    const filtered = events.filter((event) => {
       const matchesSearch =
         event.title.toLowerCase().includes(searchValue.toLowerCase()) ||
         event.description.toLowerCase().includes(searchValue.toLowerCase());
