@@ -199,7 +199,7 @@ export default function Home() {
 					image={Image3}
 					imagePosition="right" // or "left"
 					primaryButtonText="Become a member"
-					onPrimaryClick={() => router.push("/auth/register")}
+					onPrimaryClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
 					onSecondaryClick={() => router.push("/about")}
 				/>
 				<DecorativeCurve

@@ -45,7 +45,7 @@ const TopMenu = [
 		name: "Resources",
 		Dropdown: [
 			{
-				title: "Resources",
+				title: "Reports",
 				description:
 					"The latest research papers, case studies, and industry insights",
 				icon: (
