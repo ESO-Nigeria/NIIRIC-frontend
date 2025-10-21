@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 
@@ -140,13 +141,14 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
             </div>
 
             <div className="flex justify-between items-center mt-8">
-            <Link
-              href={`/events/${selectedItem.title.toLowerCase().replace(/\s+/g, "-")}`}
-              className="px-4 py-2 bg-primary-green text-primary-foreground rounded-lg shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
-            >
-              View Details
-            </Link>
-
+              <Link
+                href={`/events/${selectedItem.title
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+                className="px-4 py-2 bg-primary-green text-primary-foreground rounded-lg shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              >
+                View Details
+              </Link>
             </div>
           </div>
         </div>
