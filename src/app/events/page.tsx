@@ -86,7 +86,7 @@ export default function Events() {
 
   // Filter + sort logic
   const filteredAndSortedEvents = useMemo(() => {
-    let filtered = events.filter((event) => {
+    const filtered = events.filter((event) => {
       const matchesSearch =
         event.title.toLowerCase().includes(searchValue.toLowerCase()) ||
         event.description.toLowerCase().includes(searchValue.toLowerCase());
