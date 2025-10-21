@@ -98,14 +98,14 @@ export default function ChatWindow({
 
                     {/* Message Bubble */}
                     <div
+                      dangerouslySetInnerHTML={{ __html: msg.text ?? "" }}
                       className={`px-4 py-2 rounded-[10px] text-sm break-words max-w-[70%] ${
                         isSelf
                           ? "bg-gray-100 text-base-800 rounded-tr-none"
                           : "bg-gray-50  rounded-tl-none"
                       }`}
-                    >
-                      {msg.text}
-                    </div>
+                    />
+                    
 
                     {/* Timestamp */}
                     <span
