@@ -297,17 +297,17 @@ export default function Carousel() {
 			<div className=" flex justify-between items-end  ml-0 text-start pl-2">
 				<div className="space-y-4">
 					<Badge variant="primary-brown-25" className="uppercase rounded-8 ">
-						EXPLORE HIGHLIGHTS
+						EXPLORE EVENTS
 					</Badge>
 					<h2 className="text-3xl font-bold text-primary-green leading-12 sm:text-4xl">
 						<span className="block">
-							Insights & Events from the NIIRIC Community
+							Events from the NIIRIC Community
 						</span>
 					</h2>
 				</div>
 				{/* <Badge variant="primary-brown-25" className="uppercase rounded-8 ">EXPLORE HIGHLIGHTS</Badge>
             <h2 className="text-3xl font-bold text-primary-green leading-12 sm:text-4xl">
-              <span className="block">Insights & Events from the NIIRIC Community</span>
+              <span className="block">Events from the NIIRIC Community</span>
             </h2> */}
 				<div>
 					<NavigationButtons
