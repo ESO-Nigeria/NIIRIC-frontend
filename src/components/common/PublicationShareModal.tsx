@@ -18,14 +18,14 @@ import { mapTagsToPublicationColors } from "@/helpers/helpers";
 interface PublicationUploadModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	publication: {
-		title: string;
-		abstract: string;
-		tags: string[];
+	publication?: {
+		title?: string;
+		abstract?: string;
+		tags?: string[];
 		thumbnail?: string;
-		publicationLink: string;
-		publication_type: string[];
-		id: string;
+		publicationLink?: string;
+		publication_type?: string[];
+		id?: string;
 	};
 	successTitle?: string;
 		successMessage?: string;
@@ -56,7 +56,7 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 
 	const shareUrl =
 	typeof window !== "undefined"
-		? `${window.origin}/dashboard/publications/${publication.id}`
+		? `${window.origin}/dashboard/publications/${publication?.id || ''}`
 		: "";
 
 	const handleCopyLink = () => {
@@ -67,7 +67,7 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 
 	const handleShare = (platform: string) => {
 		const url = shareUrl;
-		const text = publication.title;
+		const text = publication?.title || "";
 
 		switch (platform) {
 			case "linkedin":
@@ -130,10 +130,10 @@ const PublicationUploadModal: React.FC<PublicationUploadModalProps> = ({
 					<div className="w-full mb-6">
 						<PublicationCard
 							id={publication?.id ?? ""}
-							title={publication.title}
-							abstract={publication.abstract}
+							title={publication?.title ?? ""}
+							abstract={publication?.abstract ?? ""}
 							tags={mapTagsToPublicationColors(publication?.publication_type ?? []) ?? null}
-							thumbnail={publication.thumbnail}
+							thumbnail={publication?.thumbnail ?? ""}
 							publicationLink={shareUrl}
 							showActionButtons={false}
 							showLikeShareButtons={false}

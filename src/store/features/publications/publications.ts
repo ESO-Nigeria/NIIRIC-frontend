@@ -24,8 +24,40 @@ export const publicationApi = nirricApi.injectEndpoints({
 
 		getSectors: builder.query({
 			query: () => "/api/sectors/"
-		})
-	}),
+		}),
 
+		likeOrUnlikePublication: builder.mutation({
+			query: ({ id, action }: { id: string; action: "like" | "unlike" }) => ({
+				url: `/api/publications/${id}/${action}/`,
+				method: "POST",
+			}),
+		}),
+
+		// getComments: builder.query({
+		// 	query: () => `/api/comments/`,
+		// }),
+		getComments: builder.query({
+			query: (params = {}) => ({
+				url: '/api/comments/',
+				params, // <-- RTK Query + fetchBaseQuery will convert this to ?key=value
+			}),
+		}),
+		commentOnPublication: builder.mutation({
+			query: (body) => ({
+				url: `/api/comments/`,
+				method: "POST",
+				body,
+			}),
+		}),
+
+		
+		
+		deleteComment: builder.mutation({
+			query: (id: string) => ({
+				url: `/api/comments/${id}/`,
+				method: "DELETE",
+			}),
+		}),
+	}),
 	overrideExisting: false,
 });
