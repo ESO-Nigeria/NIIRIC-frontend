@@ -55,8 +55,8 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
         : true;
 
       const eventDate = new Date(event.date || "");
-      const isUpcoming = eventDate >= now;
-      const isPast = eventDate < now;
+      const isUpcoming = eventDate >= new Date();
+      const isPast = eventDate < new Date();
 
       const matchesFilter =
         defaultFilter === "upcoming"
