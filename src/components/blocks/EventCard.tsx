@@ -8,9 +8,9 @@ interface EventItemType {
   category: string;
   title: string;
   description: string;
-  event_image: string;
+  imageSrc?: string;
   date?: string;
-}
+}imageSrc?: string
 
 interface EventCardProps {
   item: EventItemType;
@@ -29,7 +29,7 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
           height="600"
           decoding="async"
           className="h-full bg-amber-300 max-h-[337px] w-full origin-center object-cover transition-all duration-700 ease-out scale-105 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"
-          src={item.event_image}
+          src={item.imageSrc?}
         />
 
         {/* Overlay card content */}
@@ -116,7 +116,7 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
           {/* Left Side Image */}
           <div className="relative w-full md:w-1/2 h-80 md:h-auto overflow-hidden">
             <img
-              src={selectedItem.event_image}
+              src={selectedItem.imageSrc?}
               alt={selectedItem.title}
               className="w-full h-full object-cover"
             />
