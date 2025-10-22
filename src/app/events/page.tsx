@@ -39,12 +39,12 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
     else if (data) console.log("Events fetched successfully:", data);
   }, [data, isLoading, error]);
 
-  // Normalize API data
+  // Normalize API data ....
   const events: EventItemType[] = Array.isArray(data)
     ? data
     : data?.results || [];
 
-  // Filter + Sort logic
+  // Filter + Sort logic ....
   const filteredAndSortedEvents = useMemo(() => {
     const now = new Date();
 
