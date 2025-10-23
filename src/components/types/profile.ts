@@ -18,6 +18,7 @@ export interface User {
 	user_last_name?: string;
 	publication_count?: string;
 	follower_count?: string;
+	profile_pic?: string
 }
 
 export interface Qualification {

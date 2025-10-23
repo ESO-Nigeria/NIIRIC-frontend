@@ -136,8 +136,8 @@ export default function DashboardPage(): JSX.Element {
         </div>
       ) : (
         /* When not loading, show either the full dashboard or the profile journey flow */
-        (userQualifications?.results &&
-        userInterests?.results &&
+        (userQualifications?.results?.length > 0 &&
+        userInterests?.results?.length > 0 &&
         userProfile?.[0]) ? (
           <div>
             <div className="flex items-center justify-end mb-4">

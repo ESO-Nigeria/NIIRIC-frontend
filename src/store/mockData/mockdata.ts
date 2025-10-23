@@ -47,30 +47,40 @@ export const NIGERIA_STATES = [
 	{ label: "Zamfara", value: "zamfara" },
 ];
 
+// faculty_member - Faculty Member
+// post_doctorate - Post Doctorate
+// graduate_student - Graduate Student
+// adjunct - Adjunct
+// emeritus_emerita - Emeritus/Emerita
+// alumnus_alumna - Alumnus/Alumna
+// other - Other
 export const roles = [
-	{ value: "student", label: "Student" },
-	{ value: "research_assistant", label: "Research Assistant" },
+	{ value: "faculty_member", label: "Faculty Member" },
+	{ value: "post_doctorate", label: "Post Doctorate" },
 	{ value: "graduate_student", label: "Graduate Student" },
-	{ value: "phd_student", label: "PhD Student" },
-	{ value: "postdoc", label: "Postdoctoral Researcher" },
-	{ value: "assistant_professor", label: "Assistant Professor" },
-	{ value: "associate_professor", label: "Associate Professor" },
-	{ value: "professor", label: "Professor" },
-	{ value: "research_scientist", label: "Research Scientist" },
-	{ value: "senior_research_scientist", label: "Senior Research Scientist" },
-	{ value: "principal_scientist", label: "Principal Scientist" },
-	{ value: "lecturer", label: "Lecturer" },
-	{ value: "senior_lecturer", label: "Senior Lecturer" },
-	{ value: "reader", label: "Reader" },
-	{ value: "visiting_professor", label: "Visiting Professor" },
-	{ value: "adjunct_professor", label: "Adjunct Professor" },
-	{ value: "emeritus_professor", label: "Emeritus Professor" },
-	{ value: "department_head", label: "Department Head" },
-	{ value: "dean", label: "Dean" },
-	{ value: "director", label: "Director" },
-	{ value: "manager", label: "Manager" },
-	{ value: "consultant", label: "Consultant" },
+	{ value: "adjunct", label: "Adjunct" },
+	{ value: "emeritus_emerita", label: "Emeritus/Emerita" },
+	{ value: "alumnus_alumna", label: "Alumnus/Alumna" },
 	{ value: "other", label: "Other" },
+
+
+
+	// { value: "professor", label: "Professor" },
+	// { value: "research_scientist", label: "Research Scientist" },
+	// { value: "senior_research_scientist", label: "Senior Research Scientist" },
+	// { value: "principal_scientist", label: "Principal Scientist" },
+	// { value: "lecturer", label: "Lecturer" },
+	// { value: "senior_lecturer", label: "Senior Lecturer" },
+	// { value: "reader", label: "Reader" },
+	// { value: "visiting_professor", label: "Visiting Professor" },
+	// { value: "adjunct_professor", label: "Adjunct Professor" },
+	// { value: "emeritus_professor", label: "Emeritus Professor" },
+	// { value: "department_head", label: "Department Head" },
+	// { value: "dean", label: "Dean" },
+	// { value: "director", label: "Director" },
+	// { value: "manager", label: "Manager" },
+	// { value: "consultant", label: "Consultant" },
+	// { value: "other", label: "Other" },
 ];
 
 export const interestTopics = [
