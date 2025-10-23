@@ -20,7 +20,7 @@ interface EventItemType {
 
 export default function EventDetailPage() {
   const { id } = useParams();
-  const { data, isLoading, error } = useGetEventsQuery();
+  const { data, isLoading, error } = useGetEventsQuery(undefined);
 
   // Normalize the structure of the API response
   const events = Array.isArray(data)
