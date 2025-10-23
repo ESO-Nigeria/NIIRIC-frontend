@@ -15,7 +15,7 @@ export default function EmailVerified() {
 	const router = useRouter();
 
 	const email = searchParams.get("email");
-	const uid = searchParams.get("uid");
+	const uid = searchParams.get("key");
 	// const token = searchParams.get("token");
 
 	const [verifyEmail, { isLoading, isSuccess, isError }] =

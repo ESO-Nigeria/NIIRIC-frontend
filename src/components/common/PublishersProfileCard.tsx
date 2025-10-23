@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Profile, User } from "../types/profile";
+import { getInitials } from "@/helpers/helpers";
 
 interface PublisherProfileCardProps {
   publisher?: Profile | null;
@@ -44,14 +45,16 @@ export default function PublisherProfileCard({
         <Avatar className="w-26 h-26">
           <AvatarImage src={publisher?.image_url} alt="Profile" />
           <AvatarFallback>
-            {publisher?.first_name?.[0]}
+            {/* {publisher?.first_name?.[0]}
             {publisher?.last_name?.[0]}
+            {publisher?.full_name} */}
+            {getInitials(publisher?.full_name)}
           </AvatarFallback>
         </Avatar>
 
         {/* Name */}
         <h2 className="mt-4 capitalize font-medium text-base text-[#3F434A] text-center">
-          {publisher?.title} {publisher?.first_name} {publisher?.last_name}
+          {publisher?.title} {publisher?.full_name}
         </h2>
 
            <div className="flex gap-8 my-4">

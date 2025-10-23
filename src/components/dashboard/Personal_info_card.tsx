@@ -58,6 +58,7 @@ export function PersonalInfoCard({
 		orcid,
 		state,
 		bio,
+		profile_pic
 	} = data;
 
 	return (
@@ -78,7 +79,7 @@ export function PersonalInfoCard({
             {first_name?.[0]}
           </div> */}
 						<Avatar className="size-[102px]">
-							<AvatarImage src="" alt={first_name} />
+							<AvatarImage src={profile_pic} alt={first_name} />
 							<AvatarFallback className="text-2xl">
 								{first_name?.[0]}
 							</AvatarFallback>

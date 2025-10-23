@@ -6,10 +6,10 @@ import {
 	LogOut,
 	Rocket,
 	Settings2,
-	User,
+	User as UserIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -22,6 +22,7 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { User } from "@/components/types/profile";
 
 interface UserProps {
 	first_name: string;
@@ -32,21 +33,23 @@ interface UserProps {
 interface Props {
 	user: UserProps;
 	handleLogout: () => void;
+  profile?: User
 }
 
-export default function UserAvatarMenu({ user, handleLogout }: Props) {
+export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-3">
 				<Avatar>
-					<AvatarFallback className="bg-primary text-primary-foreground">
+          <AvatarImage src={profile?.profile_pic} alt={profile?.first_name} />
+					<AvatarFallback className="bg-primary  text-primary-foreground">
 						{user?.first_name?.[0]}
 						{user?.last_name?.[0]}
 					</AvatarFallback>
 				</Avatar>
 				<div className="text-start flex flex-col">
 					{/* <p className="text-sm font-medium">My Workspace</p> */}
-					<p className="text-sm font-medium">{user?.email}</p>
+					<p className="text-sm font-medium capitalize">{user?.first_name} {user?.last_name}</p>
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="mt-2 w-72">
@@ -62,7 +65,7 @@ export default function UserAvatarMenu({ user, handleLogout }: Props) {
 				{/* <DropdownMenuSeparator /> */}
 				<DropdownMenuItem asChild>
 					<Link href="/dashboard">
-						<User className="mr-1" /> Dashboard
+						<UserIcon className="mr-1" /> Dashboard
 					</Link>
 				</DropdownMenuItem>
 				{/* <DropdownMenuSeparator />
