@@ -1,18 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import InfoHero from "@/components/blocks/infoHero";
 import GeneralLayout from "@/layouts/General";
 import EventCard, { EventDetailDialog } from "@/components/blocks/EventCard";
 import Pagination from "@/components/blocks/Pagination";
+import { useGetEventsQuery } from "@/store/features/general/actions";
 
 interface EventItemType {
-  id: number;
-  category: string;
+  id: string;
   title: string;
   description: string;
-  imageSrc: string;
-  date?: string;
+  category?: string;
+  event_image?: string;
+  start_date?: string;
 }
 
 interface EventsProps {
@@ -28,54 +29,56 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16;
 
-  const events: EventItemType[] = [
-    { id: 1, category: "Technology", title: "AI in Education Summit", description: "Join innovators redefining the future of learning with AI-driven tools.", imageSrc: "/assets/images/DSC_9158.png", date: "2024-11-10" },
-    { id: 2, category: "Climate", title: "Climate Innovation Forum", description: "Collaborate with experts on sustainable energy and green technology.", imageSrc: "/assets/images/DSC_9158-1.png", date: "2025-12-02" },
-    { id: 3, category: "Engineering", title: "Robotics Hackathon", description: "Compete with teams across Nigeria to build the smartest robot.", imageSrc: "/assets/images/DSC_9158-2.png", date: "2026-01-15" },
-    { id: 4, category: "Startup", title: "Startup Founders Meetup", description: "Connect with mentors and investors from across Africa’s startup ecosystem.", imageSrc: "/assets/images/DSC_9158-3.png", date: "2026-02-20" },
-    { id: 5, category: "Science", title: "Research & Innovation Expo", description: "Showcase your research and network with global scientists and entrepreneurs.", imageSrc: "/assets/images/DSC_9158.png", date: "2026-03-10" },
-    ...Array.from({ length: 25 }, (_, i) => ({
-      id: i + 6,
-      category: "Tech",
-      title: `Event ${i + 6}`,
-      description: `Demo description for event ${i + 6}`,
-      imageSrc: "/assets/images/DSC_9158.png",
-      date: `2026-04-${(i + 1).toString().padStart(2, "0")}`,
-    })),
-  ];
+  // Fetch events
+  const { data, isLoading, error } = useGetEventsQuery(undefined);
 
-  // Filter Logic
+  // Debug logging
+  useEffect(() => {
+    if (isLoading) console.log("Loading events...");
+    else if (error) console.error("Error fetching events:", error);
+    else if (data) console.log("Events fetched successfully:", data);
+  }, [data, isLoading, error]);
+
+  // Normalize API data
+  const events: EventItemType[] = Array.isArray(data)
+    ? data
+    : data?.results || [];
+
+  // Filter + Sort logic
   const filteredAndSortedEvents = useMemo(() => {
-    const filtered = events.filter((event) => {
-      const matchesSearch =
-        event.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-        event.description.toLowerCase().includes(searchValue.toLowerCase());
-      const matchesCategory = categoryValue
-        ? event.category.toLowerCase() === categoryValue.toLowerCase()
-        : true;
+    const now = new Date();
 
-      const eventDate = new Date(event.date || "");
-      const isUpcoming = eventDate >= new Date();
-      const isPast = eventDate < new Date();
+    return events
+      .filter((event) => {
+        const matchesSearch =
+          event.title?.toLowerCase().includes(searchValue.toLowerCase()) ||
+          event.description?.toLowerCase().includes(searchValue.toLowerCase());
 
-      const matchesFilter =
-        defaultFilter === "upcoming"
-          ? isUpcoming
-          : defaultFilter === "past"
-          ? isPast
+        const matchesCategory = categoryValue
+          ? event.category?.toLowerCase() === categoryValue.toLowerCase()
           : true;
 
-      return matchesSearch && matchesCategory && matchesFilter;
-    });
+        const eventDate = event.start_date ? new Date(event.start_date) : null;
+        const isUpcoming = eventDate ? eventDate >= now : false;
+        const isPast = eventDate ? eventDate < now : false;
 
-    return filtered.sort((a, b) => {
-      const dateA = new Date(a.date || "").getTime();
-      const dateB = new Date(b.date || "").getTime();
-      return sortOrder === "newer" ? dateB - dateA : dateA - dateB;
-    });
+        const matchesFilter =
+          defaultFilter === "upcoming"
+            ? isUpcoming
+            : defaultFilter === "past"
+            ? isPast
+            : true;
+
+        return matchesSearch && matchesCategory && matchesFilter;
+      })
+      .sort((a, b) => {
+        const dateA = a.start_date ? new Date(a.start_date).getTime() : 0;
+        const dateB = b.start_date ? new Date(b.start_date).getTime() : 0;
+        return sortOrder === "newer" ? dateB - dateA : dateA - dateB;
+      });
   }, [events, searchValue, categoryValue, sortOrder, defaultFilter]);
 
-  // Pagination
+  // Pagination logic
   const totalPages = Math.ceil(filteredAndSortedEvents.length / itemsPerPage);
   const currentEvents = filteredAndSortedEvents.slice(
     (currentPage - 1) * itemsPerPage,
@@ -96,6 +99,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
     setIsDialogOpen(true);
   };
 
+  // UI
   return (
     <GeneralLayout>
       <InfoHero
@@ -136,9 +140,15 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Events Grid */}
       <section className="mx-auto px-4 py-10">
-        {currentEvents.length > 0 ? (
+        {isLoading ? (
+          <p className="text-center text-gray-500 py-10">Loading events...</p>
+        ) : error ? (
+          <p className="text-center text-red-500 py-10">
+            Failed to load events.
+          </p>
+        ) : currentEvents.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {currentEvents.map((item) => (
               <EventCard
@@ -149,9 +159,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 py-10">
-            No events found.
-          </p>
+          <p className="text-center text-gray-500 py-10">No events found.</p>
         )}
 
         {totalPages > 1 && (
@@ -165,6 +173,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
         )}
       </section>
 
+      {/* Event Detail Dialog */}
       <EventDetailDialog
         isOpen={isDialogOpen}
         onOpenChange={(open) => {

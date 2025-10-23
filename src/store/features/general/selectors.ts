@@ -1,3 +1,2 @@
-// export const getAllEvents = (state: {
-// 	opportunities: { allOpportunities: [] };
-// }) => state.opportunities.allOpportunities;
+export const getAllEvents = (state: { general: { allEvents: [] } }) =>
+  state.general.allEvents;

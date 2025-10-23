@@ -1,21 +1,30 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
+// Define the event item type
 interface EventItemType {
-  id: number;
-  category: string;
+  id: string;
   title: string;
   description: string;
-  imageSrc: string;
-  date?: string;
+  category?: string;
+  event_image?: string;
+  start_date?: string;
 }
 
+
+// Define props for the EventCard component
 interface EventCardProps {
   item: EventItemType;
-  onPlusClick: (e: React.MouseEvent<HTMLButtonElement>, item: EventItemType) => void;
+  onPlusClick: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    item: EventItemType
+  ) => void;
 }
 
+// EventCard component
 const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl text-card-foreground transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 bg-card border border-border h-full">
@@ -28,14 +37,14 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
           height="600"
           decoding="async"
           className="h-full bg-amber-300 max-h-[337px] w-full origin-center object-cover transition-all duration-700 ease-out scale-105 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"
-          src={item.imageSrc}
+          src={item.event_image}
         />
 
         {/* Overlay card content */}
         <div className="absolute inset-x-0 z-30 bottom-3 w-10/12 mx-auto rounded-lg bg-white bg-gradient-to-t from-primary/20 to-transparent pointer-events-none">
           <div className="flex flex-col gap-2 p-6 relative">
             {/* Date */}
-            {item.date && (
+            {item.start_date && (
               <div className="flex items-center text-gray-600 text-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +60,7 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                {item.date}
+                {item.start_date}
               </div>
             )}
 
@@ -92,10 +101,10 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
   );
 };
 
+// Export default EventCard
 export default EventCard;
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-
+// EventDetailDialog component
 interface EventDetailDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -115,7 +124,7 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
           {/* Left Side Image */}
           <div className="relative w-full md:w-1/2 h-80 md:h-auto overflow-hidden">
             <img
-              src={selectedItem.imageSrc}
+              src={selectedItem.event_image}
               alt={selectedItem.title}
               className="w-full h-full object-cover"
             />
@@ -132,21 +141,22 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
               <p className="text-muted-foreground leading-relaxed">
                 {selectedItem.description}
               </p>
-              {selectedItem.date && (
+              {selectedItem.start_date && (
                 <p className="mt-4 text-sm text-gray-600">
-                  <span className="font-semibold">Date:</span> {selectedItem.date}
+                  <span className="font-semibold">Date:</span> {selectedItem.start_date}
                 </p>
               )}
             </div>
 
             <div className="flex justify-between items-center mt-8">
-            <Link
-              href={`/events/${selectedItem.title.toLowerCase().replace(/\s+/g, "-")}`}
-              className="px-4 py-2 bg-primary-green text-primary-foreground rounded-lg shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
-            >
-              View Details
-            </Link>
-
+              <Link
+                href={`/events/${selectedItem.title
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+                className="px-4 py-2 bg-primary-green text-primary-foreground rounded-lg shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              >
+                View Details
+              </Link>
             </div>
           </div>
         </div>

@@ -1,93 +1,77 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
 import Breadcrumbs from "@/components/common/Breadcrumb";
 import EventCard, { EventDetailDialog } from "@/components/blocks/EventCard";
+import { useGetEventsQuery } from "@/store/features/general/actions";
 
 interface EventItemType {
-  id: number;
-  category: string;
+  id: string;
   title: string;
   description: string;
-  imageSrc: string;
-  date?: string;
+  event_image?: string;
+  start_date?: string;
+  category?: string;
+  registration_link?: string;
 }
-
-const events: EventItemType[] = [
-  {
-    id: 1,
-    category: "Technology",
-    title: "AI in Education Summit",
-    description:
-      "Join innovators redefining the future of learning with AI-driven tools.",
-    imageSrc: "/assets/images/DSC_9158.png",
-    date: "Nov 10, 2025",
-  },
-  {
-    id: 2,
-    category: "Climate",
-    title: "Climate Innovation Forum",
-    description:
-      "Collaborate with experts on sustainable energy and green technology.",
-    imageSrc: "/assets/images/DSC_9158-1.png",
-    date: "Dec 2, 2025",
-  },
-  {
-    id: 3,
-    category: "Engineering",
-    title: "Robotics Hackathon",
-    description: "Compete with teams across Nigeria to build the smartest robot.",
-    imageSrc: "/assets/images/DSC_9158-2.png",
-    date: "Jan 15, 2026",
-  },
-  {
-    id: 4,
-    category: "Startup",
-    title: "Startup Founders Meetup",
-    description:
-      "Connect with mentors and investors from across Africa’s startup ecosystem.",
-    imageSrc: "/assets/images/DSC_9158-3.png",
-    date: "Feb 20, 2026",
-  },
-  {
-    id: 5,
-    category: "Science",
-    title: "Research & Innovation Expo",
-    description:
-      "Showcase your research and network with global scientists and entrepreneurs.",
-    imageSrc: "/assets/images/DSC_9158.png",
-    date: "Mar 10, 2026",
-  },
-  ...Array.from({ length: 25 }, (_, i) => ({
-    id: i + 6,
-    category: "Tech",
-    title: `Event ${i + 6}`,
-    description: `Demo description for event ${i + 6}`,
-    imageSrc: "/assets/images/DSC_9158.png",
-    date: `2026-04-${(i + 1).toString().padStart(2, "0")}`,
-  })),
-];
 
 export default function EventDetailPage() {
   const { id } = useParams();
+  const { data, isLoading, error } = useGetEventsQuery(undefined);
+
+  // Normalize the structure of the API response
+  const events = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.results)
+    ? data.results
+    : Array.isArray(data?.data)
+    ? data.data
+    : [];
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<EventItemType | null>(null);
 
-  const event = events.find(
-    (ev) => ev.title.toLowerCase().replace(/\s+/g, "-") === id
+  if (isLoading) {
+    return (
+      <div className="p-10 text-center text-gray-500 text-xl font-semibold">
+        Loading event details...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-10 text-center text-red-500 text-xl font-semibold">
+        Failed to load events.
+      </div>
+    );
+  }
+
+  //  UseMemo to find the event based on the slug in the URL
+  const event = useMemo(
+    () =>
+      events.find(
+        (ev: EventItemType) =>
+          ev.title?.toLowerCase().replace(/\s+/g, "-") === id
+      ),
+    [events, id]
   );
 
-  if (!event)
+  if (!event) {
     return (
       <div className="p-10 text-center text-gray-500 text-xl font-semibold">
         Event not found.
       </div>
     );
+  }
 
-  const related = events.filter((ev) => ev.title !== event.title).slice(0, 3);
+  // Filter out the current event to show related ones
+  const related = events
+    .filter((ev: EventItemType) => ev.id !== event.id)
+    .slice(0, 3);
 
   const handlePlusClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -106,13 +90,13 @@ export default function EventDetailPage() {
 
       <div className="p-8 lg:p-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* LEFT SIDE — Event Detail */}
+          {/* LEFT SIDE — Event Details */}
           <main className="lg:col-span-2 space-y-6">
             <h1 className="text-3xl font-bold w-full lg:w-1/2 leading-12 sm:text-4xl text-primary-green leading-tight">
               {event.title}
             </h1>
 
-            {event.date && (
+            {event.start_date && (
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -129,34 +113,26 @@ export default function EventDetailPage() {
                   />
                 </svg>
                 <p className="text-gray-600 text-lg font-medium ml-1">
-                  {event.date}
+                  {new Date(event.start_date).toDateString()}
                 </p>
               </div>
             )}
 
-            <img
-              src={event.imageSrc}
-              alt={event.title}
-              className="rounded-xl w-full max-h-[500px] object-cover shadow-lg"
-            />
-
-            <p className="text-gray-700 text-lg leading-relaxed">
-              {event.title}
-            </p>
-
-            <p className="text-gray-700 text-lg leading-relaxed">{event.date}</p>
-
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Theme: {event.title}
-            </p>
+            {event.event_image && (
+              <img
+                src={event.event_image}
+                alt={event.title}
+                className="rounded-xl w-full max-h-[500px] object-cover shadow-lg"
+              />
+            )}
 
             <p className="text-gray-700 text-lg leading-relaxed">
               {event.description}
             </p>
 
             <Link
-              href={""}
-              className="px-4 py-2 bg-primary-green text-white rounded-md shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+              href={event.registration_link || "#"}
+              className="inline-block px-4 py-2 bg-primary-green text-white rounded-md shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
             >
               Register
             </Link>
@@ -166,19 +142,22 @@ export default function EventDetailPage() {
           <aside className="lg:col-span-1 space-y-4">
             <h3 className="text-xl font-normal font-poppins">Related Events</h3>
             <div className="flex flex-col gap-4">
-              {related.map((item) => (
-                <EventCard
-                  key={item.id}
-                  item={item}
-                  onPlusClick={handlePlusClick}
-                />
-              ))}
+              {related.length > 0 ? (
+                related.map((item: EventItemType) => (
+                  <EventCard
+                    key={item.id}
+                    item={item}
+                    onPlusClick={handlePlusClick}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500">No related events found.</p>
+              )}
             </div>
           </aside>
         </div>
       </div>
 
-      {/* Event Detail Dialog */}
       <EventDetailDialog
         isOpen={dialogOpen}
         onOpenChange={setDialogOpen}
