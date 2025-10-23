@@ -154,9 +154,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
               <EventCard
                 key={item.id}
                 item={{
-                  ...item,
-                  imageSrc: item.event_image, // map API field to component prop
-                }}
+                  ...item}
                 onPlusClick={handlePlusClick}
               />
             ))}
