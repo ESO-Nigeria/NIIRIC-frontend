@@ -46,16 +46,23 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
 
   // Filter + Sort logic
   const filteredAndSortedEvents = useMemo(() => {
-    const now = new Date();
+    const filtered = events.filter((event) => {
+      const matchesSearch =
+        event.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        event.description.toLowerCase().includes(searchValue.toLowerCase());
+      const matchesCategory = categoryValue
+        ? event.category.toLowerCase() === categoryValue.toLowerCase()
+        : true;
 
-    return events
-      .filter((event) => {
-        const matchesSearch =
-          event.title?.toLowerCase().includes(searchValue.toLowerCase()) ||
-          event.description?.toLowerCase().includes(searchValue.toLowerCase());
+      const eventDate = new Date(event.date || "");
+      const isUpcoming = eventDate >= new Date();
+      const isPast = eventDate < new Date();
 
-        const matchesCategory = categoryValue
-          ? event.category?.toLowerCase() === categoryValue.toLowerCase()
+      const matchesFilter =
+        defaultFilter === "upcoming"
+          ? isUpcoming
+          : defaultFilter === "past"
+          ? isPast
           : true;
 
         const eventDate = event.start_date ? new Date(event.start_date) : null;

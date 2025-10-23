@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Publication } from "../types/profile";
 import { PDFfile } from "@/app/assets/icons/icons";
+import { LikeButton } from "../common/LikeButton";
 
 interface PublicationCardProps extends Publication {
 	id: string;
@@ -25,6 +26,8 @@ interface PublicationCardProps extends Publication {
 	showLikeShareButtons?: boolean;
 	thumbnail?: string;
 	publicationLink?: string;
+	is_liked?: string;
+	like_count?: string
 	
 }
 
@@ -44,7 +47,9 @@ export function PublicationCard({
 	publicationLink,
 	thumbnail,
 	containerClass,
+	...pub
 }: PublicationCardProps) {
+	console.log('pub', pub)
 	return (
 		<div className={containerClass}>
 			<div className="flex gap-4">
@@ -91,6 +96,7 @@ export function PublicationCard({
 					{/* Action buttons */}
 					{showActionButtons && (
 						<div className="flex gap-3 mt-2.5">
+							
 							<Button
 								variant="outline"
 								className="rounded-lg font-normal shadow-none text-base text-[#475467]"
@@ -118,13 +124,16 @@ export function PublicationCard({
 			{/* Bottom actions */}
 			{showLikeShareButtons && (
 				<div className="flex items-center gap-6 mt-4 text-gray-500 text-sm">
-				{onLike &&	<Button
-						variant={"ghost"}
-						className="flex items-center gap-1 cursor-pointer"
-						onClick={onLike}
-					>
-						<ThumbsUp className="w-4 h-4" /> Like
-					</Button>}
+				{onLike &&	
+				// <Button
+				// 		variant={"ghost"}
+				// 		className="flex items-center gap-1 cursor-pointer"
+				// 		onClick={onLike}
+				// 	>
+				// 		<ThumbsUp className="w-4 h-4" /> Like
+				// 	</Button>
+				<LikeButton id={id} is_liked={pub?.is_liked} like_count={pub?.like_count} onLike={onLike} />
+					}
 				{onComment &&	<Button
 						variant={"ghost"}
 						className="flex items-center gap-1 cursor-pointer"

@@ -45,6 +45,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetEventsQuery, useGetSuggestedConnectionsQuery } from "@/store/features/general/actions";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
 import { downloadPdfFromUrl, forceDownloadPdf, getInitials, mapTagsToPublicationColors } from "@/helpers/helpers";
+import PublicationShareModal from "@/components/common/PublicationShareModal";
+
+import { useState } from "react";
 
 export const team = [
   {
@@ -61,8 +64,23 @@ export const team = [
   },
 ];
 
+interface ShareDocumentState {
+  open: boolean;
+  data: {
+    title?: string;
+    abstract?: string;
+    tags?: string[];
+		publication_type?: string[];
+    thumbnail?: string;
+    document?: string;
+    id?: string;
+  };
+}
 export default function Publications() {
-  
+  const [shareDocument, setShareDocument] = useState<ShareDocumentState>({
+    open: false,
+    data: {}
+  })
   const {
     data: userInterests,
     isLoading: interest_loading,
@@ -91,6 +109,7 @@ export default function Publications() {
     data: recommendedPublications,
     isLoading: isRecLoading,
     isError: isRecError,
+    refetch: refetchPublication
   } = useGetPublicationsQuery({});
 
   const {
@@ -108,7 +127,6 @@ export default function Publications() {
 
   const user = useSelector((state) => (state as RootState).auth.user as User | null);
   const { data: publishers } = useGetAllPublishersProfileQuery({});
-  // const publisher = profile ? profile[0] : null;
 
   return (
     <PublicationsLayout>
@@ -285,7 +303,7 @@ export default function Publications() {
                   <div className="flex justify-between">
                     <div className="flex gap-3">
                       <Avatar className="size-12">
-                        <AvatarImage src={pub?.profile_pic || undefined} />
+                        <AvatarImage src={pub?.author_profile_pic || undefined} />
                         <AvatarFallback>{getInitials(pub?.author_name)}</AvatarFallback>
                       </Avatar>
                       <div>
@@ -310,9 +328,15 @@ export default function Publications() {
                       router.push(`/dashboard/publications/${pub.id}`)
                     }
                     onDownload={() => forceDownloadPdf(pub.document ?? "", pub?.title)}
-                    // onLike={() => console.log("Liked")}
+                    showLikeShareButtons
+                    onLike={() => refetchPublication()}
                     // onComment={() => console.log("Comment")}
-                    // onShare={() => console.log("Shared")}
+                    onShare={() => {
+                      setShareDocument({
+                        open: true,
+                        data: pub
+                      })
+                    }}
                     {...pub}
                   />
                 </Card>
@@ -375,6 +399,20 @@ export default function Publications() {
           </Card>
         </aside>
       </div>
+      <PublicationShareModal
+        isOpen={shareDocument?.open}
+        onClose={() => setShareDocument({open: false, data: {}})}
+        publication={{
+          title: shareDocument?.data?.title ?? "",
+          abstract: shareDocument?.data?.abstract ?? "",
+          tags: shareDocument?.data?.publication_type ?? [],
+          thumbnail: shareDocument?.data?.thumbnail ?? "",
+          publicationLink: shareDocument?.data?.document ?? "",
+          publication_type: shareDocument?.data?.publication_type ?? [],
+          id: shareDocument?.data?.id ?? "",
+        }}
+       
+      />
     </PublicationsLayout>
   );
 }

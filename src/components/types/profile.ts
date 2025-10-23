@@ -53,27 +53,27 @@ export interface ResearchArea {
 
 export interface Profile {
 	id: string;
-	user: string; // user ID reference
+	user?: string; // user ID reference
 	profile_picture_url?: string; // URL to profile picture
 	profile_pic?: string
 	image_url?: string;
 	title?: string;
 	cv_url?: string; // URL to CV document
-	first_name: string; // first name
-	last_name: string; // last name
-	full_name: string; // full name
-	email: string; // email address
+	first_name?: string; // first name
+	last_name?: string; // last name
+	full_name?: string; // full name
+	email?: string; // email address
 	phone_number?: string; // phone number
 	linkedin_url?: string; // LinkedIn profile URL
 	orcid?: string; // ORCID identifier
 	state?: string; // state or region
-	bio: string; // biography or summary
-	qualifications: Qualification[]; // array of qualifications
-	research_interests: ResearchInterest[]; // array of research interests
-	research_areas: ResearchArea[]; // array of research areas
-	created_at: string; // ISO date string
-	updated_at: string; // ISO date string
-	user_email: string;
+	bio?: string; // biography or summary
+	qualifications?: Qualification[]; // array of qualifications
+	research_interests?: ResearchInterest[]; // array of research interests
+	research_areas?: ResearchArea[]; // array of research areas
+	created_at?: string; // ISO date string
+	updated_at?: string; // ISO date string
+	user_email?: string;
 	publication_count?: string
 }
 
@@ -93,11 +93,13 @@ export interface Publication {
 	document?: string;
 	publication_type?: string[]
 	profile_pic?: string;
+	author_profile_pic?: string;
 	user_first_name?: string
 	user_last_name?: string
 	first_name?: string
 	last_name?: string
 	qualifications?: string[]
+	author?: string
 
 }
 // Example usage:
