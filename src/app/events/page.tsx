@@ -153,8 +153,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
             {currentEvents.map((item) => (
               <EventCard
                 key={item.id}
-                item={{
-                  ...item}
+                item={item}
                 onPlusClick={handlePlusClick}
               />
             ))}
