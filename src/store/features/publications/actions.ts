@@ -5,7 +5,11 @@ export const {
 	useGetUserPublicationsQuery,
 	useUploadPublicationMutation,
 	useGetPublicationByIdQuery,
-	useGetSectorsQuery
+	useGetSectorsQuery,
+	useLikeOrUnlikePublicationMutation,
+	useGetCommentsQuery,
+	useCommentOnPublicationMutation,
+	useDeleteCommentMutation
 	// useLikePublicationMutation,
 	// useCommentOnPublicationMutation,
 	// useSharePublicationMutation,

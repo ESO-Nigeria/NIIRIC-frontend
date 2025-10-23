@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FileText,
   Share2,
@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { useGetPublicationByIdQuery, useGetPublicationsQuery } from "@/store/features/publications/actions";
+import { useGetCommentsQuery, useGetPublicationByIdQuery, useGetPublicationsQuery, useLikeOrUnlikePublicationMutation } from "@/store/features/publications/actions";
 import { useGetUserInterestsQuery } from "@/store/features/auth/actions";
 import { useGetSuggestedConnectionsQuery } from "@/store/features/general/actions";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
@@ -37,6 +37,7 @@ import { forceDownloadPdf, mapTagsToPublicationColors } from "@/helpers/helpers"
 import DocPlaceholder from "@/assets/doc_placeholder.png";
 import PageLoader from "@/components/common/PageLoader";
 import PublicationShareModal from "@/components/common/PublicationShareModal";
+import { CommentsSection } from "@/components/blocks/Comments";
 
 
 // ---------- SMALL REUSABLE UI COMPONENTS ---------- //
@@ -81,17 +82,32 @@ const ResearchPublicationPage = () => {
   const { id } = useParams();
   const router = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
+  const [run, setRun] = useState()
+  const [commentFilters, setCommentFilters] = useState({
+    page: 1,
+    page_size: 10
+  })
   // --- API CALLS ---
-  const { data, isLoading } = useGetPublicationByIdQuery(id);
+  const { data, isLoading, refetch: refetchPublication } = useGetPublicationByIdQuery(id);
   const { data: interests, isLoading: interestLoading } = useGetUserInterestsQuery({});
   const { data: connectionSuggestions, isLoading: connectionLoading } = useGetSuggestedConnectionsQuery({});
   const { data: opportunities, isLoading: loadingOpportnunity } = useGetOpportunitiesQuery({});
   const { data: recommendedPublications, isLoading: recLoading, isError: recError } = useGetPublicationsQuery({});
-
+  const [likeOrUnlikePublication, { isLoading: likeLoading }] = useLikeOrUnlikePublicationMutation();
+  const {data: commentsData, isLoading: loadingComments, refetch: refetchComments} = useGetCommentsQuery(commentFilters)
   // --- USER DATA ---
   const publisher = useSelector((state: RootState) => state.auth.profile as Profile | null);
   const user = useSelector(selectCurrentUser);
 
+  const handleLikeToggle = async () => {
+    const action = data?.is_liked ? "unlike" : "like";
+    try {
+      await likeOrUnlikePublication({ id: data.id, action }).unwrap();
+      refetchPublication()
+    } catch (err) {
+      console.error("Failed to toggle like:", err);
+    }
+  };
    // Helpers
   const renderAuthors = (authors?: { first_name: string; last_name: string }[]) =>
     authors?.map((author, idx) => (
@@ -109,6 +125,9 @@ const ResearchPublicationPage = () => {
       </div>
     ));
 
+  useEffect(() => {
+      refetchComments()
+    },[run])
 
   const renderSectors = (sectors?: { name: string }[]) =>
     sectors?.map((s) => s.name).join(", ");
@@ -149,6 +168,8 @@ const ResearchPublicationPage = () => {
         // <Loader message="Loading publication..." overlay size="lg" />
 
       }
+
+    console.log('data', data, commentsData)
   return (
     <PublicationsLayout>
       {/* Breadcrumbs */}
@@ -190,10 +211,27 @@ const ResearchPublicationPage = () => {
 
               {/* Stats */}
                <div className="flex items-center gap-6 ">
-                <div className="flex items-center gap-1 text-gray-500">
-                  <BiSolidLike className="w-4 h-4" />
+                {/* <Button variant="ghost" className="flex bg-transparent group items-center gap-1 text-gray-500">
+                  <BiSolidLike className="w-4 h-4 hover:bg-primary-green" />
                   <span className="text-sm">{data?.like_count}</span>
-                </div>
+                </Button> */}
+                <Button
+                  variant="ghost"
+                  disabled={likeLoading}
+                  onClick={handleLikeToggle}
+                  className={`flex items-center gap-1 text-gray-500 bg-transparent group hover:bg-green-50 transition ${
+                    data?.is_liked ? "bg-green-100 text-green-600" : ""
+                  }`}
+                >
+                  <BiSolidLike
+                    className={`w-4 h-4 transition ${
+                      data?.is_liked
+                        ? "text-green-600 group-hover:text-green-700"
+                        : "text-gray-400 group-hover:text-green-500"
+                    }`}
+                  />
+                  <span className="text-sm">{data?.like_count}</span>
+                </Button>
                 <div className="flex items-center gap-1 text-gray-500">
                   <PiShareFat className="w-4 h-4" />
                   <span className="text-sm">{data?.share_count}</span>
@@ -235,7 +273,7 @@ const ResearchPublicationPage = () => {
             </Card>
 
             {/* Other Information */}
-            <Card className="shadow-none border-0 rounded-xl p-6">
+            <Card className="shadow-none border-0 gap-0 rounded-xl p-6">
               <h2 className="text-lg font-medium text-primary-green mb-4">Other Information</h2>
               <div className="flex items-center gap-2 mb-4 font-raleway">
                 <span className="text-base text-gray-600">
@@ -258,14 +296,19 @@ const ResearchPublicationPage = () => {
             <Card className="shadow-none border-0 rounded-xl p-6">
               <h2 className="text-lg font-medium text-primary-green mb-4">Related Publications</h2>
               {renderRelatedPublications()}
-             
             </Card>
+            <CommentsSection filters={commentFilters} setFilters={setCommentFilters} totalCount={commentsData?.count} publication={data} comments={commentsData} run={run} setRun={setRun} />
           </div>
 
           {/* ---------- SIDEBAR ---------- */}
           <div className="lg:col-span-1 space-y-5">
             <PublisherProfileCard
-              publisher={publisher}
+              publisher={{
+                id: data?.id,
+                full_name: data?.author_name,
+                first_name: data?.first_name,
+                image_url: data?.author_profile_pic
+              }}
               user={user}
               showFollowButton
               isFollowing={false}

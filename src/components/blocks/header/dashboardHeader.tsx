@@ -30,7 +30,7 @@ import {
 import { isTokenValid } from "@/helpers/helpers";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
-import { useGetProfileQuery } from "@/store/features/auth/actions";
+import { useGetProfileQuery, useGetUserProfileQuery } from "@/store/features/auth/actions";
 import { logoutUser, setProfile } from "@/store/features/auth/auth.slice";
 import {
 	selectAuthenticatedUser,
@@ -94,6 +94,10 @@ export default function DashBoardHeader() {
 	const token = useSelector((state: RootState) => state.auth.token);
 
 	const { data } = useGetProfileQuery(token!, {
+		skip: !token || !isTokenValid(token),
+	});
+
+	const { data: profile } = useGetUserProfileQuery(token!, {
 		skip: !token || !isTokenValid(token),
 	});
 
@@ -226,7 +230,7 @@ export default function DashBoardHeader() {
 					)}
 
 					{(token || isTokenValid(token)) && (
-						<UserAvatarMenu user={user} handleLogout={handleLogout} />
+						<UserAvatarMenu user={user} profile={profile?.[0]} handleLogout={handleLogout} />
 					)}
 				</nav>
 

@@ -153,11 +153,11 @@ export default function QualificationForm() {
 																<SelectValue placeholder="Select Department" />
 															</SelectTrigger>
 															<SelectContent>
-																<SelectItem value="cs">
+																<SelectItem value="computer_science">
 																	Computer Science
 																</SelectItem>
-																<SelectItem value="eng">Engineering</SelectItem>
-																<SelectItem value="med">Medicine</SelectItem>
+																<SelectItem value="engineering">Engineering</SelectItem>
+																<SelectItem value="medicine">Medicine</SelectItem>
 															</SelectContent>
 														</Select>
 													</FormControl>
