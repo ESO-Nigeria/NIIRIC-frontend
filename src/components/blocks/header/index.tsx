@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Book, File, Menu, Search, Trees } from "lucide-react";
+import { Badge, Calendar, File, Menu, Search, Trees } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -76,13 +76,13 @@ const TopMenu = [
 			{
 				title: "Upcoming Events",
 				description: "Check out our upcoming events and webinars",
-				icon: <Trees className="size-5 shrink-0" />,
+				icon: <Calendar className="size-5 shrink-0" />,
 				href: "/events/upcoming",
 			},
 			{
 				title: "Past Events",
 				description: "Explore our past events and webinars",
-				icon: <Book className="size-5 shrink-0" />,
+				icon: <Calendar className="size-5 shrink-0" />,
 				href: "/events/past",
 			},
 		],
