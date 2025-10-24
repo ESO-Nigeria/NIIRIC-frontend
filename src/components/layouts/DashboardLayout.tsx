@@ -9,7 +9,7 @@ import {
 	Settings,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isTokenValid } from "@/helpers/helpers";
@@ -31,6 +31,7 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
 	const router = useRouter();
+	const pathname = usePathname();
 	const dispatch = useDispatch();
 	const token = useSelector((state: RootState) => state.auth.token);
 	const {
@@ -43,13 +44,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 		dispatch(setPublisherProfile(userProfile));
 	}, [userProfile]);
 
-	// useEffect(() => {
-	// 	if (!token || !isTokenValid(token)) {
-	// 		router.replace("/auth/login");
-	// 	}
-	// }, [token]);
+	useEffect(() => {
+		if (!token || !isTokenValid(token)) {
+			router.replace("/auth/login");
+		}
+	}, [token]);
 
-	// console.log("token, ", token);
+	console.log("token, ", token);
 	return (
 		<div>
 			<DashBoardHeader />
@@ -58,18 +59,22 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 				<aside className="w-64 bg-white border-r px-4 py-6">
 					<div className="flex flex-col space-y-6">
 						<nav className="flex flex-col gap-2">
-							{navItems.map((item) => (
-								<Link
-									key={item.href}
-									href={item.href}
-									className={cn(
-										"flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700",
-									)}
-								>
-									<item.icon className="h-5 w-5" />
-									{item.label}
-								</Link>
-							))}
+							{navItems.map((item) => {
+								const isActive = pathname === item.href;
+								return (
+									<Link
+										key={item.href}
+										href={item.href}
+										className={cn(
+											"flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700",
+											isActive && "bg-primary-green text-white hover:bg-green-600"
+										)}
+									>
+										<item.icon className="h-5 w-5" />
+										{item.label}
+									</Link>
+								);
+							})}
 						</nav>
 					</div>
 				</aside>
