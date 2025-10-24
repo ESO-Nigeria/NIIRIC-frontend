@@ -168,21 +168,28 @@ const PublicationTable = () => {
       <Card className="shadow-sm rounded-none">
         {/* Search Bar */}
         <div className="flex justify-between items-center px-4 py-3 ">
-          <div className="relative w-full max-w-xs">
-            <input
-              type="text"
-              placeholder="Search publications..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border border-gray-300 rounded-md py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-primary-green"
-            />
-            <button
-              onClick={() => setSearchTerm("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              ✕
-            </button>
-          </div>
+        
+        <div className="relative w-full max-w-xs">
+        {/* Search Icon */}
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+
+        {/* Input Field */}
+        <input
+            type="text"
+            placeholder="Search publications..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border border-gray-300 rounded-md py-2 pl-9 pr-10 text-sm focus:outline-none focus:ring-1 focus:ring-primary-green"
+        />
+
+        {/* Clear Button */}
+        <button
+            onClick={() => setSearchTerm("")}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+            ✕
+        </button>
+        </div>
         </div>
 
         <CardContent className="overflow-x-auto p-0">
