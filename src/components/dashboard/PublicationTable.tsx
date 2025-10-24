@@ -21,6 +21,8 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 
+import {Search} from "lucide-react";
+
 const publications = [
   {
     id: 1,
@@ -164,7 +166,7 @@ const PublicationTable = () => {
 
     return (
       <Card className="shadow-sm rounded-none">
-        {/* 🔍 Search Bar */}
+        {/* Search Bar */}
         <div className="flex justify-between items-center px-4 py-3 ">
           <div className="relative w-full max-w-xs">
             <input
