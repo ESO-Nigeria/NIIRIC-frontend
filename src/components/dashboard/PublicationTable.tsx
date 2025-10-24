@@ -47,6 +47,8 @@ const PublicationTable = () => {
     ? data
     : [];
 
+    console.log(publications)
+
   // Filter logic
   const filterPublications = (status: string) => {
     let filtered = publications;
@@ -92,6 +94,7 @@ const PublicationTable = () => {
     }
 
     if (error) {
+      console.error("Publication fetch error:", error);
       return (
         <div className="flex justify-center py-10 text-red-600 text-sm">
           Failed to load publications.
