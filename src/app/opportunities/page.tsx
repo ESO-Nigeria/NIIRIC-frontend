@@ -110,6 +110,7 @@ function Page() {
 												type={opportunity?.funding_types?.map((s: any) => s.name).join(", ")}
 												sector={opportunity?.sectors?.map((s: any) => s.name).join(", ")}
 												description={opportunity?.description}
+												id={opportunity?.id}
 											/>
 										))}
 								</div>

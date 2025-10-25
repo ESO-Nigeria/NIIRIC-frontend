@@ -310,9 +310,9 @@ export default function Publications() {
                         <h4 className="font-normal text-base text-[#3F434A]">
                           {pub?.author_name}
                         </h4>
-                        <p className="text-sm text-[#667085]">
-                      {pub?.qualifications?.length
-                      ? pub.qualifications.map((item: any) => item?.position).filter(Boolean).join(', ')
+                        <p className="text-sm text-[#667085] capitalize">
+                      {pub?.author_qualifications && pub?.author_qualifications?.length > 0
+                      ? pub?.author_qualifications?.map((item: any) => item?.position_display).filter(Boolean).join(', ')
                       : "No qualifications listed"}
                         </p>
                       </div>
