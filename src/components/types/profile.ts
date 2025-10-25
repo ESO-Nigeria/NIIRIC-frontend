@@ -101,6 +101,7 @@ export interface Publication {
 	last_name?: string
 	qualifications?: string[]
 	author?: string
+	author_qualifications?: Qualification[]
 
 }
 // Example usage:

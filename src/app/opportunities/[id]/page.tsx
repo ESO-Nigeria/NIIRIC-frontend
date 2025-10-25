@@ -6,12 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import GeneralLayout from "@/layouts/General";
 import Breadcrumbs from "@/components/common/Breadcrumb";
-import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
+import { useGetOpportunitiesQuery, useGetOpportunityByIdQuery } from "@/store/features/opportunities/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function OpportunityDetailPage() {
   const { id } = useParams();
-  const { data, isLoading } = useGetOpportunitiesQuery({ page_size: 100 }); // fetch enough to include all opportunities
+  const { data: opportunity, isLoading } = useGetOpportunityByIdQuery(id);
 
   if (isLoading) {
     return (
@@ -23,10 +23,8 @@ export default function OpportunityDetailPage() {
     );
   }
 
-  // Find the single opportunity based on ID
-  const opportunity = data?.results?.find(
-    (op: any) => String(op.id) === String(id)
-  );
+  console.log('data', opportunity)
+ 
 
   if (!opportunity)
     return (
@@ -38,7 +36,7 @@ export default function OpportunityDetailPage() {
     );
 
   // Get related opportunities (e.g., same category)
-  const related = data?.results
+  const related = opportunity?.results
     ?.filter((op: any) => op.id !== opportunity.id)
     ?.slice(0, 3);
 

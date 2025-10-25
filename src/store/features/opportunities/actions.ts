@@ -1,3 +1,3 @@
 import { opportunityApi } from "./opportunityApi";
 
-export const { useGetOpportunitiesQuery } = opportunityApi;
+export const { useGetOpportunitiesQuery, useGetOpportunityByIdQuery } = opportunityApi;

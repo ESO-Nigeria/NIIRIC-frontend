@@ -14,13 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useCommentOnPublicationMutation } from "@/store/features/publications/actions";
-import { Profile, Publication } from "../types/profile";
+import { Profile, Publication, Qualification } from "../types/profile";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { toast } from "react-toastify";
 import { format, formatDistanceToNow } from "date-fns";
 import Pagination from "./Pagination";
 import PaginationControls from "../common/Pagination";
+import clsx from "clsx";
 
 interface Comment {
 	id: string;
@@ -34,6 +35,10 @@ interface Comment {
 	replies: number;
 	created_at?: string;
 	content?: string
+	author_name?: string;
+	author_qualifications?: Qualification[],
+	author_profile_pic?: string;
+	is_liked?: string
 }
 
 interface CommentsSectionProps {
@@ -50,7 +55,8 @@ interface CommentsSectionProps {
 	setRun?: any,
 	publication?: Publication,
 	filters?: any,
-	setFilters?: any
+	setFilters?: any;
+
 }
 
 export function CommentsSection({
@@ -80,7 +86,6 @@ export function CommentsSection({
 		setNewComment("");
 	};
 
-	console.log('publication', publication, publisher)
 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 		const data_to_send = {
@@ -171,14 +176,19 @@ export function CommentsSection({
 						{/* Avatar */}
 						<div className="flex items-start gap-3">
 							<Avatar className="size-10">
-								<AvatarImage src="/assets/avatar.png" alt="@shadcn" />
+								<AvatarImage src={c?.author_profile_pic} alt={c?.author_name} />
 								<AvatarFallback>CN</AvatarFallback>
 							</Avatar>
 							<div className="flex flex-col gap-1 text-sm">
 								<span className="font-normal text-primay-green tracking-tight leading-none">
-									{c?.user?.name}
+									{c?.author_name}
 								</span>
-								<span className="leading-none text-sm text-muted-foreground">
+								<p className="text-sm text-[#667085] capitalize">
+									{c?.author_qualifications && c?.author_qualifications?.length > 0
+									? c?.author_qualifications?.map((item: any) => item?.position_display).filter(Boolean).join(', ')
+									: "No qualifications listed"}
+								</p>
+								<span className="leading-none text-xs text-muted-foreground">
 									{formatDistanceToNow(new Date(c?.created_at || ""), { addSuffix: true })}
 								</span>
 							</div>
@@ -187,6 +197,7 @@ export function CommentsSection({
 						{/* Body */}
 						<div className="flex-1 space-y-1">
 							<p className="text-gray-700 font-light text-sm">{c?.content}</p>
+							
 							<div className="flex items-center text-gray-500 text-sm mt-2">
 								<Button
 									variant="ghost"
@@ -202,7 +213,7 @@ export function CommentsSection({
 									className="flex items-center gap-1 hover:text-red-600"
 									onClick={() => onReply?.(c?.id)}
 								>
-									<ThumbsDown className="w-4 h-4" /> {c.replies}
+									<ThumbsDown className={clsx(c?.is_liked ? 'text-primary-green' : '',"w-4 h-4")} /> {c.replies}
 								</Button>
 							</div>
 						</div>

@@ -12,6 +12,7 @@ interface EventItemType {
   category?: string;
   event_image?: string;
   start_date?: string;
+  event_thumbnail?: string;
 }
 
 
@@ -30,15 +31,18 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
     <div className="group relative flex flex-col overflow-hidden rounded-xl text-card-foreground transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 bg-card border border-border h-full">
       {/* Image container */}
       <div className="relative flex transition-opacity duration-500 opacity-100 min-h-[337px] items-end overflow-hidden">
-        <img
+       {item?.event_thumbnail ? <img
           alt={item.title}
           loading="lazy"
           width="900"
           height="600"
           decoding="async"
           className="h-full bg-amber-300 max-h-[337px] w-full origin-center object-cover transition-all duration-700 ease-out scale-105 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"
-          src={item.event_image}
-        />
+          src={item.event_thumbnail}
+        />  :
+          <div className="w-[900px] h-[600px] bg-amber-300 max-h-[337px] w-full origin-center object-cover transition-all duration-700 ease-out scale-105 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"></div>
+        
+        }
 
         {/* Overlay card content */}
         <div className="absolute inset-x-0 z-30 bottom-3 w-10/12 mx-auto rounded-lg bg-white bg-gradient-to-t from-primary/20 to-transparent pointer-events-none">
@@ -70,7 +74,7 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
             </h3>
 
             {/* Description */}
-            <p className="text-sm text-gray-700">{item.description}</p>
+            <p className="text-sm text-gray-700 line-clamp-4">{item.description}</p>
           </div>
 
           {/* Plus (arrow-up-right) button */}
@@ -124,7 +128,7 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
           {/* Left Side Image */}
           <div className="relative w-full md:w-1/2 h-80 md:h-auto overflow-hidden">
             <img
-              src={selectedItem.event_image}
+              src={selectedItem.event_thumbnail}
               alt={selectedItem.title}
               className="w-full h-full object-cover"
             />

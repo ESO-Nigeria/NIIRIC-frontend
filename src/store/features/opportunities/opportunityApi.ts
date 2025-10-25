@@ -33,7 +33,12 @@ export const opportunityApi = nirricApi.injectEndpoints({
         return `/api/funding-opportunities/?${searchParams.toString()}`;
       },
 		}),
-	}),
+    getOpportunityById: builder.query({
+			query: (id) => `/api/funding-opportunities/${id}/`,
+			// providesTags: ["Publications"],
+		}),
 
+	}),
+  // /api/funding-opportunities/{id}/
 	overrideExisting: false,
 });
