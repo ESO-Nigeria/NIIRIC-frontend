@@ -40,6 +40,7 @@ import {
 import { Profile, User } from "@/components/types/profile";
 import { selectCurrentUser } from "@/store/features/auth/selectors";
 import PublicationsTab from "@/components/common/PublicationTab";
+import PublicationTable from "@/components/dashboard/PublicationTable";
 
 export const team = [
 	{
@@ -114,6 +115,7 @@ export default function Publications() {
 					</Button>
 				</div>
 				<PublicationsTab />
+				<PublicationTable />
 				
 			</div>
 		</DashboardLayout>
