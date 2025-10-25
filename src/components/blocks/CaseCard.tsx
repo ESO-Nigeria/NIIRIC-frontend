@@ -19,7 +19,7 @@ const CaseCard: React.FC<CaseCardProps> = ({
 	link = "/blog/impact",
 }) => {
 	return (
-		<div className="flex bg-white rounded-2xl shadow-md p-4 max-w-2xl">
+		<div className="flex bg-we rounded-2xl  p-4 max-w-2xl">
 			{/* Thumbnail Image */}
 			<div className="w-20 h-28 relative mr-4 shrink-0">
 				<Image
@@ -58,7 +58,8 @@ const CaseCard: React.FC<CaseCardProps> = ({
 
 				<p className="text-sm text-gray-700 line-clamp-2">
 					<span className="font-medium text-gray-800">Abstract: </span>
-					{abstract}
+
+					<span dangerouslySetInnerHTML={{__html: abstract}} className="line-clamp-2"></span>
 				</p>
 				<a href={link} className="text-primary-green text-sm font-medium ">
 					Read More

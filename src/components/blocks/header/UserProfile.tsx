@@ -1,10 +1,16 @@
 import {
+  Bell,
 	Bolt,
+	ChevronDown,
+	ChevronsUpDown,
 	ExternalLink,
+	Files,
 	Filter,
 	LogIn,
 	LogOut,
+	Newspaper,
 	Rocket,
+	Settings,
 	Settings2,
 	User as UserIcon,
 } from "lucide-react";
@@ -39,7 +45,7 @@ interface Props {
 export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="flex items-center gap-3">
+			<DropdownMenuTrigger className="flex items-center gap-1.5">
 				<Avatar>
           <AvatarImage src={profile?.profile_pic} alt={profile?.first_name} />
 					<AvatarFallback className="bg-primary  text-primary-foreground">
@@ -48,90 +54,39 @@ export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 					</AvatarFallback>
 				</Avatar>
 				<div className="text-start flex flex-col">
-					{/* <p className="text-sm font-medium">My Workspace</p> */}
 					<p className="text-sm font-medium capitalize">{user?.first_name} {user?.last_name}</p>
 				</div>
+        <div>
+        <ChevronsUpDown className="h-4 w-4 text-muted-foreground" />
+        </div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="mt-2 w-72">
-				{/* <DropdownMenuItem className="flex-col items-start">
-          <div className="flex items-center gap-1">
-            <Rocket className="mr-1 h-[18px] w-[18px]" />
-            <span className="font-medium leading-none">Upgrade</span>
-          </div>
-          <p className="text-muted-foreground">
-            You&apos;re on a free version of Slack.
-          </p>
-        </DropdownMenuItem> */}
-				{/* <DropdownMenuSeparator /> */}
 				<DropdownMenuItem asChild>
 					<Link href="/dashboard">
 						<UserIcon className="mr-1" /> Dashboard
 					</Link>
 				</DropdownMenuItem>
-				{/* <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Settings2 className="mr-1" /> Preferences
-        </DropdownMenuItem>
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <Filter className="mr-1" />
-            Filter sidebar
-          </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Activity</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuCheckboxItem checked>
-                  All activity
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>
-                  Unread messaged only
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>
-                  Mentions only
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>
-                  Customize by section
-                </DropdownMenuCheckboxItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>People</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuCheckboxItem checked>
-                  Everyone
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>
-                  Without external people
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem>
-                  Including external people
-                </DropdownMenuCheckboxItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <Bolt className="mr-1" />
-            Tools & settings
-          </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent className="w-52">
-            <DropdownMenuLabel>Tools</DropdownMenuLabel>
-            <DropdownMenuItem>Customize workspace</DropdownMenuItem>
-            <DropdownMenuItem>Workspace builder</DropdownMenuItem>
-            <DropdownMenuItem>
-              Workspace analytics <ExternalLink className="ml-auto" />
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Administration</DropdownMenuLabel>
-            <DropdownMenuItem>Manage apps</DropdownMenuItem>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogIn className="mr-1" /> Sign in on mobile
-        </DropdownMenuItem> */}
+        <DropdownMenuItem asChild>
+					<Link href="/dashboard/publications/time">
+						<Newspaper className="mr-1" /> Timeline
+					</Link>
+				</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+					<Link href="/dashboard/publications">
+						<Files className="mr-1" /> Publications
+					</Link>
+				</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+					<Link href="#">
+						<Bell className="mr-1" /> Notifications
+					</Link>
+				</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+					<Link href="#">
+						<Settings className="mr-1" /> Settings
+					</Link>
+				</DropdownMenuItem>
+		
 				<DropdownMenuItem onClick={handleLogout}>
 					<LogOut className="mr-1" /> Sign out
 				</DropdownMenuItem>

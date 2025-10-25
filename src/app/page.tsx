@@ -18,6 +18,8 @@ import JoinCommunity from "@/components/JoinCommunity";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
+import { useGetPublicationsQuery } from "@/store/features/publications/actions";
+import { Key } from "react";
 
 const features = [
 	{
@@ -59,6 +61,15 @@ const features = [
 
 export default function Home() {
 	const router = useRouter();
+
+	const {
+    data: recommendedPublications,
+    isLoading: isRecLoading,
+    isError: isRecError,
+    refetch: refetchPublication
+  } = useGetPublicationsQuery({});
+	console.log('recommendedPublications', recommendedPublications)
+
 	return (
 		<GeneralLayout>
 			<HeroCarouselWithIndicatorsAndAutoplay />
@@ -164,7 +175,7 @@ export default function Home() {
 						</h2>
 					</div>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3  gap-6">
-						{Array.from({ length: 10 }).map((_, index) => (
+						{recommendedPublications?.results?.slice(0, 11)?.map((item: { title: string; author_name: string; abstract: string; }, index: Key | null | undefined) => (
 							<div
 								key={index}
 								className="flex items-center justify-center border rounded-lg bg-gray-50"
@@ -172,9 +183,9 @@ export default function Home() {
 								{/* <img src={`/images/partners/partner-${index + 1}.png`} alt={`Partner ${index + 1}`} className="h-12" /> */}
 								<CaseCard
 									imageUrl="/assets/images/doc_images.png"
-									title="Driving Impact Investing, Research, and Innovation in Nigeria"
-									author="Stephen Ajose"
-									abstract="We performed a survey of grassland communities in the Ukrainian Carpathians with the aim of: (1) syntaxonomically..."
+									title={item?.title}
+									author={item?.author_name}
+									abstract={item?.abstract}
 									link="/blog/impact"
 								/>
 							</div>

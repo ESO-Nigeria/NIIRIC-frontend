@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from "next/image";
 import type React from "react";
 import { Opportunity } from "./types/opportunity";
+import Link from "next/link";
 
 // interface OpportunityCardProps {
 // 	imageSrc: string | StaticImageData;
@@ -20,6 +21,7 @@ const OpportunityCard: React.FC<Opportunity> = ({
 	description = "The Catalyst Impact Fund is offering up to $25,000 in seed funding for early-stage startups and nonprofits focused on sustainable development goals (SDGs) in Sub-Saharan Africa. Priority areas include clean energy, gender equity, and inclusive fintech.",
 	type = "Grant",
 	sector = "SDGs, Social Innovation",
+	id
 }) => {
 	return (
 		<div className="border border-[#D1E3D6] rounded-lg bg-white p-4 flex items-start gap-4 w-full mx-auto">
@@ -33,9 +35,9 @@ const OpportunityCard: React.FC<Opportunity> = ({
 				/>
 			</div>
 			<div className="flex-1 min-w-0">
-				<h3 className="text-main-text-color font-medium text-sm md:text-base leading-snug mb-1">
+				<Link href={`/opportunities/${id}`} className="text-main-text-color font-medium text-sm md:text-base leading-snug mb-1">
 					{title}
-				</h3>
+				</Link>
 				<div className="text-main-text-color text-base mb-1">
 					<span className=" text-primary-green">Deadline:</span> {deadline}
 				</div>

@@ -36,7 +36,7 @@ function PublicationsLayout({ children }: { children: ReactNode }) {
 	console.log("token, ", token, isTokenValid(token));
 	return (
 		<div className="">
-			<DashBoardHeader />
+			<DashBoardHeader userProfile={userProfile} />
 			<div className="flex min-h-screen bg-[#F9FAFB]">
 				{/* Show loading spinner while profile is fetching */}
 				<main className="flex-1 p-8">
