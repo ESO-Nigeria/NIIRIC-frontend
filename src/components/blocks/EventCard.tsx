@@ -142,9 +142,11 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
                 {selectedItem.category}
               </p>
               <h3 className="text-2xl font-bold mb-4">{selectedItem.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {selectedItem.description}
+              <p className="text-sm text-gray-700">
+                {selectedItem.description?.split(" ").slice(0, 200).join(" ")}
+                {selectedItem.description && selectedItem.description.split(" ").length > 200 && "..."}
               </p>
+
               {selectedItem.start_date && (
                 <p className="mt-4 text-sm text-gray-600">
                   <span className="font-semibold">Date:</span> {selectedItem.start_date}
