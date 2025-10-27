@@ -135,7 +135,7 @@ const Login = () => {
 			>
 				{/* <GoogleLogo /> */}
 				<LucideLinkedin />
-				Continue with Google
+				Continue with LinkedIn
 			</Button>
 			<div className="my-7 w-full flex items-center justify-center overflow-hidden">
 				<Separator className="flex-grow" />
