@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/common/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { PublicationCard } from "@/components/blocks/PublicationCard";
 import GeneralLayout from "@/layouts/General";
+import { Mail, MapPin, Phone, Link, LucideLinkedin, Building, GraduationCap } from "lucide-react";
 
 // ===== Interface for Profile Data =====
 interface UserProfile {
@@ -17,6 +18,20 @@ interface UserProfile {
 	contributions: number;
 	bio: string;
 	image: string;
+	address?: string;
+	email?: string;
+	linkedin?: string;
+	phone?: string;
+	website?: string;
+	qualifications?: Qualification[];
+	researchInterests?: string[];
+	researchArea?: string;
+}
+
+interface Qualification {
+	title: string;
+	field: string;
+	institution: string;
 }
 
 // ===== Dummy Data =====
@@ -29,6 +44,26 @@ const userData: UserProfile = {
 	contributions: 0,
 	bio: "Hi! I'm a passionate software engineer and UI designer who loves creating engaging digital experiences that help learners connect with technology and innovation.",
 	image: "/assets/images/avatar.png",
+	address: "Lagos, Nigeria",
+	email: "davidchukwuchebem@email.com",
+	linkedin: "linkedin.com/in/davidchukwuchebem",
+	phone: "+234 913 485 0138",
+	website: "www.6thtouch.tech",
+	qualifications: [
+		{
+			title: "Faculty Member",
+			field: "Economics",
+			institution: "University of Lagos",
+		},
+		{
+			title: "Post Doctorate",
+			field: "Economics",
+			institution: "Julius–Maximzburgwilliams–Universität Würzburg",
+		},
+	],
+	researchInterests: ["Agriculture", "Education", "Healthcare"],
+	researchArea:
+		"Dr. Amarachi Collins is a development economist and researcher with a strong focus on social finance and inclusive growth. She has contributed to studies on impact measurement in West Africa and often collaborates with networks that advance sustainable investment practices.",
 };
 
 // ===== Dummy Publications =====
@@ -108,11 +143,122 @@ function ProfileCard({ user }: { user: UserProfile }) {
 				<Button variant="primary-green">Following</Button>
 
 				{/* Bio */}
-				<div className="text-start">
-
-				<p className="font-bold">Bio</p>
-				<p className="text-sm text-gray-600 max-w-md">{user.bio}</p>
+				<div className="text-start w-full mt-2">
+					<p className="font-bold mb-1">Bio</p>
+					<p className="text-sm text-gray-600">{user.bio}</p>
 				</div>
+			</CardContent>
+		</Card>
+	);
+}
+
+// ===== Address Card Component =====
+function AddressCard({ user }: { user: UserProfile }) {
+	return (
+		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
+			<CardContent className="p-6 space-y-4">
+				<h3 className="text-lg font-semibold text-gray-800 mb-3">Contact</h3>
+				<div className="flex items-center gap-3 text-sm text-gray-600">
+					<MapPin className="w-4 h-4 text-gray-400" />
+					<span>{user.address}</span>
+				</div>
+				<div className="flex items-center gap-3 text-sm text-gray-600">
+					<Mail className="w-4 h-4 text-gray-400" />
+					<span>{user.email}</span>
+				</div>
+				<div className="flex items-center gap-3 text-sm text-gray-600">
+					<LucideLinkedin className="w-4 h-4 text-gray-400" />
+					<span>{user.linkedin}</span>
+				</div>
+				<div className="flex items-center gap-3 text-sm text-gray-600">
+					<Phone className="w-4 h-4 text-gray-400" />
+					<span>{user.phone}</span>
+				</div>
+				<div className="flex items-center gap-3 text-sm text-gray-600">
+					<Link className="w-4 h-4 text-gray-400" />
+					<a
+						href={`https://${user.website}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="hover:underline"
+					>
+						{user.website}
+					</a>
+				</div>
+			</CardContent>
+		</Card>
+	);
+}
+
+// ===== Qualifications Card Component =====
+function QualificationsCard({ user }: { user: UserProfile }) {
+	if (!user.qualifications || user.qualifications.length === 0) return null;
+
+	return (
+		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
+			<CardContent className="p-6 space-y-4">
+				<div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+					<div className="p-3 rounded-xl bg-yellow-400 mb-3">
+						<GraduationCap className="w-4 h-4 text-orange-500" />
+					</div>
+					<h3 className="text-[24px] font-normal text-gray-800 mb-3">Qualifications</h3>
+				</div>
+				{user.qualifications?.map((qual, index) => (
+					<div key={index}>
+						<p className="text-[20px] font-medium text-gray-800">{qual.title}</p>
+						<p className="text-[20px] text-gray-600">{qual.field}</p>
+						<div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+							<Building className="w-4 h-4 text-gray-400" />
+							<span>{qual.institution}</span>
+						</div>
+						{index !== user.qualifications!.length - 1 && (
+							<hr className="my-3 border-gray-200" />
+						)}
+					</div>
+				))}
+			</CardContent>
+		</Card>
+	);
+}
+
+// ===== Research Interests Card =====
+function ResearchInterestsCard({ interests }: { interests?: string[] }) {
+	if (!interests || interests.length === 0) return null;
+
+	const colorMap: Record<string, string> = {
+		Agriculture: "bg-yellow-100 text-yellow-800",
+		Education: "bg-green-100 text-green-800",
+		Healthcare: "bg-red-100 text-red-800",
+	};
+
+	return (
+		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
+			<CardContent className="p-6 space-y-4">
+				<h3 className="text-lg font-semibold text-gray-800">Research Interests</h3>
+				<div className="flex flex-wrap gap-2">
+					{interests.map((interest, i) => (
+						<span
+							key={i}
+							className={`px-3 py-1 text-sm rounded-full font-medium ${colorMap[interest] || "bg-gray-100 text-gray-700"}`}
+						>
+							{interest}
+						</span>
+					))}
+				</div>
+			</CardContent>
+		</Card>
+	);
+}
+
+// ===== Research Area Card =====
+function ResearchAreaCard({ area }: { area?: string }) {
+	if (!area) return null;
+
+	return (
+		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
+			<CardContent className="p-6 space-y-2">
+				<h3 className="text-lg font-semibold text-gray-800">Research Area</h3>
+				<p className="text-sm text-gray-600 leading-relaxed">{area}</p>
 			</CardContent>
 		</Card>
 	);
@@ -125,8 +271,14 @@ export default function ProfileGrid() {
 			<section className="bg-gray-50">
 				<div className="container mx-auto py-8">
 					<div className="grid grid-cols-[360px_1fr] gap-4 min-h-screen font-poppins">
-						{/* Left Column: Profile Card */}
-						<ProfileCard user={userData} />
+						{/* Left Column: Profile + Address + Qualifications + Research */}
+						<div className="space-y-4">
+							<ProfileCard user={userData} />
+							<AddressCard user={userData} />
+							<QualificationsCard user={userData} />
+							<ResearchInterestsCard interests={userData.researchInterests} />
+							<ResearchAreaCard area={userData.researchArea} />
+						</div>
 
 						{/* Right Column: Publications */}
 						<div>
