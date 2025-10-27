@@ -66,7 +66,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 										"flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
 										isActive
 											? "bg-primary-green text-white "
-											: "text-gray-700 hover:bg-primary-green/30 hover:text-primary-green",
+											: "text-gray-700 hover:bg-primary-green/15 hover:text-primary-green",
 										isDisabled && "opacity-50 cursor-not-allowed hover:bg-white hover:text-gray-500",
 									)}
 								>

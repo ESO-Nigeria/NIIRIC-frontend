@@ -123,7 +123,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
       />
 
       {/* Header + Sort */}
-      <div className="flex items-center justify-between mx-5 mt-10">
+      <div className="mx-auto container px-4 flex items-center justify-between mx-5 mt-10">
         <h2 className="text-xl font-normal font-poppins">Latest Events</h2>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Sort by:</span>
@@ -141,7 +141,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
       </div>
 
       {/* Events Grid */}
-      <section className="mx-auto px-4 py-10">
+      <section className="mx-auto container px-4 py-10">
         {isLoading ? (
           <p className="text-center text-gray-500 py-10">Loading events...</p>
         ) : error ? (

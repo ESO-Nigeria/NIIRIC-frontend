@@ -36,6 +36,7 @@ import {
 } from "@/store/features/auth/actions";
 import { selectCurrentUser } from "@/store/features/auth/selectors";
 import { NIGERIA_STATES } from "@/store/mockData/mockdata";
+import { handleApiError } from "@/helpers/handleApiErrors";
 
 const formSchema = z.object({
 	title: z.string().min(1, "Title is required"),
@@ -189,13 +190,16 @@ export default function ProfileCompletionForm() {
 				const { data, error } = await (id
 					? editUserProfile(formData)
 					: updateUserProfile(formData));
-	
+					console.log('error', error)
 				if (data) {
 					toast.success("Profile updated successfully");
 					router.push("/dashboard");
 				} else if (error) {
-					toast.error("Error updating profile");
+					// 👇 Call the helper right here
+					console.log('error', error)
+					handleApiError(error);
 				}
+			
 			} catch (err) {
 				console.error(err);
 				toast.error("Something went wrong");
@@ -239,65 +243,53 @@ export default function ProfileCompletionForm() {
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<div className="rounded-md border border-gray-200  p-6 flex  items-start gap-4 ">
-											{preview ? (
-												<div className="relative h-24 w-24 rounded-full overflow-hidden">
-													<Image
-														src={preview}
-														alt="Profile Preview"
-														fill
-														className="object-cover"
-													/>
-												</div>
-											) : (
-												<div className="relative h-24 w-24 bg-gray-200 flex items-center justify-center rounded-full overflow-hidden border">
-													<UploadCloud className="h-10 w-10 text-gray-400" />
-												</div>
-											)}
-											<div className="space-y-2">
-												<input
-													type="file"
-													accept="image/png,image/jpeg,image/gif"
-													className="hidden"
-													id="fileInput"
-													onChange={(e) => {
-														const file = e.target.files?.[0];
-														if (file) {
-															field.onChange(file);
-															setPreview(URL.createObjectURL(file));
-														}
-													}}
-												/>
-												<label
-													htmlFor="fileInput"
-													className="cursor-pointer text-base mb-4 text-[#3F434A] font-medium "
-												>
-													{preview ? "Change Photo" : "Upload Photo"}
-												</label>
-												<p className="text-sm text-[#3F434A] ">
-													Upload a professional photo. This will be visible to
-													other researchers
-												</p>
-												<p className="text-sm text-[#98A2B3]">
-													Recommended: Square image, at least 400x400px. JPG,
-													PNG, GIF (Max 1mb)
-												</p>
-											</div>
-											<input
-												type="file"
-												accept="image/png,image/jpeg,image/gif"
-												className="hidden"
-												id="fileInput"
-												onChange={(e) => {
-													const file = e.target.files?.[0];
-													if (file) {
-														field.onChange(file);
-														setPreview(URL.createObjectURL(file));
-													}
-												}}
-											/>
-										</div>
-									</FormControl>
+  <label
+    htmlFor="fileInput"
+    className="rounded-md border border-gray-200 p-6 flex items-start gap-4 cursor-pointer hover:bg-gray-50 transition"
+  >
+    {preview ? (
+      <div className="relative h-24 w-24 rounded-full overflow-hidden">
+        <Image
+          src={preview}
+          alt="Profile Preview"
+          fill
+          className="object-cover"
+        />
+      </div>
+    ) : (
+      <div className="relative h-24 w-24 bg-gray-200 flex items-center justify-center rounded-full overflow-hidden border">
+        <UploadCloud className="h-10 w-10 text-gray-400" />
+      </div>
+    )}
+
+    <div className="space-y-2">
+      <p className="text-base mb-2 text-[#3F434A] font-medium">
+        {preview ? "Change Photo" : "Upload Photo"}
+      </p>
+      <p className="text-sm text-[#3F434A]">
+        Upload a professional photo. This will be visible to other researchers.
+      </p>
+      <p className="text-sm text-[#98A2B3]">
+        Recommended: Square image, at least 400x400px. JPG, PNG, GIF (Max 1 MB)
+      </p>
+    </div>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/png,image/jpeg,image/gif"
+      className="hidden"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          field.onChange(file);
+          setPreview(URL.createObjectURL(file));
+        }
+      }}
+    />
+  </label>
+</FormControl>
+
 									<FormMessage />
 								</FormItem>
 							)}
@@ -318,10 +310,11 @@ export default function ProfileCompletionForm() {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value="mr">Mr</SelectItem>
-											<SelectItem value="mrs">Mrs</SelectItem>
-											<SelectItem value="dr">Dr</SelectItem>
+										<SelectItem value="dr">Dr</SelectItem>
+											<SelectItem value="engr">Engineer</SelectItem>
+											<SelectItem value="barr">Barrister</SelectItem>
 											<SelectItem value="prof">Prof</SelectItem>
+											<SelectItem value="other">Other</SelectItem>
 										</SelectContent>
 									</Select>
 									<FormMessage />

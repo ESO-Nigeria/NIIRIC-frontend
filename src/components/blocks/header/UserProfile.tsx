@@ -2,6 +2,7 @@ import {
   Bell,
 	Bolt,
 	ChevronDown,
+	ChevronsDown,
 	ChevronsUpDown,
 	ExternalLink,
 	Files,
@@ -57,7 +58,7 @@ export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 					<p className="text-sm font-medium capitalize">{user?.first_name} {user?.last_name}</p>
 				</div>
         <div>
-        <ChevronsUpDown className="h-4 w-4 text-muted-foreground" />
+        <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="mt-2 w-72">
