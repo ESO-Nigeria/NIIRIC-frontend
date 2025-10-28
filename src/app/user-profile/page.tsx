@@ -201,7 +201,7 @@ function QualificationsCard({ user }: { user: UserProfile }) {
 					<div className="p-3 rounded-xl bg-yellow-400 mb-3">
 						<GraduationCap className="w-4 h-4 text-orange-500" />
 					</div>
-					<h3 className="text-[24px] font-normal text-gray-800 mb-3">Qualifications</h3>
+					<h3 className="text-[24px] font-normal font-poppins text-gray-800 mb-3">Qualifications</h3>
 				</div>
 				{user.qualifications?.map((qual, index) => (
 					<div key={index}>
