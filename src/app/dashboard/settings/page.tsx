@@ -6,18 +6,32 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 import Breadcrumbs from "@/components/common/Breadcrumb";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Book, Mail, Phone, Linkedin, Link, Pen } from "lucide-react";
+import {
+  Book,
+  Mail,
+  Phone,
+  Linkedin,
+  Link,
+  Pen,
+  GraduationCap,
+  Building,
+  Heart,
+  BookArrowDown,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 export default function Settings() {
   const [statusValue, setStatusValue] = useState("profile");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleStatusChange = (value: string) => {
     setStatusValue(value);
-    setCurrentPage(1);
   };
+
+  interface Qualification {
+    title: string;
+    field: string;
+    institution: string;
+  }
 
   interface UserProfile {
     name: string;
@@ -31,9 +45,9 @@ export default function Settings() {
     address?: string;
     email?: string;
     linkedin?: string;
-    link?: string;
     phone?: string;
     website?: string;
+    qualifications?: Qualification[];
     researchInterests?: string[];
     researchArea?: string;
   }
@@ -50,12 +64,29 @@ export default function Settings() {
     address: "Lagos, Nigeria",
     email: "collinsamarachi@gmail.com",
     linkedin: "linkedin.com/amarachi-collins",
-    link: "orcid.org/0000-0002-0875-2624",
+    website: "orcid.org/0000-0002-0875-2624",
     phone: "+234 803 323 478",
-    website: "www.6thtouch.tech",
     researchInterests: ["Agriculture", "Education", "Healthcare"],
+    qualifications: [
+      {
+        title: "Faculty Member",
+        field: "Economics",
+        institution: "University of Lagos",
+      },
+      {
+        title: "Post Doctorate",
+        field: "Economics",
+        institution: "Julius–Maximzburgwilliams–Universität Würzburg",
+      },
+    ],
     researchArea:
       "Dr. Amarachi Collins is a development economist and researcher with a strong focus on social finance and inclusive growth.",
+  };
+
+  const colorMap: Record<string, string> = {
+    Agriculture: "bg-yellow-100 text-yellow-800",
+    Education: "bg-green-100 text-green-800",
+    Healthcare: "bg-red-100 text-red-800",
   };
 
   return (
@@ -65,23 +96,27 @@ export default function Settings() {
       </div>
 
       <div className="w-full mx-auto py-8">
-        <Tabs value={statusValue} onValueChange={handleStatusChange} className="w-full">
+        <Tabs
+          value={statusValue}
+          onValueChange={handleStatusChange}
+          className="w-full"
+        >
           <TabsList className={cn("flex gap-1 bg-transparent mb-0")}>
             <TabsTrigger
               value="profile"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:font-poppins text-white transition-all"
+              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Profile
             </TabsTrigger>
             <TabsTrigger
               value="notification"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:font-poppins text-white transition-all"
+              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Notification
             </TabsTrigger>
             <TabsTrigger
               value="password"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:font-poppins text-white transition-all"
+              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Change Password
             </TabsTrigger>
@@ -90,18 +125,20 @@ export default function Settings() {
           {/* ===== PROFILE TAB ===== */}
           <TabsContent value="profile">
             <Card className="shadow-sm border-none rounded-sm p-5">
-              <div className="flex items-center gap-2 mt-1 font-poppins text-sm font-poppins text-gray-500">
-                <div className="p-3 rounded-xl bg-green-200 mb-3">
-                  <Book className="w-4 h-4 font-poppins text-green-600" />
+              {/* ==== Personal Information ==== */}
+              <div className="flex items-center gap-2 mt-2 text-gray-500">
+                <div className="p-3 rounded-xl bg-green-200">
+                  <Book className="w-4 h-4 text-green-600" />
                 </div>
-                <h2 className="font-poppins text-[24px] font-poppins mb-4">Profile Settings</h2>
+                <h2 className="text-[20px] font-poppins font-medium">
+                  Personal Information
+                </h2>
               </div>
 
               <CardContent className="p-6 border w-full rounded">
                 <div className="flex flex-col space-y-6">
                   {/* ==== TOP SECTION ==== */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-6">
-                    {/* LEFT SIDE - Image and basic info */}
                     <div className="flex items-center gap-4">
                       <div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-green-600">
                         <Image
@@ -112,67 +149,166 @@ export default function Settings() {
                         />
                       </div>
                       <div>
-                        <h2 className="font-poppins text-[20px] font-poppins font-medium  font-poppins text-gray-800">{userData.name}</h2>
-                        <p className="font-poppins text-[14px] font-poppins text-gray-600 mt-1">{userData.address}</p>
-                        <div className="flex font-poppins text-[14px] font-poppins text-gray-600 gap-2">
+                        <h2 className="text-[20px] font-medium text-gray-800">
+                          {userData.name}
+                        </h2>
+                        <p className="text-[14px] text-gray-600 mt-1">
+                          {userData.address}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-4 mt-2 text-gray-600 text-sm">
                           <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 font-poppins " />
+                            <Mail className="w-4 h-4" />
                             <span>{userData.email}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Phone className="w-4 h-4 font-poppins " />
+                            <Phone className="w-4 h-4" />
                             <span>{userData.phone}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Linkedin className="w-4 h-4 font-poppins " />
+                            <Linkedin className="w-4 h-4" />
                             <a
                               href={`https://${userData.linkedin}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="hover:text-primary-green font-poppins text-gray-600 underline"
+                              className="hover:text-primary-green underline"
                             >
                               {userData.linkedin}
                             </a>
                           </div>
                         </div>
                       </div>
-                      </div>
                     </div>
-
-          
+                  </div>
 
                   {/* ==== BIO ==== */}
                   <div className="w-full mt-4">
-                    <p className="font-bold mb-1">Bio</p>
-                    <p className="font-poppins text-[16px] font-poppins text-gray-600 leading-relaxed">{userData.bio}</p>
-                          <div className="flex items-center gap-2">
-                            <Link className="w-4 h-4 font-poppins " />
-                            <a
-                              href={`https://${userData.link}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="hover:text-primary-green font-poppins text-gray-600 underline"
-                            >
-                              {userData.link}
-                            </a>
-                          </div>
+                    <p className="font-medium text-[20px] mb-1">Bio</p>
+                    <p className="text-[14px] text-gray-600 leading-relaxed">
+                      {userData.bio}
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Link className="w-4 h-4" />
+                      <a
+                        href={`https://${userData.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary-green underline text-[14px] text-gray-600"
+                      >
+                        {userData.website}
+                      </a>
+                    </div>
                   </div>
-                          {/* ==== EDIT PROFILE BUTTON ==== */}
-                          <div className="flex justify-end">
-                            <div className="flex items-center gap-2">
-                              <Pen className="w-4 h-4" />
-                              <a
-                                href={`https://${userData.link}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-primary-green font-poppins text-gray-600 underline"
-                              >
-                                Edit Profile
-                              </a>
-                            </div>
-                          </div>
 
+                  {/* ==== EDIT PROFILE BUTTON ==== */}
+                  <div className="flex justify-end">
+                    <div className="flex items-center gap-2">
+                      <Pen className="w-4 h-4" />
+                      <a
+                        href="#"
+                        className="hover:text-primary-green underline text-[14px] text-gray-600"
+                      >
+                        Edit Profile
+                      </a>
+                    </div>
+                  </div>
                 </div>
+              </CardContent>
+
+              {/* ==== QUALIFICATION ==== */}
+              <div className="flex items-center gap-2 mt-2 text-gray-500">
+                <div className="p-3 rounded-xl bg-orange-200">
+                  <GraduationCap className="w-4 h-4 text-orange-600" />
+                </div>
+                <h2 className="text-[20px] font-poppins font-medium">
+                  Qualification
+                </h2>
+              </div>
+
+              <CardContent className="p-6 border w-full rounded">
+                {userData.qualifications?.map((qual, index) => (
+                  <div key={index}>
+                    <p className="text-[18px] font-medium text-gray-800">
+                      {qual.title}, {qual.field}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+                      <Building className="w-4 h-4 text-gray-400" />
+                      <span>{qual.institution}</span>
+                    </div>
+                    {index !== userData.qualifications!.length - 1 && (
+                      <hr className="my-3 border-gray-200" />
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+
+              {/* ==== RESEARCH INTERESTS ==== */}
+              <div className="flex items-center gap-2 mt-2 text-gray-500">
+                <div className="p-3 rounded-xl bg-blue-200">
+                  <Heart className="w-4 h-4 text-blue-600" />
+                </div>
+                <h2 className="text-[20px] font-poppins font-medium">
+                  Research Interests
+                </h2>
+              </div>
+
+              <CardContent className="p-6 border w-full rounded">
+                <div className="flex flex-wrap gap-2">
+                  {userData.researchInterests?.map((interest, i) => (
+                    <span
+                      key={i}
+                      className={`px-3 py-1 text-sm rounded-full font-medium ${
+                        colorMap[interest] ||
+                        "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {interest}
+                    </span>
+                  ))}
+                </div>
+
+                <hr className="my-3 border-gray-200" />
+                
+                  {/* ==== EDIT PROFILE BUTTON ==== */}
+                  <div className="flex justify-end">
+                    <div className="flex items-center gap-2">
+                      <Pen className="w-4 h-4" />
+                      <a
+                        href="#"
+                        className="hover:text-primary-green underline text-[14px] text-gray-600"
+                      >
+                        Edit Profile
+                      </a>
+                    </div>
+                  </div>
+              </CardContent>
+
+              {/* ==== RESEARCH AREA ==== */}
+              <div className="flex items-center gap-2 mt-2 text-gray-500">
+                <div className="p-3 rounded-xl bg-red-200">
+                  <BookArrowDown className="w-4 h-4 text-red-600" />
+                </div>
+                <h2 className="text-[20px] font-poppins font-medium">
+                  Research Area
+                </h2>
+              </div>
+
+              <CardContent className="p-6 border w-full rounded">
+                <div className="p-6 space-y-2">
+                <p className="text-sm text-gray-600 leading-relaxed">{userData.researchArea}</p>
+                </div>
+                
+                  {/* ==== EDIT PROFILE BUTTON ==== */}
+                  <div className="flex justify-end">
+                    <div className="flex items-center gap-2">
+                      <Pen className="w-4 h-4" />
+                      <a
+                        href="#"
+                        className="hover:text-primary-green underline text-[14px] text-gray-600"
+                      >
+                        Edit Profile
+                      </a>
+                    </div>
+                  </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -181,8 +317,12 @@ export default function Settings() {
           <TabsContent value="notification">
             <Card className="shadow-sm border-none rounded-sm">
               <CardContent className="p-4">
-                <h2 className="font-poppins text-lg font-semibold mb-4">Notification Settings</h2>
-                <p className="font-poppins text-sm font-poppins text-gray-600">Manage your app notifications here.</p>
+                <h2 className="text-lg font-semibold mb-4">
+                  Notification Settings
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Manage your app notifications here.
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
@@ -191,8 +331,10 @@ export default function Settings() {
           <TabsContent value="password">
             <Card className="shadow-sm border-none rounded-sm">
               <CardContent className="p-4">
-                <h2 className="font-poppins text-lg font-semibold mb-4">Change Password</h2>
-                <p className="font-poppins text-sm font-poppins text-gray-600">Change your password securely here.</p>
+                <h2 className="text-lg font-semibold mb-4">Change Password</h2>
+                <p className="text-sm text-gray-600">
+                  Change your password securely here.
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
@@ -201,3 +343,6 @@ export default function Settings() {
     </DashboardLayout>
   );
 }
+
+
+

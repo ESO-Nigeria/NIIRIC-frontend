@@ -198,8 +198,8 @@ function QualificationsCard({ user }: { user: UserProfile }) {
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
 			<CardContent className="p-6 space-y-4">
 				<div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
-					<div className="p-3 rounded-xl bg-yellow-400 mb-3">
-						<GraduationCap className="w-4 h-4 text-orange-500" />
+					<div className="p-3 rounded-xl bg-yellow-200 mb-3">
+						<GraduationCap className="w-4 h-4 text-orange-600" />
 					</div>
 					<h3 className="text-[24px] font-normal font-poppins text-gray-800 mb-3">Qualifications</h3>
 				</div>
