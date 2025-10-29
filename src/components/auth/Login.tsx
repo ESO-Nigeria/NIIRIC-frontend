@@ -69,7 +69,6 @@ const Login = () => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
 			const { data, error } = await login(values);
-			console.log(data, "login");
 			if (data) {
 				dispatch(setCredentials(data));
 				router.push("/dashboard");
@@ -89,7 +88,6 @@ const Login = () => {
 		setLoadingProvider(provider);
 		signIn(provider, { callbackUrl: `/${provider}/callback/`, redirect: true });
 		setLoadingProvider(provider);
-		
 	};
 
 	return (
