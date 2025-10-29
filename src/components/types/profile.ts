@@ -78,6 +78,13 @@ export interface Profile {
 	publication_count?: string
 }
 
+export interface Sector {
+	name?: string
+	item?: {
+		name?: string
+	}
+}
+
 export interface Publication {
 	id: string;
 	user?: string; // user ID reference
@@ -101,7 +108,8 @@ export interface Publication {
 	last_name?: string
 	qualifications?: string[]
 	author?: string
-	author_qualifications?: Qualification[]
+	author_qualifications?: Qualification[];
+	sectors?: Sector[]
 
 }
 // Example usage:

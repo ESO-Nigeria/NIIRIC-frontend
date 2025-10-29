@@ -2,15 +2,17 @@ import { DownloadIcon, File } from "lucide-react";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 interface ReportCardProps {
 	imageSrc: string | StaticImageData;
 	imageAlt?: string;
 	title: string;
-	category: string;
 	byline: string;
 	sector: string;
 	description: string;
+	id: string
+	category?: { label: string; colorClass: string; textClass: string }[];
 	// thumbnailUrl: string | StaticImageData;
 }
 
@@ -22,10 +24,11 @@ const ReportCard: React.FC<ReportCardProps> = ({
 	description,
 	imageSrc,
 	imageAlt,
+	id
 	// thumbnailUrl,
 }) => {
 	return (
-		<div className="flex mb-6 border p-4 rounded-lg ">
+		<div className="flex mb-6 border p-4 rounded-lg font-raleway">
 			<div className="w-31 h-44 rounded-md overflow-hidden flex-shrink-0">
 				<Image
 					src={imageSrc}
@@ -36,34 +39,44 @@ const ReportCard: React.FC<ReportCardProps> = ({
 				/>
 			</div>
 			<div className="w-3/4 pl-6">
-				<h3 className="text-xl font-bold text-gray-800">{title}</h3>
-				<div className="flex space-x-4 mt-2 items-center">
-					<span className="px-3 py-1 text-sm text-primary-green bg-primary-brown/20 rounded-full">
-						{category}
-					</span>
+				<Link href={`/resources/publications/${id}`} className="text-xl font-bold text-gray-800">{title}</Link>
+				{category && category?.length > 0 && (
+						<div className="flex gap-2 mt-2">
+							{category?.map((tag, idx) => (
+								<Badge
+									key={idx}
+									className={`${tag.colorClass} ${tag.textClass} text-sm font-poppins font-normal rounded-full`}
+								>
+									{tag.label}
+								</Badge>
+							))}
+						</div>
+					)}
+				<div className="flex mt-2 space-x-4  items-center">
 					<span className="text-sm text-gray-600">
 						<span className="text-primary-green">By: </span>
 						{byline}
 					</span>
-					<span className="text-sm text-primary-green">Sector: {sector}</span>
+				{ <span className="text-sm text-primary-green">Sector: {sector}</span>}
 				</div>
-				<p className="text-gray-700 mt-4">
-					{description}
-					<Link
-						href="/"
-						className="text-primary-green font-medium hover:underline"
+				<p className=" mt-2 line-clamp-3 text-sm text-gray-700 "
+							dangerouslySetInnerHTML={{
+								__html: description ?? "",
+							}} />
+				<Link
+						href={`/resources/publications/${id}`}
+						className="text-primary-green text-sm font-medium hover:underline"
 					>
 						{" "}
 						Read more
 					</Link>
-				</p>
-				<div className="mt-4 flex space-x-4">
-					<Button variant={"ghost"} className="">
-						<File className="h-5 w-5" strokeWidth={3} />
-						<span className="!text-primary-green">View Paper</span>
+				<div className=" flex space-x-4">
+					<Button asChild variant={"ghost"} className="!px-0 !py-0 hover:bg-transparent">
+						<Link href={`/resources/publications/${id}`} > <File className="h-5 w-5" strokeWidth={3} />
+						<span className="!text-primary-green">View Paper</span> </Link>
 					</Button>
 
-					<Button variant="ghost" className="">
+					<Button variant="ghost" className="!px-0 !py-0 hover:bg-transparent">
 						<DownloadIcon className="h-5 w-5" strokeWidth={3} />
 						<span className="!text-primary-green">Download PDF</span>
 					</Button>

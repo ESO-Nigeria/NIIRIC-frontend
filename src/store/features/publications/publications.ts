@@ -7,7 +7,6 @@ export const publicationApi = nirricApi.injectEndpoints({
 				url: '/api/publications/',
 				params, // <-- RTK Query + fetchBaseQuery will convert this to ?key=value
 			}),
-			// query: () => "/api/publications/",
 		}),
 		getUserPublications: builder.query({
 			query: () => "/api/publications/my_publications/",
