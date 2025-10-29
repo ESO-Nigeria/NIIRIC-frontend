@@ -16,7 +16,7 @@ import {
   GraduationCap,
   Building,
   Heart,
-  BookArrowDown,
+  LucideBookDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -285,7 +285,7 @@ export default function Settings() {
               {/* ==== RESEARCH AREA ==== */}
               <div className="flex items-center gap-2 mt-2 text-gray-500">
                 <div className="p-3 rounded-xl bg-red-200">
-                  <BookArrowDown className="w-4 h-4 text-red-600" />
+                  <LucideBookDown className="w-4 h-4 text-red-600" />
                 </div>
                 <h2 className="text-[20px] font-poppins font-medium">
                   Research Area
