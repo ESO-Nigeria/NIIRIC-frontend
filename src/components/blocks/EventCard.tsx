@@ -76,12 +76,12 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
             )}
 
             {/* Title */}
-            <Link href={`/events/${item.id}`} className="text-lg pointer-events-auto font-semibold text-primary-green tracking-tight">
+            <Link href={`/events/${item.id}`} className="line-clamp-2 text-lg pointer-events-auto font-semibold text-primary-green tracking-tight">
               {item.title}
             </Link>
 
             {/* Description */}
-            <p className="text-sm text-gray-700 line-clamp-4">{item.description}</p>
+            <p className="text-sm text-gray-700 line-clamp-3">{item.description}</p>
           </div>
 
           {/* Plus (arrow-up-right) button */}

@@ -77,7 +77,7 @@ export function parseDate(value?: string | null): Date | null {
 
 export function formatDeadline(deadline?: string | null): string {
   const parsed = parseDate(deadline);
-  if (!parsed) return "No deadline";
+  if (!parsed) return "";
 
   const hasTime = typeof deadline === "string" && deadline.includes("T");
   return format(parsed, hasTime ? "PPP p" : "PPP");

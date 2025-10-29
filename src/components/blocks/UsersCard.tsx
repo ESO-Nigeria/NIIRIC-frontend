@@ -1,9 +1,11 @@
 "use client";
 
-import { MoreVertical } from "lucide-react";
+import { IdCardIcon, MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface TeamMemberCardProps {
+	id: string,
 	name: string;
 	role: string;
 	avatarColor?: string;
@@ -13,6 +15,7 @@ interface TeamMemberCardProps {
 }
 
 export function TeamMemberCard({
+	id,
 	name,
 	role,
 	avatarColor = "bg-pink-100",
@@ -32,6 +35,7 @@ export function TeamMemberCard({
 		<div
 			className={cn("flex items-center justify-between w-full py-2", className)}
 		>
+			
 			{/* Left: Avatar + Info */}
 			<div className="flex items-center gap-3">
 				{avatarUrl ? (
@@ -52,7 +56,7 @@ export function TeamMemberCard({
 				)}
 
 				<div>
-					<div className="font-normal text-base text-[#3F434A]">{name}</div>
+					<Link href={`/user-profile/${id}`} className="font-normal text-base text-[#3F434A]">{name}</Link>
 					<div className="text-sm text-[#667085] capitalize">{role}</div>
 				</div>
 			</div>

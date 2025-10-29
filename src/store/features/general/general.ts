@@ -11,7 +11,9 @@ export const generalApi = nirricApi.injectEndpoints({
 		
 		getSuggestedConnections: builder.query({
 			query: () => "/api/profile/suggestions/"
-		})
+		}),
+
+	
 	}),
 
 	overrideExisting: false,

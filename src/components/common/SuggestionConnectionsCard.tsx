@@ -43,6 +43,7 @@ export default function SuggestedConnectionsCard({
           {displayed.length > 0 ? (
             displayed.map((member) => (
               <TeamMemberCard
+                id={member?.id}
                 key={member.id}
                 name={member.full_name}
                 role={member.qualifications

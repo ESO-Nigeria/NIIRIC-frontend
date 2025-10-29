@@ -6,7 +6,14 @@ import Breadcrumbs from "@/components/common/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { PublicationCard } from "@/components/blocks/PublicationCard";
 import GeneralLayout from "@/layouts/General";
-import { Mail, MapPin, Phone, Link, LucideLinkedin, Building, GraduationCap } from "lucide-react";
+import { Mail, MapPin, Phone, Link, Building, GraduationCap } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useGetPublisherProfileByIdQuery } from "@/store/features/auth/actions";
+import { useGetPublicationsQuery } from "@/store/features/publications/actions";
+import { Profile, Publication } from "@/components/types/profile";
+import { LinkedInNew } from "@/assets/icons/icons";
+import { Skeleton } from "@/components/ui/skeleton";
+import { EmptyState } from "@/components/blocks/EmptyState";
 
 // ===== Interface for Profile Data =====
 interface UserProfile {
@@ -67,75 +74,81 @@ const userData: UserProfile = {
 };
 
 // ===== Dummy Publications =====
-const publications = [
-	{
-		id: "1",
-		title: "AI and the Future of Education",
-		abstract:
-			"Exploring how artificial intelligence is reshaping modern learning environments and improving student outcomes.",
-		tags: [
-			{ label: "AI", colorClass: "bg-purple-100", textClass: "text-purple-700" },
-			{ label: "Education", colorClass: "bg-yellow-100", textClass: "text-yellow-700" },
-		],
-		is_liked: "false",
-		like_count: "12",
-	},
-	{
-		id: "2",
-		title: "Blockchain and Data Security",
-		abstract:
-			"An in-depth look at how blockchain technology ensures data integrity and security in decentralized systems.",
-		tags: [
-			{ label: "Blockchain", colorClass: "bg-blue-100", textClass: "text-blue-700" },
-			{ label: "Security", colorClass: "bg-red-100", textClass: "text-red-700" },
-		],
-		is_liked: "true",
-		like_count: "30",
-	},
-	{
-		id: "3",
-		title: "Quantum Computing Basics",
-		abstract:
-			"A beginner-friendly overview of how quantum mechanics is being used to develop powerful computing systems.",
-		tags: [
-			{ label: "Quantum", colorClass: "bg-green-100", textClass: "text-green-700" },
-			{ label: "Research", colorClass: "bg-gray-100", textClass: "text-gray-700" },
-		],
-		is_liked: "false",
-		like_count: "8",
-	},
-];
+// const publications = [
+// 	{
+// 		id: "1",
+// 		title: "AI and the Future of Education",
+// 		abstract:
+// 			"Exploring how artificial intelligence is reshaping modern learning environments and improving student outcomes.",
+// 		tags: [
+// 			{ label: "AI", colorClass: "bg-purple-100", textClass: "text-purple-700" },
+// 			{ label: "Education", colorClass: "bg-yellow-100", textClass: "text-yellow-700" },
+// 		],
+// 		is_liked: "false",
+// 		like_count: "12",
+// 	},
+// 	{
+// 		id: "2",
+// 		title: "Blockchain and Data Security",
+// 		abstract:
+// 			"An in-depth look at how blockchain technology ensures data integrity and security in decentralized systems.",
+// 		tags: [
+// 			{ label: "Blockchain", colorClass: "bg-blue-100", textClass: "text-blue-700" },
+// 			{ label: "Security", colorClass: "bg-red-100", textClass: "text-red-700" },
+// 		],
+// 		is_liked: "true",
+// 		like_count: "30",
+// 	},
+// 	{
+// 		id: "3",
+// 		title: "Quantum Computing Basics",
+// 		abstract:
+// 			"A beginner-friendly overview of how quantum mechanics is being used to develop powerful computing systems.",
+// 		tags: [
+// 			{ label: "Quantum", colorClass: "bg-green-100", textClass: "text-green-700" },
+// 			{ label: "Research", colorClass: "bg-gray-100", textClass: "text-gray-700" },
+// 		],
+// 		is_liked: "false",
+// 		like_count: "8",
+// 	},
+// ];
 
 // ===== Profile Card Component =====
-function ProfileCard({ user }: { user: UserProfile }) {
+function ProfileCard({ user }: { user: Profile }) {
 	return (
 		<Card className="shadow-sm border border-gray-200 rounded-2xl flex flex-col items-center justify-center w-full h-fit">
 			<CardContent className="flex flex-col items-center justify-center text-center space-y-4 p-6">
 				{/* Profile Image */}
 				<div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-green-600">
-					<Image src={user.image} alt={user.name} fill className="object-cover" />
+					<img src={user ? user.profile_pic : ""} alt={user?.first_name} className="object-cover" />
 				</div>
 
 				{/* Name */}
-				<h2 className="text-xl font-semibold text-gray-800">{user.name}</h2>
+				<h2 className="text-xl font-semibold text-gray-800">{user?.first_name} {user?.last_name}</h2>
 
 				{/* University & Course */}
 				<p className="text-sm text-gray-500">
-					{user.university} • {user.course}
+					{/* {user?.university} • {user?.course} */}
 				</p>
 
 				{/* Stats */}
 				<div className="flex justify-center gap-8 text-center">
 					<div>
-						<p className="text-lg font-semibold text-gray-800">{user.publications}</p>
+						<p className="text-lg font-semibold text-gray-800">
+							{/* {user?.publications} */}
+							</p>
 						<p className="text-xs text-gray-500">Publications</p>
 					</div>
 					<div>
-						<p className="text-lg font-semibold text-gray-800">{user.followers}</p>
+						<p className="text-lg font-semibold text-gray-800">
+							{/* {user?.followers} */}
+							</p>
 						<p className="text-xs text-gray-500">Followers</p>
 					</div>
 					<div>
-						<p className="text-lg font-semibold text-gray-800">{user.contributions}</p>
+						<p className="text-lg font-semibold text-gray-800">
+							{/* {user?.contributions} */}
+							</p>
 						<p className="text-xs text-gray-500">Contributions</p>
 					</div>
 				</div>
@@ -145,7 +158,7 @@ function ProfileCard({ user }: { user: UserProfile }) {
 				{/* Bio */}
 				<div className="text-start w-full mt-2">
 					<p className="font-bold mb-1">Bio</p>
-					<p className="text-sm text-gray-600">{user.bio}</p>
+					<p className="text-sm text-gray-600">{user?.bio}</p>
 				</div>
 			</CardContent>
 		</Card>
@@ -153,36 +166,36 @@ function ProfileCard({ user }: { user: UserProfile }) {
 }
 
 // ===== Address Card Component =====
-function AddressCard({ user }: { user: UserProfile }) {
+function AddressCard({ user }: { user: Profile }) {
 	return (
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
-			<CardContent className="p-6 space-y-4">
+			<CardContent className="p-6 space-y-4 ">
 				<h3 className="text-lg font-semibold text-gray-800 mb-3">Contact</h3>
-				<div className="flex items-center gap-3 text-sm text-gray-600">
+				<div className="flex capitalize items-center gap-3 text-sm text-gray-600">
 					<MapPin className="w-4 h-4 text-gray-400" />
-					<span>{user.address}</span>
+					<span>{user?.state}</span>
 				</div>
-				<div className="flex items-center gap-3 text-sm text-gray-600">
+				<div className="flex capitalize items-center gap-3 text-sm text-gray-600">
 					<Mail className="w-4 h-4 text-gray-400" />
-					<span>{user.email}</span>
+					<span>{user?.email}</span>
 				</div>
-				<div className="flex items-center gap-3 text-sm text-gray-600">
-					<LucideLinkedin className="w-4 h-4 text-gray-400" />
-					<span>{user.linkedin}</span>
+				<div className="flex  items-center gap-3 text-sm text-gray-600">
+					<LinkedInNew className="w-4 h-4 text-gray-400 shrink-0" />
+					<span>{user?.linkedin_url}</span>
 				</div>
 				<div className="flex items-center gap-3 text-sm text-gray-600">
 					<Phone className="w-4 h-4 text-gray-400" />
-					<span>{user.phone}</span>
+					<span>{user?.phone_number}</span>
 				</div>
 				<div className="flex items-center gap-3 text-sm text-gray-600">
 					<Link className="w-4 h-4 text-gray-400" />
 					<a
-						href={`https://${user.website}`}
+						// href={`https://${user?.website}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="hover:underline"
 					>
-						{user.website}
+						{/* {user?.website} */}
 					</a>
 				</div>
 			</CardContent>
@@ -266,6 +279,13 @@ function ResearchAreaCard({ area }: { area?: string }) {
 
 // ===== Main Layout (Two Columns) =====
 export default function ProfileGrid() {
+  const { id } = useParams();
+  const router = useRouter();
+  const {data, isLoading, refetch} = useGetPublisherProfileByIdQuery(id)
+  const {data: publications = [], isLoading: loading_publications} = useGetPublicationsQuery({author: id})
+
+  console.log('data', data, publications, id)
+
 	return (
 		<GeneralLayout>
 			<section className="bg-gray-50">
@@ -273,8 +293,8 @@ export default function ProfileGrid() {
 					<div className="grid grid-cols-[360px_1fr] gap-4 min-h-screen font-poppins">
 						{/* Left Column: Profile + Address + Qualifications + Research */}
 						<div className="space-y-4">
-							<ProfileCard user={userData} />
-							<AddressCard user={userData} />
+							<ProfileCard user={data} />
+							<AddressCard user={data} />
 							<QualificationsCard user={userData} />
 							<ResearchInterestsCard interests={userData.researchInterests} />
 							<ResearchAreaCard area={userData.researchArea} />
@@ -284,7 +304,9 @@ export default function ProfileGrid() {
 						<div>
 							<Breadcrumbs />
 							<div className="mt-4 space-y-6">
-								{publications.map((pub) => (
+                {loading_publications &&   <Skeleton className="h-[125px] w-full rounded-xl" />}
+                {!loading_publications && publications?.length == 0 && <EmptyState description="" title="No publications found for this author." />}
+								{!loading_publications && publications?.map((pub: Publication) => (
 									<PublicationCard
 										key={pub.id}
 										{...pub}

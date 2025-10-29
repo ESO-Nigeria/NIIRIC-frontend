@@ -48,6 +48,7 @@ export const authApi = nirricApi.injectEndpoints({
 				credentials: "include",
 			}),
 		}),
+
 		socialVerifyLogin: builder.mutation({
 			query: ({ provider, body }) => ({
 				url: `/auth/o/${provider}/?state=${body?.state}&code=${encodeURIComponent(body?.code)}`,
@@ -56,9 +57,11 @@ export const authApi = nirricApi.injectEndpoints({
 				// body: body
 			}),
 		}),
+
 		getUserProfile: builder.query({
 			query: () => "/api/profile/",
 		}),
+
 		updateUserProfile: builder.mutation({
 			query: (credentials) => ({
 				url: "/api/profile/",
@@ -66,6 +69,7 @@ export const authApi = nirricApi.injectEndpoints({
 				body: credentials,
 			}),
 		}),
+
 		editUserProfile: builder.mutation({
 			query: (credentials) => ({
 				url: `/api/profile/${credentials?.id}/`,
@@ -73,6 +77,7 @@ export const authApi = nirricApi.injectEndpoints({
 				body: credentials,
 			}),
 		}),
+		
 		getUserQualifications: builder.query({
 			query: () => "/api/qualifications/",
 		}),
@@ -130,9 +135,15 @@ export const authApi = nirricApi.injectEndpoints({
 				params,
 			}),
 		}),
+		
 		getAllPublishersProfile: builder.query({
 			query: () => "/api/users/profiles/",
 		}),
+		
+		getPublisherProfileById: builder.query({
+			query: (id) => `/api/profile/${id}/` // /api/profile/{id}/
+		}),
+
 	}),
 	overrideExisting: false,
 });

@@ -111,7 +111,7 @@ export default function EventDetailPage() {
           )}
           {event && !isLoading && (
             <main className="lg:col-span-2 space-y-6">
-              <h1 className="text-3xl font-bold w-full lg:w-1/2 leading-12 sm:text-4xl text-primary-green leading-tight">
+              <h1 className="text-3xl font-bold w-full  leading-12 sm:text-4xl text-primary-green leading-tight">
                 {event?.title}
               </h1>
 
@@ -141,7 +141,7 @@ export default function EventDetailPage() {
                 <img
                   src={event?.event_landing_image}
                   alt={event?.title}
-                  className="rounded-xl w-full max-h-[500px] object-cover shadow-lg"
+                  className="rounded-xl w-full object-cover shadow-lg"
                 />
               )}
 

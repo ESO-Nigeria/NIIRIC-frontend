@@ -139,7 +139,7 @@ export default function DashboardPage(): JSX.Element {
         userProfile?.[0]) ? (
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-normal font-poppins">Pulications</h2>
+              <h2 className="text-xl font-normal font-poppins">Publications</h2>
               <Button
                 variant="primary-green"
                 className="h-11 px-3"

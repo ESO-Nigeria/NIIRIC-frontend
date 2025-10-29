@@ -7,8 +7,8 @@ export function handleApiError(error: FetchBaseQueryError | SerializedError ) {
     const data = error.data as Record<string, string[] | string>;
     const messages = Object.entries(data)
       .map(([field, val]) => {
-        if (Array.isArray(val)) return `${field}: ${val.join(", ")}`;
-        return `${field}: ${val}`;
+        if (Array.isArray(val)) return `${val.join(", ")}`;
+        return `${val}`;
       })
       .join("\n");
 

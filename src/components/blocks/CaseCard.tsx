@@ -33,7 +33,7 @@ const CaseCard: React.FC<CaseCardProps> = ({
 
 			{/* Text Content */}
 			<div className="flex flex-col justify-between">
-				<Link href={link} className="text-primary-green font-semibold text-base mb-1">
+				<Link href={link} className="text-primary-green font-semibold text-base mb-1 line-clamp-2">
 					{title}
 				</Link>
 

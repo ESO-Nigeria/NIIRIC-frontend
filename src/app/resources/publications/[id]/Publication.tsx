@@ -255,12 +255,12 @@ const ResearchPublicationPage = () => {
               </div>
 
               {/* Views */}
-               <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
+               {/* <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
                 <div className="flex items-center gap-1">
                   <Eye className="size-5" />
                   <span>15 Views</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Abstract */}
               <section>
@@ -317,18 +317,18 @@ const ResearchPublicationPage = () => {
               }
             />
 
-            <ResearchInterestsCard
+            {/* <ResearchInterestsCard
               interests={interests?.results}
               loading={interestLoading}
-            />
+            /> */}
 
-            <SuggestedConnectionsCard
+            {/* <SuggestedConnectionsCard
               title="Suggested Connections"
               suggestions={connectionSuggestions}
               limit={3}
               isLoading={false}
               onActionClick={(id) => console.log("Clicked member with ID:", id)}
-            />
+            /> */}
 
             <Card className="shadow-none border-0 rounded-xl p-6">
               <h3 className="font-medium text-base mb-3 text-primary-green">Opportunities</h3>
@@ -338,6 +338,7 @@ const ResearchPublicationPage = () => {
                   title={event.title}
                   deadline={event.deadline}
                   description={event.description}
+                  link={`/opportunities/${event?.id}`}
                 />
               ))}
             </Card>

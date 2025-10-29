@@ -135,39 +135,6 @@ export default function ProfileCompletionForm() {
 		}
 	}, [userProfile, user, id]);
 
-	// const onSubmit = async (values: FormValues) => {
-	// 	const data_to_send = {
-	// 		title: values?.title,
-	// 		first_name: values?.firstName,
-	// 		last_name: values?.lastName,
-	// 		email: values?.email,
-	// 		phone_number: values?.phone,
-	// 		linkedin_url: values?.linkedin,
-	// 		orcid: values?.orcid,
-	// 		state: values?.state,
-	// 		bio: values?.bio,
-	// 		profile_picture: values?.profilePicture,
-	// 		id: id ? id : null,
-	// 	};
-	// 	try {
-	// 		const { data, error } = await (id
-	// 			? editUserProfile(data_to_send)
-	// 			: updateUserProfile(data_to_send));
-	// 		if (data) {
-	// 			router.push("/dashboard");
-	// 			toast.success("successful");
-	// 		}
-	// 		if (error) {
-	// 			toast.error("Error registering");
-	// 		}
-	// 	} catch (error) {
-	// 		console.log(error, "error");
-	// 		toast.error("Error registering");
-	// 	}
-	// 	console.log("✅ Form Submitted:", values);
-	// };
-
-		// ✅ Submit handler using FormData
 		const onSubmit = async (values: FormValues) => {
 			try {
 				const formData = new FormData();

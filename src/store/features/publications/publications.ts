@@ -3,7 +3,11 @@ import { nirricApi } from "../api";
 export const publicationApi = nirricApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getPublications: builder.query({
-			query: () => "/api/publications/",
+			query: (params = {}) => ({
+				url: '/api/publications/',
+				params, // <-- RTK Query + fetchBaseQuery will convert this to ?key=value
+			}),
+			// query: () => "/api/publications/",
 		}),
 		getUserPublications: builder.query({
 			query: () => "/api/publications/my_publications/",
@@ -49,8 +53,6 @@ export const publicationApi = nirricApi.injectEndpoints({
 				body,
 			}),
 		}),
-
-		
 		
 		deleteComment: builder.mutation({
 			query: (id: string) => ({

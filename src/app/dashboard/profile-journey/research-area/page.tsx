@@ -45,7 +45,6 @@ function Page() {
 	const router = useRouter();
 
 	const onSubmit = async (values: FormValues) => {
-		console.log("✅ Submitted:", values);
 		try {
 			const { data, error } = await updateUserResearchArea(values);
 			if (data) {

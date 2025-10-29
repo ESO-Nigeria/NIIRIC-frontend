@@ -4,6 +4,7 @@ import { Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { formatDeadline } from "@/helpers/helpers";
+import Link from "next/link";
 
 type EventCardProps = {
 	title: string;
@@ -11,6 +12,7 @@ type EventCardProps = {
 	description: string;
 	borderColor?: string; // customize the left border if needed
 	className?: string;
+	link?: string
 };
 
 export function EventAndOpportunityCard({
@@ -19,6 +21,7 @@ export function EventAndOpportunityCard({
 	description,
 	borderColor = "#F79009",
 	className,
+	link
 }: EventCardProps) {
 	return (
 		<div
@@ -28,9 +31,9 @@ export function EventAndOpportunityCard({
 			)}
 			style={{ borderLeftColor: borderColor }}
 		>
-			<p className="font-medium text-sm font-raleway text-primary-green">
+			<Link href={link ?? ''} className="font-medium text-sm font-raleway text-primary-green">
 				{title}
-			</p>
+			</Link>
 
 			<div className="flex items-center text-[#242424] text-xs mt-1">
 				<Calendar className="w-3 h-3 mr-1" />

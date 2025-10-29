@@ -26,6 +26,7 @@ export const {
 	useEditUserResearchAreaMutation,
 	useGetAllUsersQuery,
 	useGetAllPublishersProfileQuery,
+	useGetPublisherProfileByIdQuery
 	// useEditProfileMutation,
 	// useResetPasswordMutation,
 	// useChangePasswordMutation,

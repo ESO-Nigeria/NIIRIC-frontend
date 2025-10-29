@@ -297,8 +297,6 @@ export default function UploadPublication(): JSX.Element {
 		submitConfirmed("draft");
 	};
 
-	console.log("publishers", publishers, filtererdProfiles, sectors);
-
 	return (
 		<DashboardLayout>
 			<ConfirmModal

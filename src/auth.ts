@@ -80,11 +80,8 @@ export const {
 
 					const { access, refresh } = response.data;
 
-					(user as AuthenticatedUser).accessToken = access;
-					(user as AuthenticatedUser).refreshToken = refresh;
-
-					// ✅ Dispatch backend response to Redux
-					// store.dispatch(setCredentials(response.data));
+					(user as AuthenticatedUser).access = access;
+					(user as AuthenticatedUser).refresh = refresh;
 
 					return true;
 				}
@@ -95,9 +92,9 @@ export const {
 				return false;
 			}
 		},
-		async redirect({ baseUrl }) {
-			return `${baseUrl}/google/callback/`;
-		},
+		// async redirect({ baseUrl }) {
+		// 	return `${baseUrl}/google/callback/`;
+		// },
 		async jwt({ token, user, account }) {
 			if (user && account) {
 				token.accessToken = (user as AuthenticatedUser).access;

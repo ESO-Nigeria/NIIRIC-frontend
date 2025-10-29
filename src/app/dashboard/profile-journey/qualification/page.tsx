@@ -75,7 +75,6 @@ export default function QualificationForm() {
 			console.log(error, "error");
 			toast.error("Error registering");
 		}
-		console.log("✅ Form Submitted:", values);
 	}
 
 	const lockBlock = (index: number) => {

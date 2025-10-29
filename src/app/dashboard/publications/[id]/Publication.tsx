@@ -38,6 +38,7 @@ import DocPlaceholder from "@/assets/doc_placeholder.png";
 import PageLoader from "@/components/common/PageLoader";
 import PublicationShareModal from "@/components/common/PublicationShareModal";
 import { CommentsSection } from "@/components/blocks/Comments";
+import Link from "next/link";
 
 
 // ---------- SMALL REUSABLE UI COMPONENTS ---------- //
@@ -109,7 +110,7 @@ const ResearchPublicationPage = () => {
     }
   };
    // Helpers
-  const renderAuthors = (authors?: { first_name: string; last_name: string }[]) =>
+  const renderAuthors = (authors?: { first_name: string; last_name: string; id: string }[]) =>
     authors?.map((author, idx) => (
       <div key={idx} className="flex gap-3 items-center">
         <Avatar className="size-7">
@@ -119,9 +120,9 @@ const ResearchPublicationPage = () => {
             {author.last_name?.[0]}
           </AvatarFallback>
         </Avatar>
-        <h4 className="font-normal text-base text-[#3F434A]">
+        <Link href={`/user-profile/${author?.id}`} className="font-normal text-base text-[#3F434A]">
           {author.first_name} {author.last_name}
-        </h4>
+        </Link>
       </div>
     ));
 
@@ -169,7 +170,6 @@ const ResearchPublicationPage = () => {
 
       }
 
-    console.log('data', data, commentsData)
   return (
     <PublicationsLayout>
       {/* Breadcrumbs */}
@@ -255,12 +255,12 @@ const ResearchPublicationPage = () => {
               </div>
 
               {/* Views */}
-               <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
+               {/* <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
                 <div className="flex items-center gap-1">
                   <Eye className="size-5" />
                   <span>15 Views</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Abstract */}
               <section>
@@ -338,6 +338,7 @@ const ResearchPublicationPage = () => {
                   title={event.title}
                   deadline={event.deadline}
                   description={event.description}
+                  link={`/opportunities/${event?.id}`}
                 />
               ))}
             </Card>

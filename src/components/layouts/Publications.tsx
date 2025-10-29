@@ -33,7 +33,6 @@ function PublicationsLayout({ children }: { children: ReactNode }) {
 		}
 	}, [token]);
 
-	console.log("token, ", token, isTokenValid(token));
 	return (
 		<div className="">
 			<DashBoardHeader userProfile={userProfile} />
