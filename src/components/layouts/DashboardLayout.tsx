@@ -47,11 +47,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	}, [userProfile, dispatch]);
 
 	// Redirect to login if token invalid
-	useEffect(() => {
-		if (!token || !isTokenValid(token)) {
-			router.replace("/auth/login");
-		}
-	}, [token, router]);
+	// useEffect(() => {
+	// 	if (!token || !isTokenValid(token)) {
+	// 		router.replace("/auth/login");
+	// 	}
+	// }, [token, router]);
 
 	console.log('userQualifications', userQualifications)
 
