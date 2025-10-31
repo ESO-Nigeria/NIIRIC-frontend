@@ -277,8 +277,8 @@ function ResearchAreaCard({ user }: { user: Profile }) {
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
 			<CardContent className="p-6 space-y-2">
 				<h3 className="text-lg font-semibold text-gray-800">Research Area</h3>
-			{user?.research_areas?.map(item => (
-				<p className="text-sm text-gray-600 leading-relaxed">{item}</p>
+			{user?.research_areas?.map((item: any, i) => (
+				<p key={i+1} className="text-sm text-gray-600 leading-relaxed">{item}</p>
 			))}
 			</CardContent>
 		</Card>

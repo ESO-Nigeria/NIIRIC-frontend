@@ -104,7 +104,7 @@ export default function Gallery({ defaultFilter = "all" }: EventsProps) {
           </p>
         ) : data?.results?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {data?.results.map((item, index) => (
+            {data?.results.map((item: any, index: any) => (
               	<div key={index+1} className="p-1">
 								<Card
 									className="relative overflow-hidden group cursor-pointer"

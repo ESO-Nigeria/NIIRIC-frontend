@@ -35,11 +35,11 @@ export function ImageCarousel({
       {hasImages ? (
         <Carousel className="w-full">
           <CarouselContent>
-            {images.map((img, idx) => (
+            {images.map((img: any, idx) => (
               <CarouselItem key={idx}>
                 <div className="relative">
                   <img
-                    src={ img ?? img.url }
+                    src={ img ?? img.url ?? "" }
                     alt={img.caption || `Slide ${idx + 1}`}
                     className={cn(
                       "w-full object-cover rounded-md",
