@@ -53,16 +53,10 @@ function SettingsPage() {
   }, [refetch, refetchQualifications, refetchInterest, refetchResearchArea]);
 
   return (
-    <DashboardLayout>
-        <div className="pb-2">
-				<Breadcrumbs />
-			</div>
-			<h1 className="text-[28px] font-poppins text-[#242424] font-normal mb-6">
-				Settings
-      </h1>
       <div className="flex flex-col gap-4">
       <ProfileJourney
-            personalInformation={userProfile?.[0]}
+            showHeader={false}
+            personalInformation={userProfile}
             personal_info_loading={Personal_Info_loading}
             qualifications={userQualifications?.results}
             interests={userInterests?.results}
@@ -72,7 +66,6 @@ function SettingsPage() {
             research_area_loading={researchAreaLoading}
           />
       </div>
-    </DashboardLayout>
   )
 }
 

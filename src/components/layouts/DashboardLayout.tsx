@@ -23,7 +23,7 @@ const NAV_ITEMS = [
 	{ label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 	{ label: "Publications", href: "/dashboard/publications", icon: FileText },
 	{ label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-	{ label: "Settings", href: "/settings", icon: Settings },
+	{ label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

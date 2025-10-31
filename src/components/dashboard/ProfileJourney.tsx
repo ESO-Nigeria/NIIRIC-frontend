@@ -32,6 +32,7 @@ interface JourneyProps {
 	interest_loading?: boolean;
 	qualifications_loading?: boolean;
 	research_area_loading?: boolean;
+	showHeader?: boolean
 }
 
 export function ProfileJourney({
@@ -43,10 +44,14 @@ export function ProfileJourney({
 	interest_loading,
 	qualifications_loading,
 	research_area_loading,
+	showHeader=true
 }: JourneyProps) {
 	return (
 		<Card className="mb-8 p-8 border-0 shadow-none rounded-8 font-poppins">
 			<CardContent className="space-y-3">
+				{showHeader && (
+					
+					<>
 				<div className="flex items-center justify-between">
 					<h2 className="text-[28px] font-poppins font-medium">
 						Your NIIRIC Profile Journey
@@ -56,7 +61,9 @@ export function ProfileJourney({
 					Update your personal information, add your qualification, interests
 					and share research area.
 				</p>
-
+				
+				</>
+)}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					{/* Personal Information */}
 					{/* <div className=""> */}

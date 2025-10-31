@@ -5,6 +5,7 @@ import { PencilWithLine } from "@/assets/icons/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Qualification } from "../types/profile";
+import { formatString } from "@/helpers/helpers";
 
 // type Qualification = {
 //   role: string;
@@ -45,7 +46,7 @@ export function QualificationCard({
 									className="pb-4 border-b last:border-0 last:pb-0 capitalize"
 								>
 									<h3 className="font-medium text-lg text-[#3F434A]">
-										{item.position_display}, {item.department}
+										{formatString(item.position_display) }, {item.department}
 									</h3>
 									<div className="flex items-center gap-2 text-sm text-[#475467] mt-1">
 										<Building2 className="h-4 w-4 text-[#98A2B3]" />

@@ -114,7 +114,7 @@ export default function Header02() {
 		dispatch(setProfile(data));
 	}, [data]);
 
-	console.log("data user", user, data, userProfile?.[0]);
+	console.log("data user", user, data, userProfile);
 
 	return (
 		<header className="w-full py-4 px-6 lg:px-8 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
@@ -237,7 +237,7 @@ export default function Header02() {
 					)}
 
 					{(token || isTokenValid(token)) && (
-						<UserAvatarMenu user={userProfile?.[0] ?? user} handleLogout={handleLogout} />
+						<UserAvatarMenu user={userProfile ?? user} handleLogout={handleLogout} />
 					)}
 				</nav>
 
