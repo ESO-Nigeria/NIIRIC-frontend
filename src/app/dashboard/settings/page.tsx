@@ -104,19 +104,19 @@ export default function Settings() {
           <TabsList className={cn("flex gap-1 bg-transparent mb-0")}>
             <TabsTrigger
               value="profile"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
+              className="rounded-t-lg p-10 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Profile
             </TabsTrigger>
             <TabsTrigger
               value="notification"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
+              className="rounded-t-lg p-10 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Notification
             </TabsTrigger>
             <TabsTrigger
               value="password"
-              className="rounded-t-lg p-4 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
+              className="rounded-t-lg p-10 bg-gray-100 font-poppins text-sm font-medium data-[state=active]:bg-primary-green text-white transition-all"
             >
               Change Password
             </TabsTrigger>
