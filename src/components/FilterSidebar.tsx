@@ -94,6 +94,7 @@ const LOCATION_OPTIONS = [
 
 export interface FilterValues {
 	category?: string;
+	author?: string;
 	opportunities?: string[];
 	sectors?: string[];
 	deadline?: string;

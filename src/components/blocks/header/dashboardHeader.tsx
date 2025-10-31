@@ -231,7 +231,7 @@ export default function DashBoardHeader({userProfile}: {userProfile: Profile}) {
 					)}
 
 					{(token || isTokenValid(token)) && (
-						<UserAvatarMenu user={profile?.[0] ?? user}  profile={profile?.[0]} handleLogout={handleLogout} />
+						<UserAvatarMenu user={profile ?? user}  profile={profile} handleLogout={handleLogout} />
 					)}
 				</nav>
 

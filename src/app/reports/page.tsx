@@ -33,14 +33,14 @@ function Page() {
 	const [searchValue, setSearchValue] = useState("");
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
-		const [currentPage, setCurrentPage] = useState(1);
-			const queryParams = useMemo(
-					() => ({
-						...filters,
-						page: currentPage,
-					}),
-					[filters, currentPage]
-				);
+	const [currentPage, setCurrentPage] = useState(1);
+	const queryParams = useMemo(
+			() => ({
+				...filters,
+				page: currentPage,
+			}),
+			[filters, currentPage]
+		);
 	
 	const { data, isLoading } = useGetPublicationsQuery(queryParams);
 
@@ -59,7 +59,6 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
-	console.log('data, reports', data, )
 	return (
 		<GeneralLayout withSubscribe={false}>
 			<InfoHero

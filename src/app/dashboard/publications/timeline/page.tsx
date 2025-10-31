@@ -128,6 +128,7 @@ export default function Publications() {
   const user = useSelector((state) => (state as RootState).auth.user as User | null);
   const { data: publishers } = useGetAllPublishersProfileQuery({});
 
+  console.log('publisher', publisher)
   return (
     <PublicationsLayout>
       <div className="flex container mx-auto flex-col md:flex-row gap-6 p-6 bg-[#F8F9F7] min-h-screen text-[#1B1B1B]">

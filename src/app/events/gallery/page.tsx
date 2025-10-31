@@ -5,9 +5,11 @@ import InfoHero from "@/components/blocks/infoHero";
 import GeneralLayout from "@/layouts/General";
 import EventCard, { EventDetailDialog } from "@/components/blocks/EventCard";
 import Pagination from "@/components/blocks/Pagination";
-import { useGetEventsQuery } from "@/store/features/general/actions";
+import { useGetEventsQuery, useGetGalleryImagesQuery } from "@/store/features/general/actions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import PaginationControls from "@/components/common/Pagination";
+import { ImageCarousel } from "@/components/blocks/ImageCarousel";
 
 interface EventItemType {
   id: string;
@@ -22,24 +24,24 @@ interface EventsProps {
   defaultFilter?: "upcoming" | "past" | "all";
 }
 
-export default function Events({ defaultFilter = "all" }: EventsProps) {
+export default function Gallery({ defaultFilter = "all" }: EventsProps) {
   const [searchValue, setSearchValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [sortOrder, setSortOrder] = useState<"newer" | "older">("newer");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<EventItemType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 16;
+  const [filters, setFilters] = useState({
+    page_size: 10,
 
+  })
+	const queryParams = useMemo(
+			() => ({
+				...filters,
+				page: currentPage,
+			}),
+			[filters, currentPage]
+		);
   // Fetch events
-  const { data , isLoading, error } = useGetEventsQuery(undefined);
-
-  // Debug logging
-  useEffect(() => {
-    if (isLoading) console.log("Loading events...");
-    else if (error) console.error("Error fetching events:", error);
-    else if (data) console.log("Events fetched successfully:", data);
-  }, [data, isLoading, error]);
+  const { data , isLoading, error } = useGetGalleryImagesQuery(queryParams);
 
   // Pagination logic
   const [selectedEvent, setSelectedEvent] = useState<null | {
@@ -47,6 +49,9 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
 		title: string;
 		date: string;
 		image: string;
+    description: string;
+    cover_image_url?: string;
+    images?: []
 	}>(null);
 
   const handlePageChange = (page: number) => {
@@ -54,21 +59,6 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handlePlusClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    item: EventItemType
-  ) => {
-    e.stopPropagation();
-    setSelectedItem(item);
-    setIsDialogOpen(true);
-  };
-
-  const events = Array.from({ length: 4 }).map((_, index) => ({
-		id: index + 1,
-		title: "Annual Convening",
-		date: "March 2024",
-		image: "/assets/images/events_hero.jpg",
-	}));
   // UI
   return (
     <GeneralLayout>
@@ -107,14 +97,14 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
       {/* Events Grid */}
       <section className="mx-auto container px-4 py-10">
         {isLoading ? (
-          <p className="text-center text-gray-500 py-10">Loading events...</p>
+          <p className="text-center text-gray-500 py-10">Loading Gallery...</p>
         ) : error ? (
           <p className="text-center text-red-500 py-10">
-            Failed to load events.
+            Failed to load gallery.
           </p>
-        ) : events?.length > 0 ? (
+        ) : data?.results?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {events.map((item, index) => (
+            {data?.results.map((item, index) => (
               	<div key={index+1} className="p-1">
 								<Card
 									className="relative overflow-hidden group cursor-pointer"
@@ -122,14 +112,14 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
 								>
 									{/* Thumbnail */}
 									<img
-										src={item.image}
+										src={item.cover_image_url}
 										alt={item.title}
 										className="absolute inset-0 w-full h-full object-cover"
 									/>
 
 									<CardContent className="flex aspect-square items-center justify-center p-6 relative z-10">
 										<span className="text-2xl font-semibold text-white drop-shadow-md">
-											{item.id}
+											{/* {item.id} */}
 										</span>
 									</CardContent>
 
@@ -156,49 +146,55 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
 
 									{/* Caption */}
 									<div className="absolute bottom-4 left-4 text-white z-10">
-										<h3 className="text-xl font-bold">{item.title}</h3>
+										<h3 className="text-xl font-bold capitalize">{item.title}</h3>
 										<p className="text-xl">{item.date}</p>
 									</div>
 								</Card>
 							</div>
-              // <EventCard
-              //   key={item.id}
-              //   item={item}
-              //   onPlusClick={handlePlusClick}
-              // />
+           
             ))}
           </div>
         ) : (
           <p className="text-center text-gray-500 py-10">No events found.</p>
         )}
 
-        {/* {totalPages > 1 && (
+       
           <div className="mt-10 flex justify-center">
-            <Pagination
+            <PaginationControls
               currentPage={currentPage}
-              totalPages={totalPages}
+              totalCount={data?.count || 0}
+              pageSize={filters?.page_size || 0}
               onPageChange={handlePageChange}
             />
           </div>
-        )} */}
+      
       </section>
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
 				<DialogContent className="max-w-2xl p-0 overflow-hidden">
-					{selectedEvent && (
-						<>
-							<img
-								src={selectedEvent.image}
-								alt={selectedEvent.title}
-								className="w-full h-80 object-cover"
-							/>
-							<div className="p-6">
-								<DialogHeader>
-									<DialogTitle>{selectedEvent.title}</DialogTitle>
-									<DialogDescription>{selectedEvent.date}</DialogDescription>
-								</DialogHeader>
-							</div>
-						</>
-					)}
+        {selectedEvent && (
+      <>
+        <ImageCarousel
+          images={selectedEvent.images}
+          fallbackImage={selectedEvent.cover_image_url}
+          height="h-[450px]"
+          className="rounded-none"
+        />
+
+        <div className="p-6">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold">
+              {selectedEvent.title}
+            </DialogTitle>
+            <DialogDescription className="mt-2 text-gray-700">
+              {selectedEvent.description}
+            </DialogDescription>
+            {selectedEvent.date && (
+              <p className="text-sm text-gray-500 mt-1">{selectedEvent.date}</p>
+            )}
+          </DialogHeader>
+        </div>
+      </>
+    )}
 				</DialogContent>
 			</Dialog>
     

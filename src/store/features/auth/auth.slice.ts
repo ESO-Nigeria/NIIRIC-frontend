@@ -42,7 +42,7 @@ export const userSlice = createSlice({
 			state.user = payload;
 		},
 		setPublisherProfile: (state, { payload }) => {
-			state.profile = payload ? payload[0] : null;
+			state.profile = payload ? payload : null;
 		},
 	},
 });

@@ -99,7 +99,7 @@ export default function Publications() {
 				<Breadcrumbs />
 			</div>
 			<h1 className="text-[28px] font-poppins text-[#242424] font-normal mb-6">
-				Hi, {user?.first_name}
+				Hi, {profile?.first_name || user?.first_name}
       </h1>
 			<div className="space-y-4 font-dm_sans">
 				<div className="flex items-center justify-between mb-4">

@@ -70,12 +70,14 @@ export interface Profile {
 	state?: string; // state or region
 	bio?: string; // biography or summary
 	qualifications?: Qualification[]; // array of qualifications
-	research_interests?: ResearchInterest[]; // array of research interests
+	research_interests?: ResearchInterest[] | string[]; // array of research interests
 	research_areas?: ResearchArea[]; // array of research areas
 	created_at?: string; // ISO date string
 	updated_at?: string; // ISO date string
 	user_email?: string;
-	publication_count?: string
+	publication_count?: string;
+	follower_count?: string;
+	contribution_count?: string
 }
 
 export interface Sector {

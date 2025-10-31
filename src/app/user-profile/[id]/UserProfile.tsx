@@ -14,6 +14,11 @@ import { Profile, Publication } from "@/components/types/profile";
 import { LinkedInNew } from "@/assets/icons/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/blocks/EmptyState";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { formatString, getColorClass } from "@/helpers/helpers";
+import PaginationControls from "@/components/common/Pagination";
+import { useMemo, useState } from "react";
+import { FilterValues } from "@/components/FilterSidebar";
 
 // ===== Interface for Profile Data =====
 interface UserProfile {
@@ -119,12 +124,15 @@ function ProfileCard({ user }: { user: Profile }) {
 		<Card className="shadow-sm border border-gray-200 rounded-2xl flex flex-col items-center justify-center w-full h-fit">
 			<CardContent className="flex flex-col items-center justify-center text-center space-y-4 p-6">
 				{/* Profile Image */}
-				<div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-green-600">
-					<img src={user ? user.profile_pic : ""} alt={user?.first_name} className="object-cover" />
-				</div>
-
+				<Avatar className="w-26 h-26 border-2 border-green-600">
+                <AvatarImage src={user?.profile_pic} alt={user?.first_name} />
+                <AvatarFallback className="uppercase">
+                  {user?.first_name?.[0]}
+                  {user?.last_name?.[0]}
+                </AvatarFallback>
+              </Avatar>
 				{/* Name */}
-				<h2 className="text-xl font-semibold text-gray-800">{user?.first_name} {user?.last_name}</h2>
+				<h2 className="text-xl font-semibold text-gray-800 capitalize">{user?.first_name} {user?.last_name}</h2>
 
 				{/* University & Course */}
 				<p className="text-sm text-gray-500">
@@ -135,19 +143,19 @@ function ProfileCard({ user }: { user: Profile }) {
 				<div className="flex justify-center gap-8 text-center">
 					<div>
 						<p className="text-lg font-semibold text-gray-800">
-							{/* {user?.publications} */}
+							{user?.publication_count || 0}
 							</p>
 						<p className="text-xs text-gray-500">Publications</p>
 					</div>
 					<div>
 						<p className="text-lg font-semibold text-gray-800">
-							{/* {user?.followers} */}
+							{user?.follower_count || 0}
 							</p>
 						<p className="text-xs text-gray-500">Followers</p>
 					</div>
 					<div>
 						<p className="text-lg font-semibold text-gray-800">
-							{/* {user?.contributions} */}
+							{user?.contribution_count || 0}
 							</p>
 						<p className="text-xs text-gray-500">Contributions</p>
 					</div>
@@ -173,29 +181,29 @@ function AddressCard({ user }: { user: Profile }) {
 				<h3 className="text-lg font-semibold text-gray-800 mb-3">Contact</h3>
 				<div className="flex capitalize items-center gap-3 text-sm text-gray-600">
 					<MapPin className="w-4 h-4 text-gray-400" />
-					<span>{user?.state}</span>
+					<p>{user?.state}</p>
 				</div>
 				<div className="flex capitalize items-center gap-3 text-sm text-gray-600">
 					<Mail className="w-4 h-4 text-gray-400" />
-					<span>{user?.email}</span>
+					<p>{user?.email}</p>
 				</div>
 				<div className="flex  items-center gap-3 text-sm text-gray-600">
 					<LinkedInNew className="w-4 h-4 text-gray-400 shrink-0" />
-					<span>{user?.linkedin_url}</span>
+					<p>{user?.linkedin_url}</p>
 				</div>
 				<div className="flex items-center gap-3 text-sm text-gray-600">
 					<Phone className="w-4 h-4 text-gray-400" />
-					<span>{user?.phone_number}</span>
+					<p>{user?.phone_number}</p>
 				</div>
 				<div className="flex items-center gap-3 text-sm text-gray-600">
 					<Link className="w-4 h-4 text-gray-400" />
 					<a
-						// href={`https://${user?.website}`}
+						href={`https://${user?.orcid}`}
 						target="_blank"
 						rel="noopener noreferrer"
 						className="hover:underline"
 					>
-						{/* {user?.website} */}
+						{user?.orcid}
 					</a>
 				</div>
 			</CardContent>
@@ -204,27 +212,27 @@ function AddressCard({ user }: { user: Profile }) {
 }
 
 // ===== Qualifications Card Component =====
-function QualificationsCard({ user }: { user: UserProfile }) {
-	if (!user.qualifications || user.qualifications.length === 0) return null;
+function QualificationsCard({ user }: { user: Profile }) {
+	if (!user?.qualifications || user?.qualifications?.length === 0) return null;
 
 	return (
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
 			<CardContent className="p-6 space-y-4">
-				<div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
-					<div className="p-3 rounded-xl bg-yellow-400 mb-3">
+				<div className="flex items-center gap-2  text-sm text-gray-500">
+					<div className="p-3 rounded-xl bg-yellow-400 ">
 						<GraduationCap className="w-4 h-4 text-orange-500" />
 					</div>
-					<h3 className="text-[24px] font-normal text-gray-800 mb-3">Qualifications</h3>
+					<h3 className="text-lg font-semibold text-gray-800">Qualifications</h3>
 				</div>
-				{user.qualifications?.map((qual, index) => (
+				{user?.qualifications?.map((qual, index) => (
 					<div key={index}>
-						<p className="text-[20px] font-medium text-gray-800">{qual.title}</p>
-						<p className="text-[20px] text-gray-600">{qual.field}</p>
+						<p className=" font-medium text-gray-800 capitalize">{formatString(qual.position)} </p>
+						<p className=" text-gray-600 capitalize">{formatString(qual.department)}</p>
 						<div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
 							<Building className="w-4 h-4 text-gray-400" />
-							<span>{qual.institution}</span>
+							<span className="capitalize">{qual.institution}</span>
 						</div>
-						{index !== user.qualifications!.length - 1 && (
+						{index !== user?.qualifications!.length - 1 && (
 							<hr className="my-3 border-gray-200" />
 						)}
 					</div>
@@ -235,28 +243,26 @@ function QualificationsCard({ user }: { user: UserProfile }) {
 }
 
 // ===== Research Interests Card =====
-function ResearchInterestsCard({ interests }: { interests?: string[] }) {
-	if (!interests || interests.length === 0) return null;
-
-	const colorMap: Record<string, string> = {
-		Agriculture: "bg-yellow-100 text-yellow-800",
-		Education: "bg-green-100 text-green-800",
-		Healthcare: "bg-red-100 text-red-800",
-	};
+function ResearchInterestsCard({ user }: { user: Profile }) {
+	if (!user?.research_interests || user?.research_interests?.length === 0) return null;
 
 	return (
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
 			<CardContent className="p-6 space-y-4">
 				<h3 className="text-lg font-semibold text-gray-800">Research Interests</h3>
 				<div className="flex flex-wrap gap-2">
-					{interests.map((interest, i) => (
+					{user?.research_interests.map((interest, i) => {
+							const name = typeof interest === "string" ? interest : interest?.interest_display ?? "";
+						
+						return (
 						<span
 							key={i}
-							className={`px-3 py-1 text-sm rounded-full font-medium ${colorMap[interest] || "bg-gray-100 text-gray-700"}`}
+							className={`px-3 py-1 text-sm rounded-full font-medium ${getColorClass(name)} || "bg-gray-100 text-gray-700"}`}
 						>
-							{interest}
+							{/* {interest} */}
+							{formatString(name)}
 						</span>
-					))}
+					)})}
 				</div>
 			</CardContent>
 		</Card>
@@ -264,25 +270,42 @@ function ResearchInterestsCard({ interests }: { interests?: string[] }) {
 }
 
 // ===== Research Area Card =====
-function ResearchAreaCard({ area }: { area?: string }) {
-	if (!area) return null;
+function ResearchAreaCard({ user }: { user: Profile }) {
+	if (!user?.research_areas || user?.research_areas?.length === 0) return null;
 
 	return (
 		<Card className="shadow-sm border border-gray-200 rounded-2xl w-full h-fit mt-4">
 			<CardContent className="p-6 space-y-2">
 				<h3 className="text-lg font-semibold text-gray-800">Research Area</h3>
-				<p className="text-sm text-gray-600 leading-relaxed">{area}</p>
+			{user?.research_areas?.map(item => (
+				<p className="text-sm text-gray-600 leading-relaxed">{item}</p>
+			))}
 			</CardContent>
 		</Card>
 	);
 }
 
+const defaultFilters: FilterValues = {
+	page_size: 10,
+
+};
+
 // ===== Main Layout (Two Columns) =====
 export default function ProfileGrid() {
   const { id } = useParams();
   const router = useRouter();
+	const [currentPage, setCurrentPage] = useState(1);
+	const [filters, setFilters] = useState<FilterValues>(defaultFilters)
+	const queryParams = useMemo(
+			() => ({
+				...filters,
+				page: currentPage,
+				author: id
+			}),
+			[filters, currentPage]
+		);
   const {data, isLoading, refetch} = useGetPublisherProfileByIdQuery(id)
-  const {data: publications = [], isLoading: loading_publications} = useGetPublicationsQuery({author: id})
+  const {data: publications = [], isLoading: loading_publications} = useGetPublicationsQuery(queryParams)
 
   console.log('data', data, publications, id)
 
@@ -291,13 +314,35 @@ export default function ProfileGrid() {
 			<section className="bg-gray-50">
 				<div className="container mx-auto py-8">
 					<div className="grid grid-cols-[360px_1fr] gap-4 min-h-screen font-poppins">
+						{isLoading && (
+							<>
+								<div className="space-y-4">
+              <Skeleton className="h-[180px] w-full rounded-xl" /> {/* Profile */}
+              <Skeleton className="h-[120px] w-full rounded-xl" /> {/* Address */}
+              <Skeleton className="h-[160px] w-full rounded-xl" /> {/* Qualifications */}
+              <Skeleton className="h-[140px] w-full rounded-xl" /> {/* Research Interests */}
+              <Skeleton className="h-[120px] w-full rounded-xl" /> {/* Research Area */}
+            </div>
+						<div>
+              <Skeleton className="h-6 w-40 mb-4 rounded-md" /> {/* Breadcrumbs */}
+              <div className=" space-y-6">
+                {[...Array(3)].map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="h-[125px] w-full rounded-xl"
+                  />
+                ))}
+              </div>
+            </div>
+							</>
+						)}
 						{/* Left Column: Profile + Address + Qualifications + Research */}
-						<div className="space-y-4">
+					{!isLoading && 	(<><div className="space-y-4">
 							<ProfileCard user={data} />
 							<AddressCard user={data} />
-							<QualificationsCard user={userData} />
-							<ResearchInterestsCard interests={userData.researchInterests} />
-							<ResearchAreaCard area={userData.researchArea} />
+							<QualificationsCard user={data} />
+							<ResearchInterestsCard user={data} />
+							<ResearchAreaCard user={data} />
 						</div>
 
 						{/* Right Column: Publications */}
@@ -305,8 +350,8 @@ export default function ProfileGrid() {
 							<Breadcrumbs />
 							<div className="mt-4 space-y-6">
                 {loading_publications &&   <Skeleton className="h-[125px] w-full rounded-xl" />}
-                {!loading_publications && publications?.length == 0 && <EmptyState description="" title="No publications found for this author." />}
-								{!loading_publications && publications?.map((pub: Publication) => (
+                {!loading_publications && publications?.results?.length == 0 && <EmptyState description="" title="No publications found for this author." />}
+								{!loading_publications && publications?.results?.map((pub: Publication) => (
 									<PublicationCard
 										key={pub.id}
 										{...pub}
@@ -319,7 +364,19 @@ export default function ProfileGrid() {
 									/>
 								))}
 							</div>
+							<div className="my-8 *:flex justify-center">
+								
+								<PaginationControls
+									currentPage={currentPage}
+									totalCount={publications?.count}
+									pageSize={filters?.page_size }
+									onPageChange={setCurrentPage}
+								/>
+							</div>
 						</div>
+						
+						
+						</>)}
 					</div>
 				</div>
 			</section>

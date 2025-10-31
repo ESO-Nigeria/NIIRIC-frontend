@@ -177,7 +177,7 @@ export default function Home() {
 						{recommendedPublications?.results?.slice(0, 11)?.map((item: { title: string; author_name: string; abstract: string; id: string }, index: Key | null | undefined) => (
 							<div
 								key={index}
-								className="flex items-center justify-center border rounded-lg bg-gray-50"
+								className="flex items-start  border rounded-lg bg-gray-50"
 							>
 								{/* <img src={`/images/partners/partner-${index + 1}.png`} alt={`Partner ${index + 1}`} className="h-12" /> */}
 								<CaseCard

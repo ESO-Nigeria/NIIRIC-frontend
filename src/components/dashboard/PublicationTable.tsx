@@ -87,25 +87,25 @@ const PublicationTable = () => {
         <TabsList className={cn("flex gap-1 bg-transparent mb-0")}>
           <TabsTrigger
             value="all"
-            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white transition-all"
+            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white! transition-all"
           >
             All
           </TabsTrigger>
           <TabsTrigger
             value="published"
-            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white transition-all"
+            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white! transition-all"
           >
             Published
           </TabsTrigger>
           <TabsTrigger
             value="draft"
-            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white transition-all"
+            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white! transition-all"
           >
             Draft
           </TabsTrigger>
           <TabsTrigger
             value="pending"
-            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white transition-all"
+            className="rounded-t-lg p-10 bg-gray-100 text-sm font-medium data-[state=active]:bg-primary-green data-[state=active]:text-white! transition-all"
           >
             Pending
           </TabsTrigger>
@@ -160,7 +160,7 @@ const PublicationTable = () => {
                         key={pub.id}
                         className="hover:bg-gray-50 transition-colors border-b last:border-0"
                       >
-                        <td className="p-3 font-medium text-gray-900 flex items-center">
+                        <td className="p-3 font-medium text-gray-900 flex capitalize items-center">
                           <Checkbox id={`pub-${pub.id}`} className="mr-2" />
                           {pub.title}
                         </td>

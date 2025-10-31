@@ -146,3 +146,89 @@ export function getInitials(fullName?: string, limit?: number): string {
 
   return limit ? initials.slice(0, limit) : initials;
 }
+
+export function formatString(
+  input: string,
+  options?: {
+    case?: "title" | "upper" | "lower"; 
+    preserveNumbers?: boolean;         
+    trim?: boolean;                     
+    autoDetect?: boolean;               
+  }
+): string {
+  if (!input) return "";
+
+  const {
+    case: textCase = "title",
+    preserveNumbers = true,
+    trim = true,
+    autoDetect = true,
+  } = options || {};
+
+  let formatted = input;
+
+  // If autoDetect is on, check if string already looks clean
+  if (
+    autoDetect &&
+    /^[A-Z][a-z]*( [A-Z][a-z]*)*$/.test(formatted.trim())
+  ) {
+    // Looks like a normal title case string → skip parsing
+    return trim ? formatted.trim() : formatted;
+  }
+
+  // Handle camelCase and PascalCase
+  formatted = formatted.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+  // Replace underscores or hyphens with spaces
+  formatted = formatted.replace(/[_-]+/g, " ");
+
+  // Optionally add spaces before numbers
+  if (!preserveNumbers) {
+    formatted = formatted.replace(/(\d+)/g, " $1");
+  }
+
+  // Normalize spacing
+  formatted = formatted.replace(/\s+/g, " ");
+
+  if (trim) formatted = formatted.trim();
+
+  // Apply case style
+  switch (textCase) {
+    case "upper":
+      return formatted.toUpperCase();
+    case "lower":
+      return formatted.toLowerCase();
+    case "title":
+    default:
+      return formatted
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+  }
+}
+
+export function getColorClass(label: string): string {
+	const pastelColors = [
+		"bg-red-100 text-red-800",
+		"bg-yellow-100 text-yellow-800",
+		"bg-green-100 text-green-800",
+		"bg-blue-100 text-blue-800",
+		"bg-indigo-100 text-indigo-800",
+		"bg-purple-100 text-purple-800",
+		"bg-pink-100 text-pink-800",
+		"bg-teal-100 text-teal-800",
+		"bg-cyan-100 text-cyan-800",
+		"bg-orange-100 text-orange-800",
+	];
+
+	// Create a deterministic hash from the label so the same tag always has the same color
+	let hash = 0;
+	for (let i = 0; i < label.length; i++) {
+		hash = label.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	const index = Math.abs(hash) % pastelColors.length;
+
+	return pastelColors[index];
+}

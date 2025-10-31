@@ -72,6 +72,7 @@ export default function DashboardPage(): JSX.Element {
     refetchResearchArea();
   }, [refetch, refetchQualifications, refetchInterest, refetchResearchArea]);
 
+  console.log('userProfile', userProfile)
   return (
     <DashboardLayout>
       <div className="pb-2">
@@ -136,7 +137,7 @@ export default function DashboardPage(): JSX.Element {
       ) : (
         (userQualifications?.results?.length > 0 &&
         userInterests?.results?.length > 0 &&
-        userProfile?.[0]) ? (
+        userProfile) ? (
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-normal font-poppins">Publications</h2>
@@ -154,7 +155,7 @@ export default function DashboardPage(): JSX.Element {
           </div>
         ) : (
           <ProfileJourney
-            personalInformation={userProfile?.[0]}
+            personalInformation={userProfile}
             personal_info_loading={Personal_Info_loading}
             qualifications={userQualifications?.results}
             interests={userInterests?.results}

@@ -3,6 +3,7 @@ import { generalApi } from "./general";
 export const {
 	useGetEventsQuery,
 	useGetSuggestedConnectionsQuery,
-	useGetEventsByIdQuery
+	useGetEventsByIdQuery,
+	useGetGalleryImagesQuery
 } = generalApi;
 

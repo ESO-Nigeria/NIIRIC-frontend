@@ -5,6 +5,7 @@ import { PencilWithLine } from "@/assets/icons/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { formatString } from "@/helpers/helpers";
 
 type ResearchInterestCardProps = {
 	interests: { interest: string }[];
@@ -12,12 +13,7 @@ type ResearchInterestCardProps = {
 	loading?: boolean;
 };
 
-function formatInterest(interest: string) {
-	return interest
-		.split("_")
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ");
-}
+
 
 export function ResearchInterestCard({
 	interests,
@@ -47,7 +43,7 @@ export function ResearchInterestCard({
 									"px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-700",
 								)}
 							>
-								{formatInterest(item.interest)}
+								{formatString(item.interest)}
 							</span>
 						))
 					) : (
