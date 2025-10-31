@@ -68,7 +68,6 @@ export default function Home() {
     isError: isRecError,
     refetch: refetchPublication
   } = useGetPublicationsQuery({});
-	console.log('recommendedPublications', recommendedPublications)
 
 	return (
 		<GeneralLayout>
@@ -175,7 +174,7 @@ export default function Home() {
 						</h2>
 					</div>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3  gap-6">
-						{recommendedPublications?.results?.slice(0, 11)?.map((item: { title: string; author_name: string; abstract: string; }, index: Key | null | undefined) => (
+						{recommendedPublications?.results?.slice(0, 11)?.map((item: { title: string; author_name: string; abstract: string; id: string }, index: Key | null | undefined) => (
 							<div
 								key={index}
 								className="flex items-center justify-center border rounded-lg bg-gray-50"
@@ -186,7 +185,7 @@ export default function Home() {
 									title={item?.title}
 									author={item?.author_name}
 									abstract={item?.abstract}
-									link="/blog/impact"
+									link={`/resources/publications/${item?.id}`}
 								/>
 							</div>
 						))}

@@ -59,6 +59,7 @@ const Login = () => {
 	const router = useRouter();
 	const { watch } = form;
 	const { email, password } = watch();
+  const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
 	const [showPassword, setShowPassword] = useState(false);
 	const togglePasswordVisibility = () => {
@@ -66,10 +67,8 @@ const Login = () => {
 	};
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		console.log(values);
 		try {
 			const { data, error } = await login(values);
-			console.log(data, "login");
 			if (data) {
 				dispatch(setCredentials(data));
 				router.push("/dashboard");
@@ -84,31 +83,11 @@ const Login = () => {
 		}
 	};
 
-	// const handleOAuthLogin = (provider: string) => {
-	//   const redirectUri = `${window.location.origin}/${provider}/callback/`;
-	//   window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/o/${provider}/?redirect_uri=${redirectUri}`;
-	// };
 
-	const handleOAuthLogin = async (provider: string) => {
-		try {
-			const result = await socialLogin({
-				provider,
-				// redirectUri: 'https://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/auth/o/google-oauth2/'
-				redirectUri: `${window.location.origin}/${provider}/callback/`,
-			}).unwrap();
-
-			if (result.authorization_url) {
-				window.location.href = result.authorization_url;
-
-				// (result.authorization_url, "_blank", "width=500,height=600");
-			} else if (result.access) {
-				// localStorage.setItem("authToken", result.access);
-				toast.success("Logged in successfully!");
-			}
-		} catch (err) {
-			console.error(err);
-			toast.error("OAuth login failed");
-		}
+	const handleOAuthLogin = (provider: "google" | "linkedin") => {
+		setLoadingProvider(provider);
+		signIn(provider, { callbackUrl: `/${provider}/callback/`, redirect: true });
+		setLoadingProvider(provider);
 	};
 
 	return (
@@ -120,7 +99,8 @@ const Login = () => {
 
 			<Button
 				type="button"
-				onClick={() => signIn()}
+				onClick={() => handleOAuthLogin("google")}
+				disabled={loadingProvider === "google"}
 				variant="outline"
 				className="mt-8 w-full gap-3"
 			>
@@ -129,7 +109,8 @@ const Login = () => {
 			</Button>
 
 			<Button
-				onClick={() => handleOAuthLogin("linkedin-oauth2")}
+				 onClick={() => handleOAuthLogin("linkedin")}
+				 disabled={loadingProvider === "linkedin"}
 				variant="outline"
 				className="mt-8 w-full gap-3"
 			>

@@ -19,6 +19,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import GeneralLayout from "@/layouts/General";
 import { useGetReportsQuery } from "@/store/features/reports/actions";
+import { useGetPublicationsQuery } from "@/store/features/publications/actions";
+import PaginationControls from "@/components/common/Pagination";
+import { Opportunity } from "@/components/types/opportunity";
+import { Publication } from "@/components/types/profile";
+import { mapTagsToPublicationColors } from "@/helpers/helpers";
 
 const defaultFilters: FilterValues = {
 	page_size: 3,
@@ -37,7 +42,7 @@ function Page() {
 					[filters, currentPage]
 				);
 	
-	const { data, isLoading } = useGetReportsQuery(queryParams);
+	const { data, isLoading } = useGetPublicationsQuery(queryParams);
 
 	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -54,6 +59,7 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
+	console.log('data, reports', data, )
 	return (
 		<GeneralLayout withSubscribe={false}>
 			<InfoHero
@@ -74,24 +80,23 @@ function Page() {
 					<div className="flex flex-row gap-8">
 						<div className="flex-1">
 							{isLoading && <Skeleton className="h-44 w-full" />}
-							{data?.length === 0 && (
+							{data?.results?.length === 0 && (
 								<EmptyState
 									title="No Results Found"
 									description="We couldn’t find any reports matching your filters. Try adjusting your keywords,  selections or to start fresh."
 								/>
 							)}
-							{!isLoading && data?.length > 0 && (
+							{!isLoading && data?.results?.length > 0 && (
 								<div className="space-y-5 w-full">
-									{Array(10)
-										.fill(null)
-										.map((_opportunity, index) => (
+									{data?.results?.map((publication: Publication) => (
 											<ReportCard
-												key={index + 1}
-												title="Mapping the Impact Investing Landscape in Nigeria – 2025"
-												byline="Impact Investors Foundation"
-												sector="Investment"
-												category="Research"
-												description="A nationwide overview of Nigeria’s growing impact investing ecosystem—key players, funding trends, regulatory landscape, and strategic gaps to watch in 2025."
+												key={publication?.id}
+												title={publication?.title ?? ''}
+												byline={publication.author_name ?? ''}
+												sector={publication?.sectors?.map(({ item }: { item?: { name?: string } }) => item?.name).join(', ') || ''}
+												category={mapTagsToPublicationColors(publication.publication_type ?? []) ?? null}
+												description={publication?.abstract ?? ''}
+												id={publication?.id}
 												imageSrc={OpportunityImage}
 												imageAlt="Report Card Image"
 											/>
@@ -100,30 +105,12 @@ function Page() {
 							)}
 
 							<div className="my-8 *:flex justify-center">
-								<Pagination>
-									<PaginationContent>
-										<PaginationItem>
-											<PaginationPrevious className="border" href="#" />
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink href="#">1</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink className="" href="#" isActive>
-												2
-											</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationLink href="#">3</PaginationLink>
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationEllipsis />
-										</PaginationItem>
-										<PaginationItem>
-											<PaginationNext className="border" href="#" />
-										</PaginationItem>
-									</PaginationContent>
-								</Pagination>
+							<PaginationControls
+									currentPage={currentPage}
+									totalCount={data?.count || 0}
+									pageSize={filters?.page_size || 0}
+									onPageChange={setCurrentPage}
+								/>
 							</div>
 						</div>
 						<div className="w-2/6">

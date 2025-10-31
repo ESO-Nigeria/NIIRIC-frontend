@@ -33,12 +33,6 @@ export default function ProviderPage() {
 
 		if (status === "authenticated" && session) {
 			description = `You have successfully authenticated using ${provider}.`;
-		// const callbackUrl =
-    //   router.query?.callbackUrl ||
-    //   (document.referrer && !document.referrer.includes(window.location.origin)
-    //     ? "/"
-    //     : document.referrer) ||
-    //   "/";
 			dispatch(setCredentials({ ...session }));
 			router.push("/dashboard");
 			toast.success("Authentication successful!");

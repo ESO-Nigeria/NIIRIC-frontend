@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useSendResetPasswordEmailMutation } from "@/store/features/auth/actions";
+import { handleApiError } from "@/helpers/handleApiErrors";
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -39,7 +40,8 @@ const ForgetPassword = () => {
 		try {
 			const { data, error } = await sendResetEmail(values);
 			if (error) {
-				toast.error("Error sending email");
+				handleApiError(error)
+				// toast.error("Error sending email");
 			}
 			if (data) {
 				toast.success("Reset Email sent, Please check your mailbox");
@@ -50,7 +52,6 @@ const ForgetPassword = () => {
 		}
 	};
 
-	console.log(isLoading);
 	return (
 		<div>
 			<Header02 />

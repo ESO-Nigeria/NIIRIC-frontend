@@ -298,18 +298,21 @@ export default function Publications() {
                 
                 <Card
                   key={pub?.id}
-                  className="shadow-none mb-4 gap-3 rounded-xl p-6"
+                  className="shadow-none mb-4 gap-3 rounded-xl p-6 hover:border-primary-green"
                 >
                   <div className="flex justify-between">
                     <div className="flex gap-3">
-                      <Avatar className="size-12">
+                      <Avatar asChild  className="size-12">
+                        <Link href={`/user-profile/${pub?.author}`}>
                         <AvatarImage src={pub?.author_profile_pic || undefined} />
                         <AvatarFallback>{getInitials(pub?.author_name)}</AvatarFallback>
+                        </Link>
+                        
                       </Avatar>
                       <div>
-                        <h4 className="font-normal text-base text-[#3F434A]">
+                        <Link href={`/user-profile/${pub?.author}`} className="font-normal text-base text-[#3F434A]">
                           {pub?.author_name}
-                        </h4>
+                        </Link>
                         <p className="text-sm text-[#667085] capitalize">
                       {pub?.author_qualifications && pub?.author_qualifications?.length > 0
                       ? pub?.author_qualifications?.map((item: any) => item?.position_display).filter(Boolean).join(', ')
@@ -356,8 +359,9 @@ export default function Publications() {
               <EventAndOpportunityCard
                 key={event.id}
                 title={event.title}
-                deadline={event?.registration_deadline || "No Deadline"}
+                deadline={event?.registration_deadline}
                 description={event.description}
+                link={`/events/${event.id}`}
               />
               // <p>events</p>
             ))}
@@ -369,13 +373,14 @@ export default function Publications() {
               Suggested Connections
             </h3>
             <div className="space-y-3">
-              {connection_suggestions?.slice(0,3)?.map((member: {id: string, full_name: string, qualifications: []}) => (
+              {connection_suggestions?.slice(0,3)?.map((member: {id: string, full_name: string, qualifications: [],  profile_pic: string}) => (
                 <TeamMemberCard
                   key={member.id}
+                  id={member?.id}
                   name={member.full_name}
                   role={member.qualifications?.map((item: {position: string}) => item?.position).join(', ') ?.replace(/_/g, " ")
                     ?.toLowerCase()}
-                  // avatarUrl={member.avatarUrl}
+                  avatarUrl={member.profile_pic}
                   onActionClick={() => console.log(`Action for ${member.full_name}`)}
                 />
                 // <p>team</p>
@@ -394,6 +399,7 @@ export default function Publications() {
 								title={event.title}
 								deadline={event.deadline}
 								description={event.description}
+                link={`/opportunities/${event.id}`}
 							/>
 						))}
           </Card>

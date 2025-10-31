@@ -59,7 +59,6 @@ function Page() {
 	};
 
 	const handleFilterChange = (newFilters: FilterValues) => {
-		console.log('newFIlters', newFilters)
 		setFilters(newFilters);
 		 setCurrentPage(1); 
 		// Optionally trigger filtering logic here

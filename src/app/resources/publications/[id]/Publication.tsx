@@ -38,7 +38,6 @@ import DocPlaceholder from "@/assets/doc_placeholder.png";
 import PageLoader from "@/components/common/PageLoader";
 import PublicationShareModal from "@/components/common/PublicationShareModal";
 import { CommentsSection } from "@/components/blocks/Comments";
-import Link from "next/link";
 
 
 // ---------- SMALL REUSABLE UI COMPONENTS ---------- //
@@ -110,7 +109,7 @@ const ResearchPublicationPage = () => {
     }
   };
    // Helpers
-  const renderAuthors = (authors?: { first_name: string; last_name: string; id: string }[]) =>
+  const renderAuthors = (authors?: { first_name: string; last_name: string }[]) =>
     authors?.map((author, idx) => (
       <div key={idx} className="flex gap-3 items-center">
         <Avatar className="size-7">
@@ -120,9 +119,9 @@ const ResearchPublicationPage = () => {
             {author.last_name?.[0]}
           </AvatarFallback>
         </Avatar>
-        <Link href={`/user-profile/${author?.id}`} className="font-normal text-base text-[#3F434A]">
+        <h4 className="font-normal text-base text-[#3F434A]">
           {author.first_name} {author.last_name}
-        </Link>
+        </h4>
       </div>
     ));
 
@@ -170,6 +169,7 @@ const ResearchPublicationPage = () => {
 
       }
 
+    console.log('data', data, commentsData)
   return (
     <PublicationsLayout>
       {/* Breadcrumbs */}
@@ -317,18 +317,18 @@ const ResearchPublicationPage = () => {
               }
             />
 
-            <ResearchInterestsCard
+            {/* <ResearchInterestsCard
               interests={interests?.results}
               loading={interestLoading}
-            />
+            /> */}
 
-            <SuggestedConnectionsCard
+            {/* <SuggestedConnectionsCard
               title="Suggested Connections"
               suggestions={connectionSuggestions}
               limit={3}
               isLoading={false}
               onActionClick={(id) => console.log("Clicked member with ID:", id)}
-            />
+            /> */}
 
             <Card className="shadow-none border-0 rounded-xl p-6">
               <h3 className="font-medium text-base mb-3 text-primary-green">Opportunities</h3>

@@ -30,8 +30,10 @@ import {
 import { isTokenValid } from "@/helpers/helpers";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
-import { useGetProfileQuery } from "@/store/features/auth/actions";
+import { useGetProfileQuery, useGetUserProfileQuery } from "@/store/features/auth/actions";
 import { logoutUser, setProfile } from "@/store/features/auth/auth.slice";
+import { RiGalleryLine } from "react-icons/ri";
+
 import {
 	selectAuthenticatedUser,
 	selectCurrentUser,
@@ -80,10 +82,11 @@ const TopMenu = [
 				href: "/events/upcoming",
 			},
 			{
-				title: "Past Events",
-				description: "Explore our past events and webinars",
-				icon: <Calendar className="size-5 shrink-0" />,
-				href: "/events/past",
+				title: "Gallery",
+				description: "Explore our past events and webinars gallery",
+				icon: <RiGalleryLine className="size-5 shrink-0" />,
+				// <Calendar className="size-5 shrink-0" />,
+				href: "/events/gallery",
 			},
 		],
 	},
@@ -99,6 +102,10 @@ export default function Header02() {
 		skip: !token || !isTokenValid(token),
 	});
 
+	const { data: userProfile } = useGetUserProfileQuery(token!, {
+		skip: !token || !isTokenValid(token),
+	});
+
 	const handleLogout = () => {
 		dispatch(logoutUser());
 	};
@@ -107,7 +114,7 @@ export default function Header02() {
 		dispatch(setProfile(data));
 	}, [data]);
 
-	console.log("data user", user, data);
+	console.log("data user", user, data, userProfile?.[0]);
 
 	return (
 		<header className="w-full py-4 px-6 lg:px-8 border-b border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50">
@@ -230,7 +237,7 @@ export default function Header02() {
 					)}
 
 					{(token || isTokenValid(token)) && (
-						<UserAvatarMenu user={user} handleLogout={handleLogout} />
+						<UserAvatarMenu user={userProfile?.[0] ?? user} handleLogout={handleLogout} />
 					)}
 				</nav>
 

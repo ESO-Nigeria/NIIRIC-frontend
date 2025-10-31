@@ -82,7 +82,6 @@ export default function DashboardPage(): JSX.Element {
         Hi, {user?.first_name}
       </h1>
 
-      {/* Show skeleton loader while any query is loading */}
       {isAnyLoading ? (
         <div className="space-y-6">
           {/* Top row skeleton: title + action */}
@@ -135,13 +134,12 @@ export default function DashboardPage(): JSX.Element {
           </div>
         </div>
       ) : (
-        /* When not loading, show either the full dashboard or the profile journey flow */
         (userQualifications?.results?.length > 0 &&
         userInterests?.results?.length > 0 &&
         userProfile?.[0]) ? (
           <div>
-            <div className="flex items-center justify-end mb-4">
-              {/* <h2 className="text-xl font-normal font-poppins">Dashboard</h2> */}
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-normal font-poppins">Publications</h2>
               <Button
                 variant="primary-green"
                 className="h-11 px-3"

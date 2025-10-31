@@ -24,7 +24,7 @@ const OpportunityCard: React.FC<Opportunity> = ({
 	id
 }) => {
 	return (
-		<div className="border border-[#D1E3D6] rounded-lg bg-white p-4 flex items-start gap-4 w-full mx-auto">
+		<div className="border hover:border-primary-green border-[#D1E3D6] rounded-lg bg-white p-4 flex items-start gap-4 w-full mx-auto">
 			<div className="w-31 h-41 rounded-md overflow-hidden flex-shrink-0">
 				<Image
 					src={imageSrc}

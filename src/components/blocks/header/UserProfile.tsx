@@ -2,6 +2,7 @@ import {
   Bell,
 	Bolt,
 	ChevronDown,
+	ChevronsDown,
 	ChevronsUpDown,
 	ExternalLink,
 	Files,
@@ -34,6 +35,7 @@ interface UserProps {
 	first_name: string;
 	last_name: string;
 	email: string;
+	profile_pic: string
 }
 
 interface Props {
@@ -47,7 +49,7 @@ export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 		<DropdownMenu>
 			<DropdownMenuTrigger className="flex items-center gap-1.5">
 				<Avatar>
-          <AvatarImage src={profile?.profile_pic} alt={profile?.first_name} />
+          <AvatarImage src={user?.profile_pic} alt={user?.first_name} />
 					<AvatarFallback className="bg-primary  text-primary-foreground">
 						{user?.first_name?.[0]}
 						{user?.last_name?.[0]}
@@ -57,7 +59,7 @@ export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 					<p className="text-sm font-medium capitalize">{user?.first_name} {user?.last_name}</p>
 				</div>
         <div>
-        <ChevronsUpDown className="h-4 w-4 text-muted-foreground" />
+        <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="mt-2 w-72">
@@ -67,7 +69,7 @@ export default function UserAvatarMenu({ user, handleLogout, profile }: Props) {
 					</Link>
 				</DropdownMenuItem>
         <DropdownMenuItem asChild>
-					<Link href="/dashboard/publications/time">
+					<Link href="/dashboard/publications/timeline">
 						<Newspaper className="mr-1" /> Timeline
 					</Link>
 				</DropdownMenuItem>

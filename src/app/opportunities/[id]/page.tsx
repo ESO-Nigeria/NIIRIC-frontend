@@ -12,21 +12,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function OpportunityDetailPage() {
   const { id } = useParams();
   const { data: opportunity, isLoading } = useGetOpportunityByIdQuery(id);
-
-  if (isLoading) {
-    return (
-      <GeneralLayout>
-        <div className="p-16 flex justify-center items-center">
-          <Skeleton className="w-full h-[400px]" />
-        </div>
-      </GeneralLayout>
-    );
-  }
-
-  console.log('data', opportunity)
  
-
-  if (!opportunity)
+  if (!opportunity && !isLoading)
     return (
       <GeneralLayout>
         <div className="p-10 text-center text-gray-500 text-xl font-semibold">
@@ -43,13 +30,29 @@ export default function OpportunityDetailPage() {
   return (
     <GeneralLayout>
       <div className="pt-8 lg:pt-16 px-16">
-        <Breadcrumbs />
+        <Breadcrumbs dynamicLabels={{ [id as string]: opportunity?.title }} />
       </div>
 
       <div className="p-8 lg:p-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* LEFT SIDE — Opportunity Detail */}
-          <main className="lg:col-span-2 space-y-6">
+          {isLoading && (
+            <div className="lg:col-span-2 space-y-6">
+              <Skeleton className="h-10 w-3/4 rounded-md" />
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-32 rounded-md" />
+              </div>
+              <Skeleton className="h-[400px] w-full rounded-xl" />
+              <div className="space-y-3">
+                <Skeleton className="h-4 w-full rounded-md" />
+                <Skeleton className="h-4 w-11/12 rounded-md" />
+                <Skeleton className="h-4 w-10/12 rounded-md" />
+                <Skeleton className="h-4 w-9/12 rounded-md" />
+              </div>
+              <Skeleton className="h-10 w-32 rounded-md" />
+            </div>
+          )}
+          {opportunity && !isLoading && <main className="lg:col-span-2 space-y-6">
             <h1 className="text-3xl font-bold w-full lg:w-3/4 sm:text-4xl text-primary-green leading-tight">
               {opportunity.title}
             </h1>
@@ -70,7 +73,7 @@ export default function OpportunityDetailPage() {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <p className="text-gray-600 text-lg font-medium ml-1">
+                <p className="text-gray-600 text-base font-medium ml-1">
                   Deadline: {opportunity.deadline}
                 </p>
               </div>
@@ -96,19 +99,20 @@ export default function OpportunityDetailPage() {
             />
 
             <div className="space-y-4">
-              <p className="text-gray-700 text-lg leading-relaxed">
+              <p className="text-gray-700 text-base leading-relaxed">
                 {opportunity.description}
               </p>
 
               <Link
                 href={opportunity.link || "#"}
                 target="_blank"
-                className="inline-block px-6 py-2 bg-primary-green text-white rounded-md shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
+                className="inline-block px-6 py-2 bg-primary-green text-base text-white rounded-md shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
               >
                 Apply Now
               </Link>
             </div>
-          </main>
+          </main> }
+          
 
           {/* RIGHT SIDE — Related Opportunities */}
           <aside className="lg:col-span-1 space-y-4">

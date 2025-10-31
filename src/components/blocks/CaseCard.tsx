@@ -1,6 +1,7 @@
 "use client"; // Add this only if used in a Client Component
 
 import Image from "next/image";
+import Link from "next/link";
 import type React from "react";
 
 interface CaseCardProps {
@@ -32,9 +33,9 @@ const CaseCard: React.FC<CaseCardProps> = ({
 
 			{/* Text Content */}
 			<div className="flex flex-col justify-between">
-				<h3 className="text-primary-green font-semibold text-base mb-1">
+				<Link href={link} className="text-primary-green font-semibold text-base mb-1 line-clamp-2">
 					{title}
-				</h3>
+				</Link>
 
 				<div className="flex items-center text-sm text-gray-700 mb-2">
 					<svg

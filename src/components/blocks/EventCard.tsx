@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { useDispatch } from "react-redux";
+import { setEventId } from "@/store/features/general/general.slice";
 
 // Define the event item type
 interface EventItemType {
@@ -27,6 +29,11 @@ interface EventCardProps {
 
 // EventCard component
 const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
+  const dispatch = useDispatch()
+
+  // const addEventToStore = (id: string) => {
+  //   dispatch(setEventId(id));
+  // }
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-xl text-card-foreground transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 bg-card border border-border h-full">
       {/* Image container */}
@@ -69,12 +76,12 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
             )}
 
             {/* Title */}
-            <h3 className="text-lg font-semibold text-primary-green tracking-tight">
+            <Link href={`/events/${item.id}`} className="line-clamp-2 text-lg pointer-events-auto font-semibold text-primary-green tracking-tight">
               {item.title}
-            </h3>
+            </Link>
 
             {/* Description */}
-            <p className="text-sm text-gray-700 line-clamp-4">{item.description}</p>
+            <p className="text-sm text-gray-700 line-clamp-3">{item.description}</p>
           </div>
 
           {/* Plus (arrow-up-right) button */}
@@ -156,9 +163,7 @@ export const EventDetailDialog: React.FC<EventDetailDialogProps> = ({
 
             <div className="flex justify-between items-center mt-8">
               <Link
-                href={`/events/${selectedItem.title
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
+                href={`/events/${selectedItem?.id}`}
                 className="px-4 py-2 bg-primary-green text-primary-foreground rounded-lg shadow-md hover:shadow-primary-green/20 transition-all duration-300 hover:scale-105"
               >
                 View Details

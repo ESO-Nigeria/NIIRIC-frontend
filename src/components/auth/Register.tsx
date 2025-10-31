@@ -29,6 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useRegisterMutation } from "@/store/features/auth/actions";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -53,6 +54,7 @@ const Register = () => {
 	const router = useRouter();
 
 	const [register, { isLoading }] = useRegisterMutation();
+  const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
 	// const { watch } = form;
 	// const { email, password } = watch();
@@ -72,7 +74,6 @@ const Register = () => {
 		};
 		try {
 			const { data, error } = await register(data_to_send);
-			console.log(data, "login");
 			if (data) {
 				router.push("/auth/success/verification-sent");
 				form.reset();
@@ -87,6 +88,11 @@ const Register = () => {
 			toast.error("Wrong username and password");
 		}
 	};
+	const handleOAuthLogin = (provider: "google" | "linkedin") => {
+		setLoadingProvider(provider);
+		signIn(provider, { callbackUrl: `/${provider}/callback/`, redirect: true });
+		setLoadingProvider(provider);
+	};
 
 	return (
 		<div className=" m-auto w-full flex flex-col items-center">
@@ -97,12 +103,14 @@ const Register = () => {
 				Sign up to create account
 			</p>
 
-			<Button variant="outline" className="mt-8 w-full gap-3">
+			<Button onClick={() => handleOAuthLogin("google")}
+				disabled={loadingProvider === "google"} variant="outline" className="mt-8 w-full gap-3">
 				<GoogleLogo />
 				Continue with Google
 			</Button>
 
-			<Button variant="outline" className="mt-8 w-full gap-3">
+			<Button onClick={() => handleOAuthLogin("linkedin")}
+				 disabled={loadingProvider === "linkedin"} variant="outline" className="mt-8 w-full gap-3">
 				{/* <GoogleLogo /> */}
 				<LucideLinkedin />
 				Continue with LinkedIn

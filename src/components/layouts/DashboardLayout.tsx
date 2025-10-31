@@ -14,7 +14,7 @@ import {
 import { RootState } from "@/store";
 import { isTokenValid } from "@/helpers/helpers";
 import { cn } from "@/lib/utils";
-import { useGetUserProfileQuery } from "@/store/features/auth/actions";
+import { useGetUserProfileQuery, useGetUserQualificationsQuery } from "@/store/features/auth/actions";
 import { setPublisherProfile } from "@/store/features/auth/auth.slice";
 
 import DashBoardHeader from "../blocks/header/dashboardHeader";
@@ -33,6 +33,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	const token = useSelector((state: RootState) => state.auth.token);
 
 	const { data: userProfile, isLoading } = useGetUserProfileQuery({});
+	const {
+    data: userQualifications,
+    isLoading: qualifications_loading,
+    refetch: refetchQualifications,
+  } = useGetUserQualificationsQuery({});
 
 	// Save user profile to store
 	useEffect(() => {
@@ -48,6 +53,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	// 	}
 	// }, [token, router]);
 
+	console.log('userQualifications', userQualifications)
+
 	return (
 		<div className="flex min-h-screen flex-col bg-[#F9FAFB]">
 			<DashBoardHeader userProfile={userProfile} />
@@ -58,7 +65,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 					<nav className="flex flex-col gap-3">
 						{NAV_ITEMS.map((item) => {
 							const isActive = pathname === item.href;
-							const isDisabled = userProfile?.length == 0 && item.label !== "Dashboard";
+							const isDisabled = userProfile?.length == 0 || userQualifications?.results?.length == 0 && item.label !== "Dashboard";
+							
+							console.log('isDisabled', isDisabled, userQualifications?.results?.length == 0)
 							return (
 								<div
 									key={item.href}
@@ -66,7 +75,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 										"flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
 										isActive
 											? "bg-primary-green text-white "
-											: "text-gray-700 hover:bg-primary-green/30 hover:text-primary-green",
+											: "text-gray-700 hover:bg-primary-green/15 hover:text-primary-green",
 										isDisabled && "opacity-50 cursor-not-allowed hover:bg-white hover:text-gray-500",
 									)}
 								>
