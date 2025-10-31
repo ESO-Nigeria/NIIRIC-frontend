@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+// import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,14 @@ import { EmptyState } from "@/components/blocks/EmptyState";
 import PaginationControls from "@/components/common/Pagination";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useGetUserPublicationsQuery } from "@/store/features/publications/actions";
+import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 
 export interface Publication {
   id: string;
@@ -42,7 +51,47 @@ const PublicationTable = () => {
     [filters, currentPage, searchValue, statusValue]
   );
 
-  const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
+  // const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
+
+  // ==== TEMP DUMMY DATA FOR TESTING ====
+const [isLoading, setIsLoading] = useState(true);
+const [error, setError] = useState(null);
+
+const dummyPublications = [
+  {
+    id: "1",
+    title: "AI in Education Systems",
+    publication_type: ["Research Paper"],
+    sectors: [{ id: "1", name: "EdTech" }],
+    status: "published",
+  },
+  {
+    id: "2",
+    title: "Sustainable Robotics for Schools",
+    publication_type: ["Article"],
+    sectors: [{ id: "2", name: "STEM" }],
+    status: "draft",
+  },
+  {
+    id: "3",
+    title: "Open Access Learning Platforms",
+    publication_type: ["Report"],
+    sectors: [{ id: "3", name: "Education" }],
+    status: "pending",
+  },
+];
+
+useEffect(() => {
+  // simulate a small loading delay
+  const timer = setTimeout(() => setIsLoading(false), 800);
+  return () => clearTimeout(timer);
+}, []);
+
+const data = {
+  results: dummyPublications,
+  count: dummyPublications.length,
+};
+
 
   // Handlers
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,10 +234,33 @@ const PublicationTable = () => {
                           </span>
                         </td>
                         <td className="p-3 text-right">
-                          <button className="text-gray-500 hover:text-gray-800">
-                            <MoreVertical className="w-5 h-5" />
-                          </button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <button className="text-gray-500 hover:text-gray-800">
+                                <MoreVertical className="w-5 h-5" />
+                              </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-32">
+                              <DropdownMenuItem asChild>
+                                <Link href={`/resources/publications/${pub.id}`} className="w-full">
+                                  Preview
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link href={`/publications/${pub.id}/edit`} className="w-full">
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => alert(`Delete ${pub.title}?`)}
+                                className="text-red-600 focus:text-red-700"
+                              >
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </td>
+
                       </tr>
                     ))}
                   </tbody>
