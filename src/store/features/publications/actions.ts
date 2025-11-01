@@ -5,6 +5,7 @@ export const {
 	useGetUserPublicationsQuery,
 	useUploadPublicationMutation,
 	useGetPublicationByIdQuery,
+	useUpdatePublicationMutation,
 	useGetSectorsQuery,
 	useLikeOrUnlikePublicationMutation,
 	useGetCommentsQuery,

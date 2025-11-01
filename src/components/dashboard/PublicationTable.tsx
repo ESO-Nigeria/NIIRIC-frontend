@@ -51,46 +51,46 @@ const PublicationTable = () => {
     [filters, currentPage, searchValue, statusValue]
   );
 
-  // const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
+  const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
 
   // ==== TEMP DUMMY DATA FOR TESTING ====
-const [isLoading, setIsLoading] = useState(true);
-const [error, setError] = useState(null);
+// const [isLoading, setIsLoading] = useState(true);
+// const [error, setError] = useState(null);
 
-const dummyPublications = [
-  {
-    id: "1",
-    title: "AI in Education Systems",
-    publication_type: ["Research Paper"],
-    sectors: [{ id: "1", name: "EdTech" }],
-    status: "published",
-  },
-  {
-    id: "2",
-    title: "Sustainable Robotics for Schools",
-    publication_type: ["Article"],
-    sectors: [{ id: "2", name: "STEM" }],
-    status: "draft",
-  },
-  {
-    id: "3",
-    title: "Open Access Learning Platforms",
-    publication_type: ["Report"],
-    sectors: [{ id: "3", name: "Education" }],
-    status: "pending",
-  },
-];
+// const dummyPublications = [
+//   {
+//     id: "1",
+//     title: "AI in Education Systems",
+//     publication_type: ["Research Paper"],
+//     sectors: [{ id: "1", name: "EdTech" }],
+//     status: "published",
+//   },
+//   {
+//     id: "2",
+//     title: "Sustainable Robotics for Schools",
+//     publication_type: ["Article"],
+//     sectors: [{ id: "2", name: "STEM" }],
+//     status: "draft",
+//   },
+//   {
+//     id: "3",
+//     title: "Open Access Learning Platforms",
+//     publication_type: ["Report"],
+//     sectors: [{ id: "3", name: "Education" }],
+//     status: "pending",
+//   },
+// ];
 
-useEffect(() => {
-  // simulate a small loading delay
-  const timer = setTimeout(() => setIsLoading(false), 800);
-  return () => clearTimeout(timer);
-}, []);
+// useEffect(() => {
+//   // simulate a small loading delay
+//   const timer = setTimeout(() => setIsLoading(false), 800);
+//   return () => clearTimeout(timer);
+// }, []);
 
-const data = {
-  results: dummyPublications,
-  count: dummyPublications.length,
-};
+// const data = {
+//   results: dummyPublications,
+//   count: dummyPublications.length,
+// };
 
 
   // Handlers
@@ -247,7 +247,13 @@ const data = {
                                 </Link>
                               </DropdownMenuItem>
                               <DropdownMenuItem asChild>
-                                <Link href={`/publications/${pub.id}/edit`} className="w-full">
+                                <Link
+                                  href={{
+                                    pathname: "/dashboard/publications/upload",
+                                    query: { id: pub.id },
+                                  }}
+                                  className="w-full"
+                                >
                                   Edit
                                 </Link>
                               </DropdownMenuItem>

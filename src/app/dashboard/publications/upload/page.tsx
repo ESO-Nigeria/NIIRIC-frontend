@@ -28,7 +28,7 @@ import UploadedFile from "@/components/uploadedfile";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 
 import { useGetAllPublishersProfileQuery } from "@/store/features/auth/actions";
-import { useUploadPublicationMutation, useGetSectorsQuery } from "@/store/features/publications/actions";
+import { useUploadPublicationMutation, useUpdatePublicationMutation, useGetSectorsQuery } from "@/store/features/publications/actions";
 import { selectCurrentUser } from "@/store/features/auth/selectors";
 import { publicationTypeOptions } from "@/store/mockData/mockdata";
 import { RootState } from "@/store";
@@ -37,6 +37,10 @@ import { cn } from "@/lib/utils";
 import { handleApiError } from "@/helpers/handleApiErrors";
 import { Profile } from "@/components/types/profile";
 
+import { useSearchParams } from "next/navigation";
+import { useGetPublicationByIdQuery } from "@/store/features/publications/actions";
+
+
 /* -----------------------------
    Constants
 ----------------------------- */
@@ -44,7 +48,6 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024;
 const DEFAULT_OPTIONS = {
   keywords: ["AI", "Sustainability", "Climate", "Quantum", "Machine Learning", "Data Science"],
 };
-
 /* -----------------------------
    Schema
 ----------------------------- */
@@ -89,6 +92,14 @@ type DraftValues = z.infer<typeof draftSchema>;
    Component
 ----------------------------- */
 export default function UploadPublication(): JSX.Element {
+  const searchParams = useSearchParams();
+  const publicationId = searchParams.get("id");
+  const isEditing = !!publicationId;
+
+  // Fetch existing publication only if editing
+  const { data: publicationDetails, isLoading: isPublicationLoading } =
+    useGetPublicationByIdQuery(publicationId!, { skip: !isEditing });
+
   const router = useRouter();
   const user = useSelector(selectCurrentUser) as any;
   // const profile = useSelector((state: RootState) => state.auth.profile) as any[] | undefined;
@@ -134,6 +145,26 @@ export default function UploadPublication(): JSX.Element {
       file: null,
     },
   });
+
+  useEffect(() => {
+  if (isEditing && publicationDetails) {
+    reset({
+      title: publicationDetails.title || "",
+      abstract: publicationDetails.abstract || "",
+      publicationDate: publicationDetails.publication_date
+        ? new Date(publicationDetails.publication_date)
+        : null,
+      doi: publicationDetails.doi || "",
+      sectors: publicationDetails.sectors?.map((s: any) => s.id) || [],
+      publicationTypes: publicationDetails.publication_type || [],
+      keywords: publicationDetails.keywords || [],
+      coAuthors: publicationDetails.co_authors?.map((c: any) => c.id) || [],
+      contributors: publicationDetails.contributors?.map((c: any) => c.id) || [],
+      file: null, // don't prefill file for security reasons
+    });
+  }
+}, [isEditing, publicationDetails, reset]);
+
 
   const watchedFile = watch("file");
   const publicationTypes = watch("publicationTypes") || [];
@@ -191,6 +222,8 @@ export default function UploadPublication(): JSX.Element {
     setConfirmOpen(true);
   };
 
+const [updatePublication] = useUpdatePublicationMutation();
+
   const submitPublication = async (status: "published" | "draft") => {
     if (!pendingData) return setConfirmOpen(false);
 
@@ -212,20 +245,43 @@ export default function UploadPublication(): JSX.Element {
     };
 
     try {
-      const res = await uploadPublication(objectToFormData(payload)).unwrap();
+      let res;
+
+      // 🟩 if we’re editing, call update instead of upload
+      if (isEditing && publicationId) {
+        res = await updatePublication({
+          id: publicationId,
+          data: objectToFormData(payload),
+        }).unwrap();
+
+        toast.success(
+          status === "draft"
+            ? "Draft updated successfully"
+            : "Publication updated successfully"
+        );
+      } else {
+        // 🟦 normal upload flow
+        res = await uploadPublication(objectToFormData(payload)).unwrap();
+
+        if (status === "draft") {
+          toast.success("Publication saved as draft successfully");
+        } else {
+          setShowModal(true);
+          toast.success("Publication uploaded successfully");
+        }
+      }
+
       setPublicationData(res);
-			if(status == 'draft'){
-				router.push('/dashboard/publications')
-				toast.success("Publication saved as draft successfully");
-			}else {
-				setShowModal(true);
-				toast.success("Publication uploaded successfully");
-			}
+
+      if (status === "draft") {
+        router.push("/dashboard/publications");
+      }
+
       reset();
       removeFile();
-    } catch(error: any) {
-      toast.error("Upload failed");
-			handleApiError(error)
+    } catch (error: any) {
+      toast.error("Operation failed");
+      handleApiError(error);
     } finally {
       setConfirmOpen(false);
       setDraftModalOpen(false);
@@ -236,7 +292,7 @@ export default function UploadPublication(): JSX.Element {
     const data = watch();
 		const result = draftSchema.safeParse(data);
 		console.log('result', result)
-	  // ✅ Safe handling
+	  // Safe handling
 		if (result) {
 			if (result.error?.message) {
         const parsedErrors = JSON.parse(result.error.message);
@@ -290,9 +346,10 @@ export default function UploadPublication(): JSX.Element {
       <div className="min-h-screen bg-gray-50 p-6">
         <form onSubmit={handleSubmit(handleConfirm)} className="mx-auto">
           <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-primary-green font-medium text-xl flex items-center gap-2">
-              Upload Publication
-            </h1>
+          <h1 className="text-primary-green font-medium text-xl flex items-center gap-2">
+            {isEditing ? "Edit Publication" : "Upload Publication"}
+          </h1>
+
             <div className="flex gap-2">
               <Button type="button" variant="outline">Cancel</Button>
               <Button type="submit" variant="primary-green">
