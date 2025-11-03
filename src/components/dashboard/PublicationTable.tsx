@@ -12,6 +12,10 @@ import { EmptyState } from "@/components/blocks/EmptyState";
 import PaginationControls from "@/components/common/Pagination";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useGetUserPublicationsQuery } from "@/store/features/publications/actions";
+import { useDeletePublicationMutation } from "@/store/features/publications/actions";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -41,6 +45,7 @@ const PublicationTable = () => {
   const [filters, setFilters] = useState(defaultFilters);
   const [currentPage, setCurrentPage] = useState(1);
 
+  
   const queryParams = useMemo(
     () => ({
       ...filters,
@@ -51,46 +56,9 @@ const PublicationTable = () => {
     [filters, currentPage, searchValue, statusValue]
   );
 
-  const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
+  const { data, isLoading, error, refetch } = useGetUserPublicationsQuery(queryParams);
+  const [deletePublication, { isLoading: isDeleting }] = useDeletePublicationMutation();
 
-  // ==== TEMP DUMMY DATA FOR TESTING ====
-// const [isLoading, setIsLoading] = useState(true);
-// const [error, setError] = useState(null);
-
-// const dummyPublications = [
-//   {
-//     id: "1",
-//     title: "AI in Education Systems",
-//     publication_type: ["Research Paper"],
-//     sectors: [{ id: "1", name: "EdTech" }],
-//     status: "published",
-//   },
-//   {
-//     id: "2",
-//     title: "Sustainable Robotics for Schools",
-//     publication_type: ["Article"],
-//     sectors: [{ id: "2", name: "STEM" }],
-//     status: "draft",
-//   },
-//   {
-//     id: "3",
-//     title: "Open Access Learning Platforms",
-//     publication_type: ["Report"],
-//     sectors: [{ id: "3", name: "Education" }],
-//     status: "pending",
-//   },
-// ];
-
-// useEffect(() => {
-//   // simulate a small loading delay
-//   const timer = setTimeout(() => setIsLoading(false), 800);
-//   return () => clearTimeout(timer);
-// }, []);
-
-// const data = {
-//   results: dummyPublications,
-//   count: dummyPublications.length,
-// };
 
 
   // Handlers
@@ -113,6 +81,20 @@ const PublicationTable = () => {
     setFilters(defaultFilters);
     setCurrentPage(1);
   };
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+
+    try {
+      await deletePublication(id).unwrap();
+      toast.success("Publication deleted successfully");
+      refetch(); //  refresh the list
+    } catch (error: any) {
+      toast.error("Failed to delete publication");
+      console.error(error);
+    }
+};
+
 
   // Helpers
   const statusClass = (status: string) => {
@@ -258,7 +240,7 @@ const PublicationTable = () => {
                                 </Link>
                               </DropdownMenuItem>
                               <DropdownMenuItem
-                                onClick={() => alert(`Delete ${pub.title}?`)}
+                                onClick={() => handleDelete(pub.id, pub.title)}
                                 className="text-red-600 focus:text-red-700"
                               >
                                 Delete

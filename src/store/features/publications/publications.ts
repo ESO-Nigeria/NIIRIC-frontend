@@ -68,6 +68,14 @@ export const publicationApi = nirricApi.injectEndpoints({
 				method: "DELETE",
 			}),
 		}),
+
+		deletePublication: builder.mutation({
+			query: (id: string) => ({
+				url: `/api/publications/${id}/`,
+				method: "DELETE",
+			}),
+		}),
+
 	}),
 	overrideExisting: false,
 });
