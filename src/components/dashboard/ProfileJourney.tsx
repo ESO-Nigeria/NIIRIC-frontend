@@ -22,6 +22,7 @@ import { PersonalInfoCard } from "./Personal_info_card";
 import { QualificationCard } from "./Qualification_card";
 import { ResearchAreaCard } from "./ResearchAreaCard";
 import { ResearchInterestCard } from "./ResearchInterestCard";
+import { useSearchParams } from "next/navigation";
 
 interface JourneyProps {
 	personalInformation: UserProps | null;
@@ -46,10 +47,15 @@ export function ProfileJourney({
 	research_area_loading,
 	showHeader=true
 }: JourneyProps) {
+
+	const searchParam = useSearchParams();
+	const edit = searchParam.get("edit");
+
+
 	return (
 		<Card className="mb-8 p-8 border-0 shadow-none rounded-8 font-poppins">
 			<CardContent className="space-y-3">
-				{showHeader && (
+				{showHeader || !edit && (
 					
 					<>
 				<div className="flex items-center justify-between">

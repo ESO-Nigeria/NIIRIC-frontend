@@ -6,6 +6,7 @@ import "./styles/embla.css";
 import "./styles/animations.css";
 import { ToastContainer } from "react-toastify";
 import ReduxProvider from "./ReduxProvider";
+import WebSocketProvider from "@/components/WebSocketProvider";
 
 const raleway = Raleway({
 	variable: "--font-raleway",
@@ -38,6 +39,8 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const userId = 'current-user-id';
+
 	return (
 		<html lang="en">
 			 <head>
@@ -53,7 +56,9 @@ export default function RootLayout({
 				<ReduxProvider>
 					{/* <SessionProvider> */}
 					<ToastContainer limit={5} />
-					{children}
+					<WebSocketProvider userId={userId}>
+            {children}
+          </WebSocketProvider>
 					{/* </SessionProvider> */}
 				</ReduxProvider>
 			</body>

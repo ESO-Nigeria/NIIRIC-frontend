@@ -19,15 +19,11 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import PublicationsTab from "@/components/common/PublicationTab";
 
-/**
- * Dashboard page
- * - Adds a unified loading state that displays while any RTK query is loading
- * - Calls all refetch functions on mount
- */
+
 export default function DashboardPage(): JSX.Element {
   const token = useSelector((state: RootState) => state.auth.token);
   const user = useSelector(selectCurrentUser);
-
+  
   const router = useRouter();
 
   const {
@@ -73,6 +69,8 @@ export default function DashboardPage(): JSX.Element {
   }, [refetch, refetchQualifications, refetchInterest, refetchResearchArea]);
 
   console.log('userProfile', userProfile)
+
+
   return (
     <DashboardLayout>
       <div className="pb-2">
