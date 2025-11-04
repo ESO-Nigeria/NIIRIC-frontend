@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 
 interface ImageItem {
-  url: string;
+  url?: string;
   caption?: string;
 }
 

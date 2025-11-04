@@ -11,13 +11,19 @@ import {
 } from "@/components/ui/dialog";
 import { ImageCarousel } from "@/components/blocks/ImageCarousel";
 
+interface ImageItem {
+  url?: string;
+  caption?: string;
+}
 interface GalleryItem {
-  id: number | string;
-  title: string;
+  id?: number | string;
+  title?: string;
   description?: string;
   date?: string;
-  cover_image_url: string;
-  images?: string[];
+  cover_image_url?: string;
+  images?: ImageItem[];
+  url?: string;
+  caption?: string;
 }
 
 interface GalleryGridProps {
@@ -104,7 +110,7 @@ export default function GalleryGrid({
           {selectedEvent && (
             <>
               <ImageCarousel
-                images={selectedEvent.images}
+                images={selectedEvent.images || []}
                 fallbackImage={selectedEvent.cover_image_url}
                 height="h-[450px]"
                 className="rounded-none"
