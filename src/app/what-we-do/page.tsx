@@ -81,7 +81,7 @@ function Page() {
 					image={Image3}
 					imagePosition="right"
 					primaryButtonText="Become a member"
-					onPrimaryClick={() => router.push("/auth/register")}
+					onPrimaryClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
 					onSecondaryClick={() => router.push("/about")}
 				/>
 				<DecorativeCurve

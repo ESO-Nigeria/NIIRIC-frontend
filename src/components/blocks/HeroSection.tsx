@@ -17,7 +17,9 @@ const HeroSection: React.FC = () => {
 						</p>
 						<div className="flex justify-center md:justify-start space-x-6">
 							{/* Buttons */}
-							<button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+							<button
+							 onClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
+							 className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
 								Become a member
 							</button>
 							<button className="px-6 py-3 bg-transparent border-2 border-yellow-500 text-yellow-500 font-semibold rounded-lg shadow-md hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50">
