@@ -20,6 +20,15 @@ export const publicationApi = nirricApi.injectEndpoints({
 			// invalidatesTags: ["Publications"],
 		}),
 
+		updatePublication: builder.mutation({
+			query: ({ id, data }) => ({
+				url: `/api/publications/${id}/`,
+				method: "PUT", // or "PATCH" if your backend allows partial updates
+				body: data,
+			}),
+		}),
+
+
 		getPublicationById: builder.query({
 			query: (id) => `/api/publications/${id}/`,
 			// providesTags: ["Publications"],
@@ -59,6 +68,14 @@ export const publicationApi = nirricApi.injectEndpoints({
 				method: "DELETE",
 			}),
 		}),
+
+		deletePublication: builder.mutation({
+			query: (id: string) => ({
+				url: `/api/publications/${id}/`,
+				method: "DELETE",
+			}),
+		}),
+
 	}),
 	overrideExisting: false,
 });

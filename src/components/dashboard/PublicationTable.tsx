@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+// import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,18 @@ import { EmptyState } from "@/components/blocks/EmptyState";
 import PaginationControls from "@/components/common/Pagination";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useGetUserPublicationsQuery } from "@/store/features/publications/actions";
+import { useDeletePublicationMutation } from "@/store/features/publications/actions";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 
 export interface Publication {
   id: string;
@@ -32,6 +45,7 @@ const PublicationTable = () => {
   const [filters, setFilters] = useState(defaultFilters);
   const [currentPage, setCurrentPage] = useState(1);
 
+  
   const queryParams = useMemo(
     () => ({
       ...filters,
@@ -42,7 +56,10 @@ const PublicationTable = () => {
     [filters, currentPage, searchValue, statusValue]
   );
 
-  const { data, isLoading, error } = useGetUserPublicationsQuery(queryParams);
+  const { data, isLoading, error, refetch } = useGetUserPublicationsQuery(queryParams);
+  const [deletePublication, { isLoading: isDeleting }] = useDeletePublicationMutation();
+
+
 
   // Handlers
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +81,20 @@ const PublicationTable = () => {
     setFilters(defaultFilters);
     setCurrentPage(1);
   };
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+
+    try {
+      await deletePublication(id).unwrap();
+      toast.success("Publication deleted successfully");
+      refetch(); //  refresh the list
+    } catch (error: any) {
+      toast.error("Failed to delete publication");
+      console.error(error);
+    }
+};
+
 
   // Helpers
   const statusClass = (status: string) => {
@@ -185,10 +216,39 @@ const PublicationTable = () => {
                           </span>
                         </td>
                         <td className="p-3 text-right">
-                          <button className="text-gray-500 hover:text-gray-800">
-                            <MoreVertical className="w-5 h-5" />
-                          </button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <button className="text-gray-500 hover:text-gray-800">
+                                <MoreVertical className="w-5 h-5" />
+                              </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-32">
+                              <DropdownMenuItem asChild>
+                                <Link href={`/resources/publications/${pub.id}`} className="w-full">
+                                  Preview
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link
+                                  href={{
+                                    pathname: "/dashboard/publications/upload",
+                                    query: { id: pub.id },
+                                  }}
+                                  className="w-full"
+                                >
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleDelete(pub.id, pub.title)}
+                                className="text-red-600 focus:text-red-700"
+                              >
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </td>
+
                       </tr>
                     ))}
                   </tbody>

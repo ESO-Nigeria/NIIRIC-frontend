@@ -31,6 +31,7 @@ export default function Hero() {
 							<Button
 								variant="primary-green"
 								className="text-base h-12  mt-4 sm:mt-0"
+								onClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
 							>
 								Become a member <ArrowRight className="size-5" />{" "}
 							</Button>
