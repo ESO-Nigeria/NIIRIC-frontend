@@ -69,6 +69,7 @@ function Page() {
 				imageAlt="Reports Banner Image"
 				showSearch={true}
 				searchValue={searchValue}
+        		placeholderText="Search for research papers, case studies, and industry insights."
 				onSearchValueChange={setSearchValue}
 				categoryValue={categoryValue}
 				onCategoryChange={setCategoryValue}

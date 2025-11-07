@@ -21,6 +21,7 @@ interface HeroSectionProps {
 	imageAlt?: string;
 	showSearch?: boolean;
 	searchValue?: string;
+	placeholderText?: string;
 	onSearchValueChange?: (value: string) => void;
 	categoryValue?: string;
 	onCategoryChange?: (value: string) => void;
@@ -36,6 +37,7 @@ const InfoHero: React.FC<HeroSectionProps> = ({
 	imageAlt = "Hero Image",
 	showSearch = false,
 	searchValue = "",
+	placeholderText = "",
 	onSearchValueChange,
 	categoryValue = "",
 	onCategoryChange,
@@ -104,7 +106,7 @@ const InfoHero: React.FC<HeroSectionProps> = ({
 								</span>
 								<Input
 									type="text"
-									placeholder="Looking for funding, training, jobs?"
+									placeholder={placeholderText}
 									className="w-[55%] min-w-0 bg-white outline-none ring-0 text-gray-700 placeholder:text-gray-400 px-2 py-2 border-0 shadow-none focus:bg-transparent focus:ring-0 focus:outline-none focus:border-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:outline-none active:bg-transparent active:ring-0 active:outline-none active:border-0"
 									value={searchValue}
 									onChange={(e) => onSearchValueChange?.(e.target.value)}

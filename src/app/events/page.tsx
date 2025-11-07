@@ -116,6 +116,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
         imageAlt="Events Banner Image"
         showSearch={true}
         searchValue={searchValue}
+        placeholderText="Search for events"
         onSearchValueChange={setSearchValue}
         categoryValue={categoryValue}
         onCategoryChange={setCategoryValue}
