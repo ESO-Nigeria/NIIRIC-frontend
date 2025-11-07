@@ -14,7 +14,7 @@ export default function ConversationItem({ conv, selectedUser, onSelect }: any) 
         className="w-10 h-10 rounded-full object-cover border border-[#039855]"
       />
       <div className="flex-1 min-w-0">
-        <h4 className="font-medium text-gray-800 truncate">{conv.name}</h4>
+        <h4 className="font-medium text-gray-800 truncate">{conv.first_name} {conv?.last_name}</h4>
        <p dangerouslySetInnerHTML={{ __html: conv.lastMessage ?? "" }} className="text-sm text-gray-500 line-clamp-2 overflow-hidden " />
           
       </div>

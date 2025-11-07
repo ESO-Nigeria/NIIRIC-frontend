@@ -99,11 +99,11 @@ export default function Breadcrumbs({
               <ChevronsRight className="h-4 w-4" />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              {item.isLast || !item.href ? (
+              {item.isLast  ? (
                 <BreadcrumbPage className="text-[#667085] capitalize">{item.label}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link className="text-[#667085] capitalize" href={item.href}>
+                  <Link href="#" className="text-[#667085] capitalize" >
                     {item.label}
                   </Link>
                 </BreadcrumbLink>

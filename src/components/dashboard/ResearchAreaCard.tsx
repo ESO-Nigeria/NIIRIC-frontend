@@ -2,10 +2,12 @@
 
 import { BookUp, Heart, PenLine } from "lucide-react";
 import { PencilWithLine } from "@/assets/icons/icons";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { ResearchArea } from "../types/profile";
+import Link from "next/link";
+import clsx from "clsx";
 
 type ResearchAreaCardProps = {
 	data: ResearchArea;
@@ -52,6 +54,20 @@ export function ResearchAreaCard({
 						Edit Research Area
 					</Button>
 				</div>
+
+				<div className="flex justify-end mt-4">
+					<Link
+								href={`/dashboard/profile-journey/research-area/?edit=true`}
+								onClick={onEdit}
+								className={clsx(
+									buttonVariants({ variant: "link", size: "sm" }),
+									"ml-auto text-primary-green font-normal underline text-base ",
+								)}
+							>
+								<PencilWithLine className="h-5 w-5 mr-1" /> Edit Research Area
+							</Link>
+						
+					</div>
 			</Card>
 		</div>
 	);

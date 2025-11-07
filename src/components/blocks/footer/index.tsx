@@ -19,7 +19,7 @@ const Footer = ({
 	return (
 		<div>
 			{withSubscribe && (
-				<section className="relative bg-white py-22 px-6 lg:px-8">
+				<section className="relative border-t-1 border-primary-green/10 bg-white py-22 px-6 lg:px-8">
 					<div className="container  mx-auto space-y-6 flex flex-col sm:flex-row items-center justify-between">
 						<div className="space-y-4 w-full sm:w-1/2 ">
 							<Badge

@@ -2,10 +2,12 @@
 
 import { Building2, GraduationCap, Pencil } from "lucide-react";
 import { PencilWithLine } from "@/assets/icons/icons";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Qualification } from "../types/profile";
 import { formatString } from "@/helpers/helpers";
+import Link from "next/link";
+import clsx from "clsx";
 
 // type Qualification = {
 //   role: string;
@@ -25,6 +27,9 @@ export function QualificationCard({
 	qualifications,
 	onEdit,
 }: QualificationCardProps) {
+
+
+console.log('qualifications', qualifications)
 	return (
 		<div className="space-y-4">
 			{/* Header */}
@@ -64,15 +69,17 @@ export function QualificationCard({
 					{/* Edit Button */}
 					{/* {onEdit && ( */}
 					<div className="flex justify-end mt-4">
-						<Button
-							size={"sm"}
-							variant="link"
-							className="ml-auto font-normal text-primary-green underline text-base"
-							// onClick={onEdit}
-						>
-							<PencilWithLine className="h-4 w-4" />
-							Edit Qualification
-						</Button>
+					<Link
+								href={`/dashboard/profile-journey/qualification/?edit=true`}
+								onClick={onEdit}
+								className={clsx(
+									buttonVariants({ variant: "link", size: "sm" }),
+									"ml-auto text-primary-green font-normal underline text-base ",
+								)}
+							>
+								<PencilWithLine className="h-5 w-5 mr-1" /> Edit Qualifications
+							</Link>
+						
 					</div>
 					{/* )} */}
 				</CardContent>

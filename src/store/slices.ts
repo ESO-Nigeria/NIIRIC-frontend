@@ -3,3 +3,4 @@ export { default as opportunityReducer } from "./features/opportunities/opportun
 export { default as publicationReducer } from "./features/publications/publication.slice";
 export { default as reportReducer } from "./features/reports/report.slice";
 export { default as generalReducer } from "./features/general/general.slice";
+export { default as messageReducer } from "./features/messages/message.slice"

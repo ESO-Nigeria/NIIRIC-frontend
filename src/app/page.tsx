@@ -20,6 +20,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import GeneralLayout from "@/layouts/General";
 import { useGetPublicationsQuery } from "@/store/features/publications/actions";
 import { Key } from "react";
+import GalleryGrid from "@/components/blocks/GalleryGrid";
+import { useGetGalleryImagesQuery } from "@/store/features/general/actions";
 
 const features = [
 	{
@@ -68,6 +70,7 @@ export default function Home() {
     isError: isRecError,
     refetch: refetchPublication
   } = useGetPublicationsQuery({});
+  const { data, isLoading, error } = useGetGalleryImagesQuery({});
 
 	return (
 		<GeneralLayout>
@@ -228,7 +231,11 @@ export default function Home() {
 						</h2>
 					</div>
 					<div className="">
-						<EventsCarousel />
+					<GalleryGrid
+								items={data?.results?.slice(0,3) || []}
+								isLoading={isLoading}
+								error={error}
+							/>
 					</div>
 				</div>
 			</section>

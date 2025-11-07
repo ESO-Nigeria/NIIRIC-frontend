@@ -95,6 +95,13 @@ export const authApi = nirricApi.injectEndpoints({
 				body: credentials,
 			}),
 		}),
+		deleteUserQualification: builder.mutation({
+			query: (credentials) => ({
+				url: `/api/qualifications/${credentials?.id}/`,
+				method: "Delete",
+				body: credentials,
+			}),
+		}),
 		getUserInterests: builder.query({
 			query: () => "/api/research-interests/",
 		}),
@@ -110,6 +117,12 @@ export const authApi = nirricApi.injectEndpoints({
 				url: `/api/research-interests/${credentials?.id}/`,
 				method: "PUT",
 				body: credentials,
+			}),
+		}),
+		deleteUserInterest: builder.mutation({
+			query: (id) => ({
+				url: `/api/research-interests/${id}/`,
+				method: "Delete",
 			}),
 		}),
 		getUserResearchArea: builder.query({

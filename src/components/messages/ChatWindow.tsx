@@ -2,6 +2,14 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import FindResearchers from "@/components/messages/FindResearchers";
 import MessageInput from "./MessageInput";
 import { getRelativeTime } from "./ConversationList";
+import { useGetAllPublishersProfileQuery } from "@/store/features/auth/actions";
+import { useSocket } from "@/hooks/useWebSocket";
+import { useGetConversationQuery, useSendMessageMutation } from "@/store/features/messages/actions";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Profile } from "../types/profile";
 
 export default function ChatWindow({
   selectedUser,
@@ -14,6 +22,33 @@ export default function ChatWindow({
   setConversations,
 }: any) {
   const activeMessages = selectedUser ? messages[selectedUser.id] || [] : [];
+  const searchParams = useSearchParams();
+
+  const conversationId = searchParams.get("user");
+
+  const { data: publishers, isLoading, error, refetch} = useGetAllPublishersProfileQuery({})
+  const [message, setMessage] = useState({})
+  const [run, setRun] = useState()
+  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
+  const {data: conversation,  isLoading: isGettingConversation, refetch: refetchConversation  } = useGetConversationQuery(conversationId)
+
+  const userId = useSelector((state: any) => state.auth.user?.id ) ;
+
+  const { send, isConnected, disconnect, reconnect } = useSocket({
+    url: "wss://ws.postman-echo.com",
+    path:'/handling',
+    userId,
+    onConnect: () => console.log("✅ Connected to WebSocket"),
+    onDisconnect: () => console.log("❌ Disconnected"),
+    reconnectInterval: 3000,
+    maxReconnectAttempts: 5,
+  });
+
+  useEffect(() => {
+    refetchConversation()
+  }, [run])
+
+  console.log('publishers', selectedUser, activeMessages, conversation, isGettingConversation, message, )
 
   return (
     <div className="flex-[1.5]">
@@ -29,6 +64,7 @@ export default function ChatWindow({
                     setSelectedUser(user);
                 }}
                 selectedUser={selectedUser}
+                publishers={publishers?.results}
                 />
 
             </>
@@ -41,7 +77,7 @@ export default function ChatWindow({
               />
               <div>
                 <h3 className="font-medium text-gray-800">
-                  {selectedUser?.name}
+                  {selectedUser?.name || selectedUser?.first_name + ' ' + selectedUser?.last_name}
                 </h3>
                 <p className="text-sm text-gray-500">
                   {selectedUser?.university || "Researcher"}
@@ -53,22 +89,23 @@ export default function ChatWindow({
 
         {/* Chat Display */}
         <CardContent className="px-6 py-4 min-h-[100px] max-h-[400px] overflow-y-auto flex flex-col gap-3">
+          {isGettingConversation && <p>loading</p> }
           {!conversationView ? (
             <div className="text-gray-400 text-center py-20">
               Select a user and start a conversation
             </div>
-          ) : activeMessages.length === 0 ? (
+          ) : conversation?.results.length === 0 ? (
             <div className="text-gray-400 text-center py-20">
               No messages yet. Say hello 👋
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {activeMessages.map((msg: any, idx: number) => {
-                const isSelf = msg.fromSelf;
-                const senderName = isSelf ? "You" : selectedUser?.name;
-                const avatar = isSelf
-                  ? "/default-avatar.png" // replace with your profile image
-                  : selectedUser?.avatar || "/default-avatar.png";
+              {conversation?.results?.map((msg: any, idx: number) => {
+                const isSelf = msg.sender == userId;
+                const senderName = isSelf ? "You" : msg?.sender_name;
+                // const avatar = isSelf
+                //   ? {} // replace with your profile image
+                //   : selectedUser?.avatar || "/default-avatar.png";
 
                 return (
                   <div
@@ -79,17 +116,17 @@ export default function ChatWindow({
                     <div className="flex items-center gap-2 mb-1">
                       {!isSelf && (
                         <img
-                          src={avatar}
+                          src={msg?.sender_profile_pic}
                           alt={senderName}
                           className="w-[48px] h-[48px] rounded-full object-cover border border-gray-300"
                         />
                       )}
-                      <span className="text-[14px] font-semibold font-medium text-gray-600 ">
+                      <span className="text-[14px]  capitalize font-medium text-gray-600 ">
                         {senderName}
                       </span>
                       {isSelf && (
                         <img
-                          src="https://i.pravatar.cc/40?img=3"
+                          src={msg?.sender_profile_pic}
                           alt={senderName}
                           className="w-[48px] h-[48px] rounded-full object-cover border border-gray-300"
                         />
@@ -98,15 +135,13 @@ export default function ChatWindow({
 
                     {/* Message Bubble */}
                     <div
-                      dangerouslySetInnerHTML={{ __html: msg.text ?? "" }}
+                      dangerouslySetInnerHTML={{ __html: msg.content ?? "" }}
                       className={`px-4 py-2 rounded-[10px] text-sm break-words max-w-[70%] ${
                         isSelf
                           ? "bg-gray-100 text-base-800 rounded-tr-none"
                           : "bg-gray-50  rounded-tl-none"
                       }`}
                     />
-                    
-
                     {/* Timestamp */}
                     <span
                       className={`text-[11px] text-gray-400 mt-1 ${
@@ -129,6 +164,8 @@ export default function ChatWindow({
             selectedUser={selectedUser}
             messages={messages}
             setMessages={setMessages}
+            run={run}
+            setRun={setRun}
             setConversations={setConversations}
             conversations={conversations}
             setConversationView={setConversationView}

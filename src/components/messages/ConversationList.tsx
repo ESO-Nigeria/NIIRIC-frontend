@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import Link from "next/link";
 import ConversationItem from "./ConversationItem";
+import { useGetMessageListQuery } from "@/store/features/messages/actions";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export const getRelativeTime = (timestamp: string) => {
   const now = new Date();
@@ -18,7 +21,7 @@ export const getRelativeTime = (timestamp: string) => {
 };
 
 export default function ConversationList({
-  conversations,
+  // conversations,
   selectedUser,
   setSelectedUser,
   setConversationView,
@@ -31,10 +34,41 @@ export default function ConversationList({
     time: string;
     timestamp: string;
   };
+  const {data: conversations, isLoading, error, refetch} = useGetMessageListQuery({})
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+    // ✅ Read userId from query params
+    const userId = searchParams.get("userId");
+
+    // ✅ Auto-select conversation if userId exists in URL
+    useEffect(() => {
+      if (userId) {
+        const found = conversations.find((conv: any) => conv.id === userId);
+        if (found) {
+          setSelectedUser(found);
+          setConversationView(true);
+        }
+      }
+    }, [userId, conversations]);
+
+const handleSelect = (conv: any) => {
+  setSelectedUser(conv);
+  setConversationView(true);
+
+  // ✅ Update query params dynamically
+  const params = new URLSearchParams(window.location.search);
+  params.set("user", conv.id); // or conv.userId
+
+  router.push(`?${params.toString()}`);
+};
+
+
+  console.log('data', conversations)
   return (
     <div className="flex-1">
-      <Card className="border-none h-screen">
+      <Card className="border-none h-screen ">
         <CardHeader>
           {/* Filter Buttons */}
           <div className="flex gap-4 w-full mb-2">
@@ -67,7 +101,7 @@ export default function ConversationList({
 
         {/* Conversation Items */}
         <CardContent className="p-4 text-gray-400">
-          {conversations.length === 0 ? (
+          {conversations?.results.length === 0 ? (
             <div className="flex items-center justify-center text-center">
               <div>
                 <p className="text-[18px] font-dm_sans font-medium">
@@ -83,14 +117,13 @@ export default function ConversationList({
             </div>
           ) : (
             <div className="flex flex-col divide-y">
-              {conversations.map((conv: ConversationType) => (
+              {conversations?.results.map((conv: ConversationType) => (
                 <ConversationItem
                   key={conv.id}
                   conv={conv}
                   selectedUser={selectedUser}
                   onSelect={() => {
-                    setSelectedUser(conv);
-                    setConversationView(true);
+                    handleSelect(conv)
                   }}
                 />
               ))}
