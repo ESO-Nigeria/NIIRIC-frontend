@@ -86,7 +86,8 @@ export default function HeroCarouselWithIndicatorsAndAutoplay() {
 
 								<div className="mt-10 sm:flex sm:items-center space-x-4 sm:space-x-8">
 									<Link
-										onPrimaryClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
+										href="https://bit.ly/joinNIIRIC"
+										target="_blank" 
 										className={clsx(
 											buttonVariants({ variant: "primary-green" }),
 											"text-base mt-4 h-12 sm:mt-0",
