@@ -81,6 +81,7 @@ function Page() {
 				imageAlt="Opportunities Banner Image"
 				showSearch={true}
 				searchValue={searchValue}
+				placeholderText="Looking for funding, training, jobs?"
 				onSearchValueChange={setSearchValue}
 				categoryValue={categoryValue}
 				onCategoryChange={setCategoryValue}
