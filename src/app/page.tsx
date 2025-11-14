@@ -148,7 +148,6 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-			{/* */}
 
 			<section className="bg-white py-12 lg:py-20 px-6 lg:px-8">
 				<div className="container mx-auto space-y-6">

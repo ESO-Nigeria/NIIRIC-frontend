@@ -35,7 +35,7 @@ export function EventsCarousel() {
 
 	return (
 		<>
-			<Carousel plugins={[Autoplay()]} className="w-full relative">
+			<Carousel plugins={[Autoplay()]} className="w-full relative  ">
 				<CarouselContent className="-ml-1">
 					{events.map((event) => (
 						<CarouselItem
