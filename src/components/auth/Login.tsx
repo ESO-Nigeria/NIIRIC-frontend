@@ -67,21 +67,35 @@ const Login = () => {
 	};
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		try {
-			const { data, error } = await login(values);
-			if (data) {
-				dispatch(setCredentials(data));
-				router.push("/dashboard");
-				form.reset();
-			}
-			if (error) {
-				toast.error("Wrong username and password");
-			}
-		} catch (error) {
-			console.log(error, "error");
-			toast.error("Wrong username and password");
-		}
+	try {
+		const data = await login(values).unwrap();
+		dispatch(setCredentials(data));
+		await Promise.resolve();
+		router.push("/dashboard");
+		form.reset();
+	} catch {
+		toast.error("Wrong username and password");
+	}
 	};
+
+
+
+	// const onSubmit = async (values: z.infer<typeof formSchema>) => {
+	// 	try {
+	// 		const { data, error } = await login(values);
+	// 		if (data) {
+	// 			dispatch(setCredentials(data));
+	// 			router.push("/dashboard");
+	// 			form.reset();
+	// 		}
+	// 		if (error) {
+	// 			toast.error("Wrong username and password");
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error, "error");
+	// 		toast.error("Wrong username and password");
+	// 	}
+	// };
 
 
 	const handleOAuthLogin = (provider: "google" | "linkedin") => {
