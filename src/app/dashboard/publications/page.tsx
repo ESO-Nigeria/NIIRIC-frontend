@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import DocPlaceholder from "@/assets/doc_placeholder.png";
 import { EventAndOpportunityCard } from "@/components/blocks/EventsAndOpportunityCard";
 import { PublicationCard } from "@/components/blocks/PublicationCard";
-import { TeamMemberCard } from "@/components/blocks/UsersCard";
+// import { TeamMemberCard } from "@/components/blocks/UsersCard";
 import Breadcrumbs from "@/components/common/Breadcrumb";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import PublicationsLayout from "@/components/layouts/Publications";
