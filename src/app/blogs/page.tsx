@@ -22,11 +22,9 @@ export interface BlogItemType extends BlogCardItemType {
   blog_video?: string | null;
 }
 
-interface BlogsProps {
-  defaultFilter?: "recent" | "published" | "all";
-}
 
-export default function Blogs({ defaultFilter = "all" }: BlogsProps) {
+
+export default function Blogs() {
   const [searchValue, setSearchValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [sortOrder, setSortOrder] = useState<"newer" | "older">("newer");
