@@ -30,11 +30,8 @@ interface EventItemType {
   start_date?: string;
 }
 
-interface EventsProps {
-  defaultFilter?: "upcoming" | "past" | "all";
-}
 
-export default function Gallery({ defaultFilter = "all" }: EventsProps) {
+export default function Gallery() {
   const [searchValue, setSearchValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [sortOrder, setSortOrder] = useState<"newer" | "older">("newer");
