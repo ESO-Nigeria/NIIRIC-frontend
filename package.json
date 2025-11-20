@@ -9,6 +9,7 @@
 		"lint": "eslint --fix"
 	},
 	"dependencies": {
+		"@auth/core": "^0.34.3",
 		"@auth/nextjs": "^0.0.0-380f8d56",
 		"@headlessui/react": "^2.2.9",
 		"@hookform/resolvers": "^5.2.2",
