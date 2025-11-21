@@ -22,6 +22,23 @@ import { useGetPublicationsQuery } from "@/store/features/publications/actions";
 import { Key } from "react";
 import GalleryGrid from "@/components/blocks/GalleryGrid";
 import { useGetGalleryImagesQuery } from "@/store/features/general/actions";
+import { useGetBlogsQuery } from "@/store/features/blogs/actions";
+
+export interface BlogCardItemType {
+  id: string;
+  title: string;
+  brief_info: string;
+  category?: string;
+  blog_image?: string | null;
+  date?: string;
+}
+
+export interface BlogItemType extends BlogCardItemType {
+  full_info: string;
+  author_name: string;
+  blog_video?: string | null;
+}
+
 
 const features = [
 	{
@@ -72,12 +89,14 @@ export default function Home() {
   } = useGetPublicationsQuery({});
   const { data, isLoading, error } = useGetGalleryImagesQuery({});
 
+  
+
 	return (
 		<GeneralLayout>
 			<HeroCarouselWithIndicatorsAndAutoplay />
 			{/* <Hero /> */}
 
-			<section className=" relative py-20 px-6 lg:px-10 lg:h-[600px] -top-1/5">
+			{/* <section className=" relative py-20 px-6 lg:px-10 lg:h-[600px] -top-1/5">
 				<JoinCommunity
 					image={"/assets/images/section_banner.png"}
 					imagePosition="left" // or "left"
@@ -96,8 +115,58 @@ export default function Home() {
 					primaryButtonText="Learn More"
 					onPrimaryClick={() => router.push("/about")}
 				/>
-			</section>
+			</section> */}
 
+			<section className="py-12 lg:py-20 px-6 lg:px-8">
+				<div className="container mx-auto space-y-6">
+					<div className="space-y-4">
+						<Badge
+							variant="primary-brown-25"
+							className="uppercase rounded-8 text-white bg-[#FFFFFF40]"
+						>
+							Blogs
+						</Badge>
+						<h2 className="text-3xl font-bold w-full lg:w-1/2 text-white leading-12 sm:text-4xl">
+							<span className="block">
+								Explore insights, stories, and expert articles from across the NIIRIC community.
+							</span>
+						</h2>
+					</div>
+
+					<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6  ">
+						{features.map((feature) => (
+							<div
+								key={feature.title}
+								className="flex flex-col  rounded-xl bg-white  gap-5"
+							>
+								<div className=" flex items-center justify-center rounded-full">
+									{/* <feature.icon className="size-6" /> */}
+									<img
+										src={feature?.image}
+										alt=""
+										className="w-full object-cover rounded-t-lg"
+										loading="lazy"
+									/>
+								</div>
+								<div className="gap-y-4 flex flex-col  pb-5 px-5">
+									<span className="text-base font-medium text-primary-green">
+										{feature.title}
+									</span>
+									<p className="text-main-text-color text-sm leading-6">
+										{feature.description}
+									</p>
+								</div>
+
+								{/* <div> */}
+								{/* <div className="flex size-8 items-center justify-center bg-primary-green/34 rounded-full p-2">
+									<feature.icon className="size-5" />
+								</div> */}
+								{/* </div> */}
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
 			<section className="bg-primary-green py-12 lg:py-20 px-6 lg:px-8">
 				<div className="container mx-auto space-y-6">
 					<div className="space-y-4">

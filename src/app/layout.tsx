@@ -30,7 +30,7 @@ const DmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "NIIRIC",
+  title: "NIIRIC - The Nigerian Impact Investing Research Industry Collaborative",
   description: "Catalyzing Impact Through Research and Collaboration",
   icons: {
     icon: "/favicon.ico", 
