@@ -79,7 +79,7 @@ export default function Blogs() {
         tag="Blogs"
         title="Latest Blogs"
         description="Explore insights, stories, and expert articles from across the NIIRIC community."
-        imageUrl="/assets/images/blogs_hero.jpg"
+        imageUrl="/assets/images/blog-hero.jfif"
         imageAlt="Blogs Banner Image"
         showSearch={true}
         searchValue={searchValue}
