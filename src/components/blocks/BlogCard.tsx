@@ -32,10 +32,10 @@ const BlogCard: React.FC<BlogCardProps> = ({ item }) => {
           <img
             src={item.blog_image}
             alt={item.title}
-            className="h-48 w-full object-cover"
+            className="h-48 w-full object-cover rounded-2xl"
           />
         ) : (
-          <div className="h-48 w-full bg-gray-200"></div>
+          <div className="h-48 w-full bg-gray-200 rounded-2xl"></div>
         )}
       </div>
 
