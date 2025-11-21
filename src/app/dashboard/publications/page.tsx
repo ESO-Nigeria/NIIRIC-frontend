@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import DocPlaceholder from "@/assets/doc_placeholder.png";
 import { EventAndOpportunityCard } from "@/components/blocks/EventsAndOpportunityCard";
 import { PublicationCard } from "@/components/blocks/PublicationCard";
-import { TeamMemberCard } from "@/components/blocks/UsersCard";
+// import { TeamMemberCard } from "@/components/blocks/UsersCard";
 import Breadcrumbs from "@/components/common/Breadcrumb";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import PublicationsLayout from "@/components/layouts/Publications";
@@ -42,37 +42,37 @@ import { selectCurrentUser } from "@/store/features/auth/selectors";
 import PublicationsTab from "@/components/common/PublicationTab";
 import PublicationTable from "@/components/dashboard/PublicationTable";
 
-export const team = [
-	{
-		id: 1,
-		name: "Dr. Amarachi Collins",
-		role: "Senior Researcher",
-		avatarUrl: "",
-	},
-	{
-		id: 2,
-		name: "John Okafor",
-		role: "Policy Analyst",
-		avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-	},
-];
+// export const team = [
+// 	{
+// 		id: 1,
+// 		name: "Dr. Amarachi Collins",
+// 		role: "Senior Researcher",
+// 		avatarUrl: "",
+// 	},
+// 	{
+// 		id: 2,
+// 		name: "John Okafor",
+// 		role: "Policy Analyst",
+// 		avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+// 	},
+// ];
 
-export const events = [
-	{
-		id: 1,
-		title: "Catalyst Impact Fund - Small Grants for Early-Stage",
-		deadline: "01 June 2025",
-		description:
-			"The Nigeria Impact Investing Research Industry Collaborative (NIIRC) is Nigeria’s premier network dedicated to advancing",
-	},
-	{
-		id: 2,
-		title: "Green Innovation Challenge",
-		deadline: "15 July 2025",
-		description:
-			"Empowering local startups with grants to tackle environmental and sustainability challenges in Nigeria.",
-	},
-];
+// export const events = [
+// 	{
+// 		id: 1,
+// 		title: "Catalyst Impact Fund - Small Grants for Early-Stage",
+// 		deadline: "01 June 2025",
+// 		description:
+// 			"The Nigeria Impact Investing Research Industry Collaborative (NIIRC) is Nigeria’s premier network dedicated to advancing",
+// 	},
+// 	{
+// 		id: 2,
+// 		title: "Green Innovation Challenge",
+// 		deadline: "15 July 2025",
+// 		description:
+// 			"Empowering local startups with grants to tackle environmental and sustainability challenges in Nigeria.",
+// 	},
+// ];
 
 
 export default function Publications() {

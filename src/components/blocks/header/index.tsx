@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Calendar, File, Menu, Search, Trees } from "lucide-react";
+import { Badge, Calendar, File, Menu, Search, Bookmark } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -69,6 +69,18 @@ const TopMenu = [
 					/>
 				),
 				href: "/opportunities",
+			},
+			{
+				title: "Blogs",
+				description:
+					"Discover expert insights, practical guides, and industry stories that inspire growth and innovation",
+				icon: (
+					<Bookmark
+						className="size-5 shrink-0 text-primary-green"
+						strokeWidth={3}
+					/>
+				),
+				href: "/blogs",
 			},
 		],
 	},

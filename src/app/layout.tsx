@@ -12,22 +12,25 @@ const raleway = Raleway({
 	variable: "--font-raleway",
 	subsets: ["latin"],
 	weight: ["400", "500", "600", "700"],
+	display: "swap"
 });
 
 const poppins = Poppins({
 	subsets: ["latin"],
 	variable: "--font-poppins",
-	weight: ["400", "500", "600", "700"], // optional: choose the weights you need
+	weight: ["400", "500", "600", "700"],
+	display: "swap" 
 });
 
 const DmSans = DM_Sans({
 	subsets: ["latin"],
 	variable: "--font-dm_sans",
-	weight: ["400", "500", "600", "700"], // optional: choose the weights you need
+	weight: ["400", "500", "600", "700"],
+	display: "swap" 
 });
 
 export const metadata: Metadata = {
-  title: "NIIRIC",
+  title: "NIIRIC - The Nigerian Impact Investing Research Industry Collaborative",
   description: "Catalyzing Impact Through Research and Collaboration",
   icons: {
     icon: "/favicon.ico", 

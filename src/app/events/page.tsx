@@ -22,7 +22,7 @@ interface EventsProps {
 
 export default function Events({ defaultFilter = "all" }: EventsProps) {
   const [searchValue, setSearchValue] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
+  // const [categoryValue, setCategoryValue] = useState("");
   const [sortOrder, setSortOrder] = useState<"newer" | "older">("newer");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<EventItemType | null>(null);
@@ -54,9 +54,7 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
           event.title?.toLowerCase().includes(searchValue.toLowerCase()) ||
           event.description?.toLowerCase().includes(searchValue.toLowerCase());
 
-        const matchesCategory = categoryValue
-          ? event.category?.toLowerCase() === categoryValue.toLowerCase()
-          : true;
+       
 
         const eventDate = event.start_date ? new Date(event.start_date) : null;
         const isUpcoming = eventDate ? eventDate >= now : false;
@@ -69,14 +67,14 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
             ? isPast
             : true;
 
-        return matchesSearch && matchesCategory && matchesFilter;
+        return matchesSearch && matchesFilter;
       })
       .sort((a, b) => {
         const dateA = a.start_date ? new Date(a.start_date).getTime() : 0;
         const dateB = b.start_date ? new Date(b.start_date).getTime() : 0;
         return sortOrder === "newer" ? dateB - dateA : dateA - dateB;
       });
-  }, [events, searchValue, categoryValue, sortOrder, defaultFilter]);
+  }, [events, searchValue, sortOrder, defaultFilter]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredAndSortedEvents.length / itemsPerPage);
@@ -116,9 +114,9 @@ export default function Events({ defaultFilter = "all" }: EventsProps) {
         imageAlt="Events Banner Image"
         showSearch={true}
         searchValue={searchValue}
+        placeholderText="Search for events"
         onSearchValueChange={setSearchValue}
-        categoryValue={categoryValue}
-        onCategoryChange={setCategoryValue}
+        showCategorySelect={false}
         onSearch={() => {}}
       />
 

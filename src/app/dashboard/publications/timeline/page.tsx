@@ -49,20 +49,20 @@ import PublicationShareModal from "@/components/common/PublicationShareModal";
 
 import { useState } from "react";
 
-export const team = [
-  {
-    id: 1,
-    name: "Dr. Amarachi Collins",
-    role: "Senior Researcher",
-    avatarUrl: "",
-  },
-  {
-    id: 2,
-    name: "John Okafor",
-    role: "Policy Analyst",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-];
+// export const team = [
+//   {
+//     id: 1,
+//     name: "Dr. Amarachi Collins",
+//     role: "Senior Researcher",
+//     avatarUrl: "",
+//   },
+//   {
+//     id: 2,
+//     name: "John Okafor",
+//     role: "Policy Analyst",
+//     avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+//   },
+// ];
 
 interface ShareDocumentState {
   open: boolean;

@@ -34,6 +34,13 @@ export const publicationApi = nirricApi.injectEndpoints({
 			// providesTags: ["Publications"],
 		}),
 
+
+
+		trackPublicationView: builder.query({
+			query: (id) => `/api/publications/${id}/view/`,
+			// providesTags: ["Publications"],
+		}),
+
 		getSectors: builder.query({
 			query: () => "/api/sectors/"
 		}),

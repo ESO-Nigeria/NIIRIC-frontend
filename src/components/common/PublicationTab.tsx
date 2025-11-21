@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import DocPlaceholder from "@/assets/doc_placeholder.png";
 import { EventAndOpportunityCard } from "@/components/blocks/EventsAndOpportunityCard";
 import { PublicationCard } from "@/components/blocks/PublicationCard";
-import { TeamMemberCard } from "@/components/blocks/UsersCard";
+// import { TeamMemberCard } from "@/components/blocks/UsersCard";
 import Breadcrumbs from "@/components/common/Breadcrumb";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import PublicationsLayout from "@/components/layouts/Publications";
@@ -40,20 +40,20 @@ import {
 import { Profile, User } from "@/components/types/profile";
 import { selectCurrentUser } from "@/store/features/auth/selectors";
 
-export const team = [
-  {
-    id: 1,
-    name: "Dr. Amarachi Collins",
-    role: "Senior Researcher",
-    avatarUrl: "",
-  },
-  {
-    id: 2,
-    name: "John Okafor",
-    role: "Policy Analyst",
-    avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-];
+// export const team = [
+//   {
+//     id: 1,
+//     name: "Dr. Amarachi Collins",
+//     role: "Senior Researcher",
+//     avatarUrl: "",
+//   },
+//   {
+//     id: 2,
+//     name: "John Okafor",
+//     role: "Policy Analyst",
+//     avatarUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+//   },
+// ];
 
 export const events = [
   {
