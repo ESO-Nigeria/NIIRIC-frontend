@@ -208,10 +208,7 @@ function page() {
 			</section>
 			<section>
 				<div className="container mx-auto px-4 py-16 space-y-3">
-					<Badge variant="primary-brown-25" className="uppercase rounded ">
-						{" "}
-						EXPLORE HIGHLIGHTS
-					</Badge>
+					
 					<h2 className="text-4xl font-bold text-primary-green leading-12">
 						Steering Committee
 					</h2>

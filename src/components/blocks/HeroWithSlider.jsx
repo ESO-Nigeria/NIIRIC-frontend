@@ -78,7 +78,7 @@ export default function HeroCarouselWithIndicatorsAndAutoplay() {
 									Driving Impact Investing, Research, and Innovation in Nigeria
 								</h1>
 								<p className="mt-5 font-poppins sm:mt-8 text-sm sm:text-base text-white leading-7">
-									The Nigeria Impact Investing Research Industry Collaborative
+									The Nigerian Impact Investing Research Industry Collaborative
 									(NIIRIC) is Nigeria’s premier network dedicated to advancing
 									the nation’s impact investing, research, and innovation
 									ecosystem.

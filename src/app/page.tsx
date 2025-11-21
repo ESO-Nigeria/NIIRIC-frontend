@@ -22,6 +22,25 @@ import { useGetPublicationsQuery } from "@/store/features/publications/actions";
 import { Key } from "react";
 import GalleryGrid from "@/components/blocks/GalleryGrid";
 import { useGetGalleryImagesQuery } from "@/store/features/general/actions";
+import { useGetBlogsQuery } from "@/store/features/blogs/actions";
+import BlogCard from "@/components/blocks/BlogCard";
+
+
+export interface BlogCardItemType {
+  id: string;
+  title: string;
+  brief_info: string;
+  category?: string;
+  blog_image?: string | null;
+  date?: string;
+}
+
+export interface BlogItemType extends BlogCardItemType {
+  full_info: string;
+  author_name: string;
+  blog_video?: string | null;
+}
+
 
 const features = [
 	{
@@ -71,13 +90,21 @@ export default function Home() {
     refetch: refetchPublication
   } = useGetPublicationsQuery({});
   const { data, isLoading, error } = useGetGalleryImagesQuery({});
+	const { data: blogData, isLoading: isLoadingBlogs, isError: isBlogError } = useGetBlogsQuery({});
+
+	const blogs: BlogCardItemType[] = Array.isArray(blogData)
+	? blogData
+	: blogData?.results || [];
+
+
+  
 
 	return (
 		<GeneralLayout>
 			<HeroCarouselWithIndicatorsAndAutoplay />
 			{/* <Hero /> */}
 
-			<section className=" relative py-20 px-6 lg:px-10 lg:h-[600px] -top-1/5">
+			{/* <section className=" relative py-20 px-6 lg:px-10 lg:h-[600px] -top-1/5">
 				<JoinCommunity
 					image={"/assets/images/section_banner.png"}
 					imagePosition="left" // or "left"
@@ -96,8 +123,54 @@ export default function Home() {
 					primaryButtonText="Learn More"
 					onPrimaryClick={() => router.push("/about")}
 				/>
-			</section>
+			</section> */}
 
+			<section className="py-12 lg:py-20 px-6 lg:px-8">
+				<div className="container mx-auto space-y-6">
+					<div className="space-y-4">
+						<Badge
+							variant="primary-brown-25"
+							className="uppercase rounded-8 "
+						>
+							Blogs
+						</Badge>
+						<h2 className="text-3xl font-bold w-full lg:w-3/4 text-primary-green leading-12 sm:text-4xl">
+							<span className="block">
+								Explore insights, stories, and expert articles from across the NIIRIC community.
+							</span>
+						</h2>
+					</div>
+
+						<section className="mx-auto container px-4 py-10">
+  {isLoadingBlogs ? (
+    <p className="text-center text-gray-500 py-10">Loading blogs...</p>
+  ) : isBlogError ? (
+    <p className="text-center text-red-500 py-10">Failed to load blogs.</p>
+  ) : blogs.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {blogs.map((item: BlogCardItemType) => (
+        <BlogCard
+          key={item.id}
+          item={{
+            id: item.id,
+            title: item.title,
+            brief_info: item.brief_info,
+            category: item.category,
+            blog_image: item.blog_image,
+            date: item.date,
+          }}
+        />
+      ))}
+    </div>
+  ) : (
+    <p className="text-center text-gray-500 py-10">No blogs found.</p>
+  )}
+</section>
+
+
+
+				</div>
+			</section>
 			<section className="bg-primary-green py-12 lg:py-20 px-6 lg:px-8">
 				<div className="container mx-auto space-y-6">
 					<div className="space-y-4">

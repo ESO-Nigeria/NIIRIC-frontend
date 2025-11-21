@@ -5,6 +5,7 @@ export const {
 	useGetUserPublicationsQuery,
 	useUploadPublicationMutation,
 	useGetPublicationByIdQuery,
+	useTrackPublicationViewQuery,
 	useUpdatePublicationMutation,
 	useDeletePublicationMutation,
 	useGetSectorsQuery,
