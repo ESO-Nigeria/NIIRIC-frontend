@@ -24,7 +24,7 @@ export default function ConversationItem({ conv, selectedUser, onSelect }: any) 
       <div className="flex-1 min-w-0">
         <h4 className="font-medium text-gray-800 truncate capitalize">{profile?.first_name} {profile?.last_name}</h4>
        <p dangerouslySetInnerHTML={{ __html: conv.last_message?.text ?? "" }} className="text-sm text-gray-500 line-clamp-2 overflow-hidden " />
-          <p>{conv.username}</p>
+          {/* <p>{conv.username}</p> */}
       </div>
         <div className="flex flex-col justify-end items-end gap-y-2" >
             <p className="text-xs text-gray-400 whitespace-nowrap">

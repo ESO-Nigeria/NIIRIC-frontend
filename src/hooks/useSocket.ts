@@ -39,8 +39,7 @@ export const useWebSocket = (config: WebSocketConfig): WebSocketHook => {
     } = config;
 
     const wsRef = useRef<WebSocket | null>(null);
-    // @ts-ignore
-    const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+    const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const reconnectCountRef = useRef(0);
 
     const [isConnected, setIsConnected] = useState(false);
