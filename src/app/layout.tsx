@@ -56,9 +56,9 @@ export default function RootLayout({
 				<ReduxProvider>
 					{/* <SessionProvider> */}
 					<ToastContainer limit={5} />
-					<WebSocketProvider userId={userId}>
-            {children}
-          </WebSocketProvider>
+					{/*<WebSocketProvider userId={userId}>*/}
+                        {children}
+                    {/*</WebSocketProvider>*/}
 					{/* </SessionProvider> */}
 				</ReduxProvider>
 			</body>

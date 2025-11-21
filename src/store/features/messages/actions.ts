@@ -1,6 +1,7 @@
 import { messageApi } from "./message";
 
-export const {  useGetMessageListQuery,
+export const {
+    useGetMessageListQuery,
   useSendMessageMutation,
   useGetConversationQuery,
   useMarkAsReadMutation,

@@ -20,7 +20,7 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (
 	extraOptions,
 ) => {
 	let result = await rawBaseQuery(args, api, extraOptions);
-
+    console.log(result, 'result')
 	if (result.error && result.error.status === 401) {
 		// token expired or invalid
 		const refreshToken = (api.getState() as any).auth.refreshToken;
@@ -58,19 +58,3 @@ export const nirricApi = createApi({
 	tagTypes: ["Profile"],
 	endpoints: () => ({}),
 });
-
-// export const questenceLeanersApi = createApi({
-// 	reducerPath: "learnerApi",
-// 	baseQuery: fetchBaseQuery({
-// 		baseUrl: LEARNER_URL,
-// 		prepareHeaders: (headers, { getState }: any) => {
-// 			const token = getState().auth?.learner_token;
-// 			if (token) {
-// 				headers.set("Authorization", `Bearer ${token}`);
-// 			}
-// 			return headers;
-// 		},
-// 	}),
-// 	tagTypes: ["Cart", "EnrolledCourses", "Profile"],
-// 	endpoints: () => ({}),
-// });

@@ -4,8 +4,9 @@ import { nirricApi } from "../api";
 export const messageApi = nirricApi.injectEndpoints({
   endpoints: (builder) => ({
     getMessageList: builder.query({
+        // query: (conversationId) => `/chat/dialogs/`,
       query: (params = {}) => ({
-        url: "/api/messages/inbox/",
+        url: "/api/chat/dialogs/",
         params
       }),
     }),
@@ -17,9 +18,10 @@ export const messageApi = nirricApi.injectEndpoints({
         body: messageData,
       }),
     }),
+
     // /api/messages/inbox/{user_identifier}/
     getConversation: builder.query({
-      query: (conversationId) => `/api/messages/inbox/${conversationId}/`,
+      query: (conversationId) => `/api/chat/messages/${conversationId}/`,
     }),
     
     markAsRead: builder.mutation({

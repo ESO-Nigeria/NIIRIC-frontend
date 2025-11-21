@@ -1,7 +1,10 @@
 import { publicationTypeOptions } from "@/store/mockData/mockdata";
 import { parseISO, isValid, format } from "date-fns";
 import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
+dayjs.extend(relativeTime);
 interface JwtPayload {
 	exp: number;
 }
@@ -231,4 +234,40 @@ export function getColorClass(label: string): string {
 	const index = Math.abs(hash) % pastelColors.length;
 
 	return pastelColors[index];
+}
+
+
+
+
+/**
+ * Convert timestamp (seconds or ms) to "x days ago"
+ * @param {number} ts - timestamp in seconds or milliseconds
+ * @returns {string}
+ */
+export function smartTimeAgo(ts: any) {
+    if (!ts) return "";
+
+    // Detect if ts is in seconds (10 digits) or milliseconds (13 digits)
+    const ms = ts < 1e12 ? ts * 1000 : ts;
+
+    return dayjs(ms).fromNow();
+}
+
+
+// wsMessageDispatcher.ts
+
+// Stores handlers for each msg_type
+const handlers: Record<number, (data: any) => void> = {};
+
+// Register handler
+export function onWS(msgType: number, handler: (data: any) => void) {
+    handlers[msgType] = handler;
+}
+
+// Call handler
+export function dispatchWSMessage(data: any) {
+    const handler = handlers[data.msg_type];
+
+    if (handler) handler(data);
+    else console.warn("No WS handler for msg_type:", data.msg_type);
 }

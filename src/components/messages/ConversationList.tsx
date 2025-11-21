@@ -1,3 +1,6 @@
+'use client';
+
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,6 +10,10 @@ import ConversationItem from "./ConversationItem";
 import { useGetMessageListQuery } from "@/store/features/messages/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import {dispatchWSMessage, onWS} from "@/helpers/helpers";
+import {useWebSocket} from "@/hooks/useSocket";
+import {useSelector} from "react-redux";
+import {RootState} from "@/store";
 
 export const getRelativeTime = (timestamp: string) => {
   const now = new Date();
@@ -34,10 +41,12 @@ export default function ConversationList({
     time: string;
     timestamp: string;
   };
-  const {data: conversations, isLoading, error, refetch} = useGetMessageListQuery({})
+  const {data: conversations, isLoading, refetch} = useGetMessageListQuery({})
 
   const router = useRouter();
   const searchParams = useSearchParams();
+    const token: string = useSelector((state: RootState): any => state.auth.token) ;
+    const user: any = useSelector((state: RootState): any => state.auth.user) ;
 
     // ✅ Read userId from query params
     const userId = searchParams.get("userId");
@@ -53,21 +62,73 @@ export default function ConversationList({
       }
     }, [userId, conversations]);
 
+    const {
+        isConnected,
+        isConnecting,
+        error,
+        connect,
+        disconnect,
+        send,
+        sendTyped
+    } = useWebSocket({
+        url: `wss://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/chat_ws`,
+        path: '/chat_ws' ,
+        token,
+        autoConnect: true,
+        reconnectAttempts: 3,
+        onOpen: () => {
+            console.log('✅ Chat connected!');
+        },
+        onMessage: (data: any) => {
+            console.log('📨 Received: list', data);
+
+            const wsData = JSON.parse(data);
+            dispatchWSMessage(wsData); // 👈 this replaces your switch-case
+        },
+        onClose: (event: { code: any; }) => {
+            console.log('🔌 Chat closed:', event.code);
+        },
+        onError: (error: any) => {
+            console?.error('❌ Chat error:', error);
+        }
+    });
+
 const handleSelect = (conv: any) => {
   setSelectedUser(conv);
   setConversationView(true);
 
+    // const message = {
+    //     msg_type: 6,
+    //     user_pk: conv?.other_user_id,
+    //     message_id: conv?.id
+    // };
+    //
+    // console.log(conv, 'conv')
+    // send(JSON.stringify(message));
   // ✅ Update query params dynamically
   const params = new URLSearchParams(window.location.search);
-  params.set("user", conv.id); // or conv.userId
-
+  params.set("user", conv?.other_user_id); // or conv.userId
   router.push(`?${params.toString()}`);
 };
 
+    useEffect(() => {
+        onWS(8, (data) => {
+            console.log("New message: convo list", data.text);
+            refetch()
+        });
 
-  console.log('data', conversations)
+        onWS(9, (data) => {
+            console.log("New message: convo list", data.text);
+            refetch()
+        });
+
+    }, []);
+
+  console.log('data', conversations, user)
+
+
   return (
-    <div className="flex-1">
+    <div className="flex-1 max-sm:order-2 md:max-w-[350px] lg:max-w-[500px]">
       <Card className="border-none h-screen ">
         <CardHeader>
           {/* Filter Buttons */}
@@ -101,7 +162,7 @@ const handleSelect = (conv: any) => {
 
         {/* Conversation Items */}
         <CardContent className="p-4 text-gray-400">
-          {conversations?.results.length === 0 ? (
+          {conversations?.data?.length === 0 ? (
             <div className="flex items-center justify-center text-center">
               <div>
                 <p className="text-[18px] font-dm_sans font-medium">
@@ -117,7 +178,7 @@ const handleSelect = (conv: any) => {
             </div>
           ) : (
             <div className="flex flex-col divide-y">
-              {conversations?.results.map((conv: ConversationType) => (
+              {conversations?.data?.map((conv: ConversationType) => (
                 <ConversationItem
                   key={conv.id}
                   conv={conv}
