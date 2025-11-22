@@ -15,12 +15,14 @@ interface MessageState {
   messageId: string;
   isConnected: boolean;
   error: string | null;
+  socketMessageId: any;
 }
 
 const initialState: MessageState = {
   allMessages: [],
   messageId: '',
   isConnected: false,
+  socketMessageId: {},
   error: null,
 };
 
@@ -31,6 +33,7 @@ export const messageSlice = createSlice({
     setAllMessages: (state, action: PayloadAction<Message[]>) => {
       state.allMessages = action.payload;
     },
+    
     setMessageId: (state, action: PayloadAction<string>) => {
       state.messageId = action.payload;
     },
@@ -56,6 +59,10 @@ export const messageSlice = createSlice({
           state.allMessages.push(message);
         }
       });
+    },
+
+    messageSentAndReceived:(  state, action: PayloadAction<Message>) => {
+      state.socketMessageId = action.payload;
     },
     
     // Update message status (for read receipts, delivery confirmation, etc.)
@@ -87,6 +94,15 @@ export const {
   updateMessageStatus,
   clearMessages,
   setError,
+  messageSentAndReceived
 } = messageSlice.actions;
+
+// export selector functions
+export const selectAllMessages = (state: { message: MessageState }) =>
+  state.message.allMessages;
+
+// messageSentAndReceived selector
+export const selectSockedMessageId = (state: { message: MessageState }) =>
+  state.message.socketMessageId;
 
 export default messageSlice.reducer;

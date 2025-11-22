@@ -97,7 +97,6 @@ function ResearchArea() {
 				toast.error("Error saving research area");
 			}
 		} catch (error) {
-			console.log(error, "error");
 			toast.error("Something went wrong");
 		}
 	};

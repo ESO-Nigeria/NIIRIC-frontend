@@ -70,7 +70,6 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
-	console.log(data, "opportunity");
 	return (
 		<GeneralLayout withSponsors={false} withSubscribe={false}>
 			<InfoHero

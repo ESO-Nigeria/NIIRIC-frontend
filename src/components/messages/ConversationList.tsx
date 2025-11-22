@@ -47,7 +47,7 @@ export default function ConversationList({
   const searchParams = useSearchParams();
     const token: string = useSelector((state: RootState): any => state.auth.token) ;
     const user: any = useSelector((state: RootState): any => state.auth.user) ;
-
+    const socket = useSelector((state: RootState): any => state.messages.socketMessageId) ;
     // ✅ Read userId from query params
     const userId = searchParams.get("userId");
 
@@ -77,16 +77,12 @@ export default function ConversationList({
         autoConnect: true,
         reconnectAttempts: 3,
         onOpen: () => {
-            console.log('✅ Chat connected!');
         },
         onMessage: (data: any) => {
-            console.log('📨 Received: list', data);
-
             const wsData = JSON.parse(data);
             dispatchWSMessage(wsData); // 👈 this replaces your switch-case
         },
         onClose: (event: { code: any; }) => {
-            console.log('🔌 Chat closed:', event.code);
         },
         onError: (error: any) => {
             console?.error('❌ Chat error:', error);
@@ -111,21 +107,20 @@ const handleSelect = (conv: any) => {
   router.push(`?${params.toString()}`);
 };
 
-    useEffect(() => {
+useEffect(() => {
         onWS(8, (data) => {
-            console.log("New message: convo list", data.text);
+            refetch()
+        });
+
+        onWS(3, (data) => {
             refetch()
         });
 
         onWS(9, (data) => {
-            console.log("New message: convo list", data.text);
             refetch()
         });
 
-    }, []);
-
-  console.log('data', conversations, user)
-
+    }, [socket]);
 
   return (
     <div className="flex-1 max-sm:order-2 md:max-w-[350px] lg:max-w-[500px]">

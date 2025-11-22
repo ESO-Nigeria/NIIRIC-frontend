@@ -14,7 +14,6 @@ export function LikeButton({ id, is_liked, like_count, onLike }: {id: string, is
       console.error("Failed to toggle like:", err);
     }
   };
-  console.log('is_liked', is_liked)
   return (
     <Button
       variant="ghost"

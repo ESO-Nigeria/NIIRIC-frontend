@@ -36,10 +36,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     token,
     autoConnect: true,
     onOpen: () => {
-      console.log("✅ Chat layout connected!");
     },
     onMessage: (data: any) => {
-      console.log("📨 Received: from layout", data);
       const wsData = JSON.parse(data);
       dispatchWSMessage(wsData); // 👈 this replaces your switch-case
     },
@@ -52,15 +50,12 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   });
   useEffect(() => {
     onWS(8, (data) => {
-      console.log("New message: convo list", data);
       refetch();
     });
 
     onWS(9, (data) => {
-      console.log("New message: convo list", data);
       refetch();
     });
-    console.log("here", conversations);
   }, []);
 
   return (
@@ -89,15 +84,13 @@ const layout = ({ children }: { children: React.ReactNode }) => {
           <MessageTab />
 
           <div className="flex flex-col md:flex-row gap-4 pt-4">
-            {/* Left: Conversation List */}
+
             <ConversationList
             // conversations={conversations}
             // selectedUser={selectedUser}
             // setSelectedUser={setSelectedUser}
             // setConversationView={setConversationView}
             />
-
-            {/* Right: Chat Window */}
 
             <>{children}</>
           </div>

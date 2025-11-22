@@ -8,10 +8,8 @@ import { SendHorizonal } from "lucide-react";
 import { getRelativeTime } from "./ConversationList";
 import { useState } from "react";
 import { useSendMessageMutation } from "@/store/features/messages/actions";
-import {useSocket} from "@/hooks/useWebSocket";
 import {useSelector} from "react-redux";
 import {RootState} from "@/store";
-import {useSocketNew} from "@/hooks/useSocketHold";
 import {useWebSocket} from "@/hooks/useSocket";
 
 export default function MessageInput({
@@ -48,7 +46,6 @@ export default function MessageInput({
           "user_pk": selectedConversation,
           "random_id": -Math.floor(Math.random() * 1000000)
       }
-      console.log("newMessage", newMessage, selectedUser);
       const success = send(newMessage);
           // send(newMessage);
           //
@@ -58,15 +55,12 @@ export default function MessageInput({
       } else {
           console.error("Failed to send message - socket not connected");
       }
-    // console.log('response', response)
     setRun(!run)
-    // Clear the form and force RichTextEditor re-render
       setValue("abstract", "");
       setEditorKey((prev) => prev + 1);
       setConversationView?.(true);
   };
 
-  console.log('selectedConversation', selectedConversation)
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardFooter className="flex items-center gap-3 p-4 border-t mx-5">

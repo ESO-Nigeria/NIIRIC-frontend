@@ -128,8 +128,6 @@ export default function FindResearchers({
 
   const handleRemove = () => onSelect?.(null);
 
-  console.log('publishers', publishers, combinedUsers)
-
   return (
     <div className="relative w-full">
       <h3 className="text-[16px] font-normal font-poppins mb-4">

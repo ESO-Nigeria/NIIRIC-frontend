@@ -61,8 +61,6 @@ function InterestForm() {
 
 	// ✅ Handle deleting existing interest
 	const handleDeleteExisting = async (interestId: string) => {
-    console.log('first', interestId)
-
 		try {
 			const { error } = await deleteUserInterest(interestId);
 			if (error) {

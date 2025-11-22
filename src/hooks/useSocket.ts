@@ -1,4 +1,6 @@
+import { messageSentAndReceived } from '@/store/features/messages/message.slice';
 import { useRef, useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface WebSocketConfig {
     url: string;
@@ -41,7 +43,7 @@ export const useWebSocket = (config: WebSocketConfig): WebSocketHook => {
     const wsRef = useRef<WebSocket | null>(null);
     const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const reconnectCountRef = useRef(0);
-
+    const dispatch = useDispatch();
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -51,7 +53,6 @@ export const useWebSocket = (config: WebSocketConfig): WebSocketHook => {
         if (!token) return;
 
         document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=None; Secure`;
-        console.log('🍪 Token saved to cookie');
     }, [token]);
 
     /** Check if cookie exists */
@@ -92,7 +93,6 @@ export const useWebSocket = (config: WebSocketConfig): WebSocketHook => {
         }
 
         try {
-            console.log('🔌 Connecting to:', url);
             const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_API_URL}${path}`, [token]);
             wsRef.current = ws;
             ws.onopen = () => {
@@ -175,8 +175,8 @@ export const useWebSocket = (config: WebSocketConfig): WebSocketHook => {
 
         try {
             const message = typeof data === 'string' ? data : JSON.stringify(data);
-            console.log('📤 Sending:', message);
             wsRef.current.send(message);
+            dispatch(messageSentAndReceived(data));
         } catch (err) {
             console.error('❌ Failed to send message:', err);
             setError('Failed to send message');

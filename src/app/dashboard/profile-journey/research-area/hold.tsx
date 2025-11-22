@@ -75,8 +75,6 @@ function Page() {
 			toast.error("Please fix form errors before submitting");
 		}
 	};
-
-	console.log('userResearchArea', userResearchArea)
 	
 	return (
 		<Card className="shadow-none border-none p-7 font-poppins">

@@ -307,8 +307,6 @@ export default function ProfileGrid() {
   const {data, isLoading, refetch} = useGetPublisherProfileByIdQuery(id)
   const {data: publications = [], isLoading: loading_publications} = useGetPublicationsQuery(queryParams)
 
-  console.log('data', data, publications, id)
-
 	return (
 		<GeneralLayout>
 			<section className="bg-gray-50">

@@ -247,7 +247,6 @@ export function CommentsSection({
 									totalCount={totalCount || 0}
 									pageSize={filters?.page_size || 0}
 									onPageChange={(val) => {
-										console.log('val', val)
 											setFilters({
 												...filters,
 												page: val

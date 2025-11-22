@@ -291,14 +291,11 @@ const [updatePublication] = useUpdatePublicationMutation();
   const handleSaveDraft = () => {
     const data = watch();
 		const result = draftSchema.safeParse(data);
-		console.log('result', result)
 	  // Safe handling
 		if (result) {
 			if (result.error?.message) {
         const parsedErrors = JSON.parse(result.error.message);
-        console.log('first', result?.error?.message, typeof(result?.error?.message), parsedErrors)
 				parsedErrors?.forEach((err: any) => {
-          console.log('err', err)
 					setError(err.path[0] as keyof FormValues, {
 						type: "manual",
 						message: err.message,

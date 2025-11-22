@@ -1,6 +1,5 @@
 "use client";
 
-import { getProfileById } from "@/components/messages/ChatWindow";
 import MessageInput from "@/components/messages/MessageInput";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { dispatchWSMessage, onWS, smartTimeAgo } from "@/helpers/helpers";
@@ -11,11 +10,13 @@ import {
   useGetConversationQuery,
   useSendMessageMutation,
 } from "@/store/features/messages/actions";
+import { messageSentAndReceived } from "@/store/features/messages/message.slice";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function page() {
+  const dispatch = useDispatch();
   const { conversationId, profileId } = useParams();
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
   const {
@@ -37,15 +38,13 @@ function page() {
 
   useEffect(() => {
     onWS(8, (data: any) => {
-      console.log("MessageIdCreated: convo list", data);
       refetchConversation();
+      // dispatch(messageSentAndReceived(data));
     });
     onWS(9, (data: any) => {
-      console.log("NewUnreadCount: convo list", data);
       refetchConversation();
     });
     onWS(6, (data: any) => {
-      console.log("MessageRead: convo list", data);
       refetchConversation();
     });
   }, []);
@@ -65,15 +64,12 @@ function page() {
     autoConnect: true,
     // reconnectAttempts,
     onOpen: () => {
-      console.log("✅ Chat connected!");
     },
     onMessage: (data: any) => {
-      console.log("📨 Received:", data);
       const wsData = JSON.parse(data);
       dispatchWSMessage(wsData); // 👈 this replaces your switch-case
     },
     onClose: (event: { code: any }) => {
-      console.log("🔌 Chat closed:", event.code);
     },
     onError: (error: any) => {
       console.error("❌ Chat error:", error);
@@ -91,7 +87,6 @@ function page() {
     refetchConversation();
   }, [run]);
 
-  console.log("conversation single page", conversation, recipientProfile, profileId);
   return (
     <>
       <div className="flex-[1.5]">
@@ -129,7 +124,6 @@ function page() {
                   ?.map((msg: any, idx: number) => {
                     const isSelf = msg.sender == userId;
                     const senderName = isSelf ? "You" : recipientProfile?.name || recipientProfile?.first_name + ' ' + recipientProfile?.last_name;
-                    const senderProfile = getProfileById(msg.sender);
 
                     // const avatar = isSelf
                     //   ? {} // replace with your profile image

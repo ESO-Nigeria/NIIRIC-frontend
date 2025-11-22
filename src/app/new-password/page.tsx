@@ -44,7 +44,6 @@ const SetNewPassword = () => {
 		setShowPassword(!showPassword);
 	};
 	const onSubmit = (data: z.infer<typeof formSchema>) => {
-		console.log(data);
 	};
 
 	return (

@@ -3,7 +3,6 @@ import FindResearchers from "@/components/messages/FindResearchers";
 import MessageInput from "./MessageInput";
 import { getRelativeTime } from "./ConversationList";
 import {useGetAllPublishersProfileQuery, useGetPublisherProfileByIdQuery} from "@/store/features/auth/actions";
-import { useSocket } from "@/hooks/useWebSocket";
 import { useGetConversationQuery, useSendMessageMutation } from "@/store/features/messages/actions";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -13,24 +12,6 @@ import { Profile } from "../types/profile";
 import {useWebSocket} from "@/hooks/useSocket";
 import {dispatchWSMessage, onWS, smartTimeAgo} from "@/helpers/helpers";
 
-export const getProfileById = (id: any) => {
-    // const { data: profile, isLoading, error } = useGetPublisherProfileByIdQuery(id, {
-    //     skip: !id // Don't fetch if no ID provided
-    // });
-    
-    // if (!profile) return null;
-    
-    // return {
-    //     id: profile.id,
-    //     firstName: profile.first_name,
-    //     lastName: profile.last_name,
-    //     profilePicture: profile.profile_pic || profile.avatar || "/default-avatar.png",
-    //     fullName: `${profile.first_name} ${profile.last_name}`,
-    //     university: profile.university || "Researcher",
-    //     isLoading,
-    //     error
-    // };
-};
 
 export default function ChatWindow({
   selectedUser,
@@ -54,6 +35,7 @@ export default function ChatWindow({
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
   const {data: conversation,  isLoading: isGettingConversation, refetch: refetchConversation  } = useGetConversationQuery(conversationId)
     const token: string = useSelector((state: RootState): any => state.auth.token) ;
+    const socket = useSelector((state: RootState): any => state.messages.socketMessageId) ;
 
   const userId = useSelector((state: any) => state.auth.user?.id ) ;
 
@@ -77,16 +59,12 @@ export default function ChatWindow({
         autoConnect: true,
         // reconnectAttempts,
         onOpen: () => {
-            console.log('✅ Chat connected!');
         },
         onMessage: (data: any) => {
-            console.log('📨 Received:', data);
-
             const wsData = JSON.parse(data);
             dispatchWSMessage(wsData); // 👈 this replaces your switch-case
         },
         onClose: (event: { code: any; }) => {
-            console.log('🔌 Chat closed:', event.code);
         },
         onError: (error: any) => {
             console.error('❌ Chat error:', error);
@@ -95,12 +73,11 @@ export default function ChatWindow({
 
   useEffect(() => {
         onWS(3, (data) => {
-            console.log("New message: convo list", data);
             refetchConversation()
         });
+    }, [socket]);
 
 
-    }, []);
     useEffect(() => {
         if (conversationId) {
             setConversationView(true);
@@ -118,8 +95,6 @@ export default function ChatWindow({
         );
 
         if (unreadMessages?.length > 0) {
-            console.log(`📬 Marking ${unreadMessages.length} messages as read`);
-
             unreadMessages?.forEach((msg: any) => {
                 const markAsReadMessage = {
                     msg_type: 6,
@@ -127,7 +102,6 @@ export default function ChatWindow({
                     message_id: msg.id
                 };
 
-                console.log('Marking as read:', markAsReadMessage);
                 send(JSON.stringify(markAsReadMessage));
             });
         }
@@ -135,15 +109,12 @@ export default function ChatWindow({
 
     useEffect(() => {
         onWS(8, (data) => {
-            console.log("MessageIdCreated: convo list", data.text);
             refetchConversation()
         });
         onWS(9, (data) => {
-            console.log("NewUnreadCount: convo list", data.text);
             refetchConversation()
         });
         onWS(6, (data) => {
-            console.log("MessageRead: convo list", data.text);
             refetchConversation()
         });
 
@@ -154,8 +125,6 @@ export default function ChatWindow({
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }
     }, [conversation?.data, conversationView]);
-
-  console.log('publishers here', message, conversation?.data, conversationId)
 
   return (
     <div className="flex-[1.5]">
@@ -210,8 +179,6 @@ export default function ChatWindow({
               {conversation?.data?.slice().reverse()?.map((msg: any, idx: number) => {
                 const isSelf = msg.sender == userId;
                 const senderName = isSelf ? "You" : msg?.sender_name;
-                  const senderProfile = getProfileById(msg.sender);
-
                   // const avatar = isSelf
                 //   ? {} // replace with your profile image
                 //   : selectedUser?.avatar || "/default-avatar.png";
@@ -227,7 +194,7 @@ export default function ChatWindow({
                         <img
                           src={msg?.sender_profile_pic}
                           alt={senderName}
-                          className="w-[48px] h-[48px] rounded-full object-cover border border-gray-300"
+                          className="w-12 h-12 rounded-full object-cover border border-gray-300"
                         />
                       )}
                       <span className="text-[14px]  capitalize font-medium text-gray-600 ">

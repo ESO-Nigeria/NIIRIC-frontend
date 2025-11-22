@@ -29,7 +29,6 @@ export function QualificationCard({
 }: QualificationCardProps) {
 
 
-console.log('qualifications', qualifications)
 	return (
 		<div className="space-y-4">
 			{/* Header */}

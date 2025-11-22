@@ -6,11 +6,11 @@ import Link from "next/link";
 
 export default function ConversationItem({ conv, selectedUser, onSelect }: any) {
 
-    const {data: profile, isLoading, refetch} = useGetPublisherProfileByIdQuery(conv?.recipient_profile_id)
+    const {data: profile, isLoading, refetch} = useGetPublisherProfileByIdQuery(conv?.other_profile_id)
 
     return (
     <Link
-      href={`/dashboard/messages/${conv.last_message?.recipient}/${conv?.recipient_profile_id}`}
+      href={`/dashboard/messages/${conv.other_user_id}/${conv?.other_profile_id}`}
       // onClick={onSelect}
       className={`flex items-center gap-3 p-4 cursor-pointer rounded-xl hover:bg-gray-50 ${
         selectedUser?.id?.toString() === conv.id?.toString() ? "bg-green-50" : ""
@@ -24,7 +24,6 @@ export default function ConversationItem({ conv, selectedUser, onSelect }: any) 
       <div className="flex-1 min-w-0">
         <h4 className="font-medium text-gray-800 truncate capitalize">{profile?.first_name} {profile?.last_name}</h4>
        <p dangerouslySetInnerHTML={{ __html: conv.last_message?.text ?? "" }} className="text-sm text-gray-500 line-clamp-2 overflow-hidden " />
-          {/* <p>{conv.username}</p> */}
       </div>
         <div className="flex flex-col justify-end items-end gap-y-2" >
             <p className="text-xs text-gray-400 whitespace-nowrap">

@@ -168,8 +168,6 @@ const ResearchPublicationPage = () => {
         // <Loader message="Loading publication..." overlay size="lg" />
 
       }
-
-    console.log('data', data, commentsData)
   return (
     <PublicationsLayout>
       {/* Breadcrumbs */}

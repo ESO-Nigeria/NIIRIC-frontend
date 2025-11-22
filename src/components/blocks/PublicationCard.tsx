@@ -49,13 +49,12 @@ export function PublicationCard({
 	containerClass,
 	...pub
 }: PublicationCardProps) {
-	console.log('pub', pub)
 	return (
 		<div className={containerClass}>
 			<div className="flex gap-4">
 				{/* Thumbnail */}
 				<div className="relative">
-					<div className="w-16 h-20 bg-gray-100 relative rounded flex-shrink-0 flex items-center justify-center">
+					<div className="w-16 h-20 bg-gray-100 relative rounded shrink-0 flex items-center justify-center">
 						<PDFfile className="w-8 h-8 text-primary-green" />
 					</div>
 				</div>

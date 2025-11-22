@@ -63,7 +63,6 @@ export default function QualificationForm() {
 		refetch: refetchQualifications,
 	} = useGetUserQualificationsQuery({ edit }, { skip: !shouldFetch });
 
-	console.log('edit', edit, userQualifications);
 	const router = useRouter();
 	
 	const form = useForm<FormValues>({
@@ -163,7 +162,6 @@ export default function QualificationForm() {
 			refetchQualifications();
 			router.push("/dashboard");
 		} catch (error) {
-			console.log(error, "error");
 			toast.error("Error processing qualifications");
 		} finally {
 			setIsSubmitting(false);

@@ -53,8 +53,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	// 	}
 	// }, [token, router]);
 
-	console.log('userQualifications', userQualifications)
-
 	return (
 		<div className="flex min-h-screen flex-col bg-[#F9FAFB]">
 			<DashBoardHeader userProfile={userProfile} />
@@ -67,7 +65,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 							const isActive = pathname === item.href;
 							const isDisabled = userProfile?.length == 0 || userQualifications?.results?.length == 0 && item.label !== "Dashboard";
 							
-							console.log('isDisabled', isDisabled, userQualifications?.results?.length == 0)
 							return (
 								<div
 									key={item.href}

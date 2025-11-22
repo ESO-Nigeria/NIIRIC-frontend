@@ -20,7 +20,6 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (
 	extraOptions,
 ) => {
 	let result = await rawBaseQuery(args, api, extraOptions);
-    console.log(result, 'result')
 	if (result.error && result.error.status === 401) {
 		// token expired or invalid
 		const refreshToken = (api.getState() as any).auth.refreshToken;
