@@ -5,9 +5,27 @@ import Link from "next/link";
 import Logo from "@/app/assets/images/iif_logo_white.png";
 import Risa from "@/app/assets/images/risa.png";
 import Ukaid from "@/app/assets/images/ukaid.png";
+import FMist from "@/app/assets/images/fmist.png"
+import FordFoundation from "@/app/assets/images/Ford_Foundation.png"
+import UKID from "@/app/assets/images/UKID.png"
+import GIZ from "@/app/assets/images/GIZ.png"
+import SWIT from "@/app/assets/images/SWIT.png"
+import RISAFund from "@/app/assets/images/RISA_Fund.png"
 import DecorativeCurve from "@/components/DecorativeCurve";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+
+const sponsors = [
+  { src: Risa, alt: "Risa" },
+  { src: Ukaid, alt: "Ukaid" },
+  { src: FMist, alt: "FMist" },
+  { src: FordFoundation, alt: "Ford Foundation" },
+  { src: UKID, alt: "UKID" },
+  { src: GIZ, alt: "GIZ" },
+  { src: SWIT, alt: "SWIT" },
+  { src: RISAFund, alt: "RISA Fund" },
+];
+
 
 const Footer = ({
 	withSponsors = true,
@@ -69,18 +87,18 @@ const Footer = ({
 					<div className="container  mx-auto  relative max-w-7xl">
 						<div className="space-y-4">
 							<h6 className="text-xl lg:text-3xl text-center text-primary-green font-semibold">
-								Our Sponsors
+								Our Partners and Sponsors
 							</h6>
 						</div>
 
 						<div className="flex flex-wrap justify-center items-center gap-4 mt-8">
-							<div className="w-2/12 ">
-								<Image src={Risa} alt="Sponsor 1" className="w-full" />
+						{sponsors.map((item, index) => (
+							<div key={index} className="w-2/12">
+							<Image src={item.src} alt={item.alt} className="w-full" />
 							</div>
-							<div className="w-2/12">
-								<Image src={Ukaid} alt="Sponsor 2" className="w-full" />
-							</div>
+						))}
 						</div>
+
 					</div>
 				</section>
 			)}
