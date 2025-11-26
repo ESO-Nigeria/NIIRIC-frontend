@@ -5,6 +5,12 @@ import Link from "next/link";
 import Logo from "@/app/assets/images/iif_logo_white.png";
 import Risa from "@/app/assets/images/risa.png";
 import Ukaid from "@/app/assets/images/ukaid.png";
+import FMist from "@/app/assets/images/fmist.png"
+import FordFoundation from "@/app/assets/images/Ford_Foundation.png"
+import UKID from "@/app/assets/images/UKID.png"
+import GIZ from "@/app/assets/images/GIZ.png"
+import SWIT from "@/app/assets/images/SWIT.png"
+import RISAFund from "@/app/assets/images/RISA_Fund.png"
 import DecorativeCurve from "@/components/DecorativeCurve";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -69,7 +75,7 @@ const Footer = ({
 					<div className="container  mx-auto  relative max-w-7xl">
 						<div className="space-y-4">
 							<h6 className="text-xl lg:text-3xl text-center text-primary-green font-semibold">
-								Our Sponsors
+								Our Partners and Sponsors
 							</h6>
 						</div>
 
@@ -79,6 +85,29 @@ const Footer = ({
 							</div>
 							<div className="w-2/12">
 								<Image src={Ukaid} alt="Sponsor 2" className="w-full" />
+							</div>
+							  <div className="w-2/12">
+								<Image src={FMist} alt="FMist" className="w-full" />
+							</div>
+
+							<div className="w-2/12">
+								<Image src={FordFoundation} alt="Ford Foundation" className="w-full" />
+							</div>
+
+							<div className="w-2/12">
+								<Image src={UKID} alt="UKID" className="w-full" />
+							</div>
+
+							<div className="w-2/12">
+								<Image src={GIZ} alt="GIZ" className="w-full" />
+							</div>
+
+							<div className="w-2/12">
+								<Image src={SWIT} alt="SWIT" className="w-full" />
+							</div>
+
+							<div className="w-2/12">
+								<Image src={RISAFund} alt="RISA Fund" className="w-full" />
 							</div>
 						</div>
 					</div>
