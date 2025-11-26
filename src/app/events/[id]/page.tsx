@@ -145,9 +145,11 @@ export default function EventDetailPage() {
                 />
               )}
 
-              <p className="text-gray-700 text-base leading-relaxed">
-                {event?.description}
-              </p>
+              <div
+                className="text-gray-700 text-base leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: event?.description }}
+              />
+
 
               <Link
                 href={event?.registration_link || "#"}
