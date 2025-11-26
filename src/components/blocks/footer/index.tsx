@@ -15,6 +15,18 @@ import DecorativeCurve from "@/components/DecorativeCurve";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
+const sponsors = [
+  { src: Risa, alt: "Risa" },
+  { src: Ukaid, alt: "Ukaid" },
+  { src: FMist, alt: "FMist" },
+  { src: FordFoundation, alt: "Ford Foundation" },
+  { src: UKID, alt: "UKID" },
+  { src: GIZ, alt: "GIZ" },
+  { src: SWIT, alt: "SWIT" },
+  { src: RISAFund, alt: "RISA Fund" },
+];
+
+
 const Footer = ({
 	withSponsors = true,
 	withSubscribe = true,
@@ -80,36 +92,13 @@ const Footer = ({
 						</div>
 
 						<div className="flex flex-wrap justify-center items-center gap-4 mt-8">
-							<div className="w-2/12 ">
-								<Image src={Risa} alt="Sponsor 1" className="w-full" />
+						{sponsors.map((item, index) => (
+							<div key={index} className="w-2/12">
+							<Image src={item.src} alt={item.alt} className="w-full" />
 							</div>
-							<div className="w-2/12">
-								<Image src={Ukaid} alt="Sponsor 2" className="w-full" />
-							</div>
-							  <div className="w-2/12">
-								<Image src={FMist} alt="FMist" className="w-full" />
-							</div>
-
-							<div className="w-2/12">
-								<Image src={FordFoundation} alt="Ford Foundation" className="w-full" />
-							</div>
-
-							<div className="w-2/12">
-								<Image src={UKID} alt="UKID" className="w-full" />
-							</div>
-
-							<div className="w-2/12">
-								<Image src={GIZ} alt="GIZ" className="w-full" />
-							</div>
-
-							<div className="w-2/12">
-								<Image src={SWIT} alt="SWIT" className="w-full" />
-							</div>
-
-							<div className="w-2/12">
-								<Image src={RISAFund} alt="RISA Fund" className="w-full" />
-							</div>
+						))}
 						</div>
+
 					</div>
 				</section>
 			)}
