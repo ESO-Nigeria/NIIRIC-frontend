@@ -20,10 +20,8 @@ const sponsors = [
   { src: Ukaid, alt: "Ukaid" },
   { src: FMist, alt: "FMist" },
   { src: FordFoundation, alt: "Ford Foundation" },
-  { src: UKID, alt: "UKID" },
   { src: GIZ, alt: "GIZ" },
   { src: SWIT, alt: "SWIT" },
-  { src: RISAFund, alt: "RISA Fund" },
 ];
 
 
