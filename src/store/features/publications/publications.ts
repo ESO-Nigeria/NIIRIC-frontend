@@ -11,6 +11,7 @@ export const publicationApi = nirricApi.injectEndpoints({
 		getUserPublications: builder.query({
 			query: () => "/api/publications/my_publications/",
 		}),
+
 		uploadPublication: builder.mutation({
 			query: (newPublication) => ({
 				url: "/api/publications/",
@@ -28,13 +29,10 @@ export const publicationApi = nirricApi.injectEndpoints({
 			}),
 		}),
 
-
 		getPublicationById: builder.query({
 			query: (id) => `/api/publications/${id}/`,
 			// providesTags: ["Publications"],
 		}),
-
-
 
 		trackPublicationView: builder.query({
 			query: (id) => `/api/publications/${id}/view/`,
@@ -52,18 +50,24 @@ export const publicationApi = nirricApi.injectEndpoints({
 			}),
 		}),
 
-		// getComments: builder.query({
-		// 	query: () => `/api/comments/`,
-		// }),
 		getComments: builder.query({
 			query: (params = {}) => ({
-				url: '/api/comments/',
-				params, // <-- RTK Query + fetchBaseQuery will convert this to ?key=value
+				url: `/comments/api/${params?.content_type}/${params?.object_pk}/`,
+				// params, // <-- RTK Query + fetchBaseQuery will convert this to ?key=value
 			}),
 		}),
+
+		likeAndUnlikeComment: builder.mutation({
+			query: (body) => ({
+				url: `/comments/api/feedback/`,
+				method: "POST",
+				body,
+			}),
+		}),
+
 		commentOnPublication: builder.mutation({
 			query: (body) => ({
-				url: `/api/comments/`,
+				url: `/comments/api/comment/`,
 				method: "POST",
 				body,
 			}),

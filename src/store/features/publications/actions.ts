@@ -12,7 +12,8 @@ export const {
 	useLikeOrUnlikePublicationMutation,
 	useGetCommentsQuery,
 	useCommentOnPublicationMutation,
-	useDeleteCommentMutation
+	useDeleteCommentMutation,
+	useLikeAndUnlikeCommentMutation,
 	// useLikePublicationMutation,
 	// useCommentOnPublicationMutation,
 	// useSharePublicationMutation,

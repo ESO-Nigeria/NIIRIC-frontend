@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { useGetCommentsQuery, useGetPublicationByIdQuery, useGetPublicationsQuery, useLikeOrUnlikePublicationMutation } from "@/store/features/publications/actions";
+import { useCommentOnPublicationMutation, useGetCommentsQuery, useGetPublicationByIdQuery, useGetPublicationsQuery, useLikeAndUnlikeCommentMutation, useLikeOrUnlikePublicationMutation } from "@/store/features/publications/actions";
 import { useGetUserInterestsQuery } from "@/store/features/auth/actions";
 import { useGetSuggestedConnectionsQuery } from "@/store/features/general/actions";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
@@ -38,6 +38,7 @@ import DocPlaceholder from "@/assets/doc_placeholder.png";
 import PageLoader from "@/components/common/PageLoader";
 import PublicationShareModal from "@/components/common/PublicationShareModal";
 import { CommentsSection } from "@/components/blocks/Comments";
+import { toast } from "react-toastify";
 
 
 // ---------- SMALL REUSABLE UI COMPONENTS ---------- //
@@ -82,7 +83,7 @@ const ResearchPublicationPage = () => {
   const { id } = useParams();
   const router = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
-  const [run, setRun] = useState()
+  const [run, setRun] = useState(false);
   const [commentFilters, setCommentFilters] = useState({
     page: 1,
     page_size: 10
@@ -95,6 +96,13 @@ const ResearchPublicationPage = () => {
   const { data: recommendedPublications, isLoading: recLoading, isError: recError } = useGetPublicationsQuery({});
   const [likeOrUnlikePublication, { isLoading: likeLoading }] = useLikeOrUnlikePublicationMutation();
   const {data: commentsData, isLoading: loadingComments, refetch: refetchComments} = useGetCommentsQuery(commentFilters)
+  const [likeOrUnlikeComment, { isLoading: likeCommentLoading }] =
+    useLikeAndUnlikeCommentMutation();
+  const [
+      commentOnPublication,
+      { isLoading: loadingComment, isSuccess, error },
+    ] = useCommentOnPublicationMutation();
+
   // --- USER DATA ---
   const publisher = useSelector((state: RootState) => state.auth.profile as Profile | null);
   const user = useSelector(selectCurrentUser);
@@ -108,6 +116,38 @@ const ResearchPublicationPage = () => {
       console.error("Failed to toggle like:", err);
     }
   };
+   const handleCommentLikeToggle = async (comment: any, action: string) => {
+      try {
+        const data_to_send = {
+          comment: comment.id,
+          flag: action,
+        };
+        await likeOrUnlikeComment(data_to_send).unwrap();
+        refetchComments();
+      } catch (err) {
+        console.error("Failed to toggle like:", err);
+      }
+    };
+  
+    const handleSubmitComment = async (commentText: string) => {
+      const data_to_send = {
+        comment: commentText,
+        object_pk: id,
+        author: publisher?.user,
+        name: `${publisher?.first_name} ${publisher?.last_name}`,
+        email: publisher?.email,
+        content_type: "niiricApp.publication",
+        followup: true,
+      };
+      try {
+        await commentOnPublication(data_to_send).unwrap(); // unwrap() throws if error
+        // setNewComment("");
+        setRun(!run);
+        toast.success("Comment Added");
+      } catch (err) {
+        alert("Failed to add comment");
+      }
+    };
    // Helpers
   const renderAuthors = (authors?: { first_name: string; last_name: string }[]) =>
     authors?.map((author, idx) => (
@@ -295,7 +335,19 @@ const ResearchPublicationPage = () => {
               <h2 className="text-lg font-medium text-primary-green mb-4">Related Publications</h2>
               {renderRelatedPublications()}
             </Card>
-            <CommentsSection filters={commentFilters} setFilters={setCommentFilters} totalCount={commentsData?.count} publication={data} comments={commentsData} run={run} setRun={setRun} />
+           
+              <CommentsSection
+                    onSubmitComment={handleSubmitComment}
+                    run={run}
+                    setRun={setRun}
+                    onLike={handleCommentLikeToggle}
+                    filters={commentFilters}
+                    currentUserId={user?.id}
+                    // setFilters={setCommentFilters}
+                    totalCount={commentsData?.length || 0}
+                    publication={data}
+                    comments={commentsData}
+                  />
           </div>
 
           {/* ---------- SIDEBAR ---------- */}
