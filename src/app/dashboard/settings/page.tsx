@@ -53,37 +53,6 @@ export default function Settings() {
     researchArea?: string;
   }
 
-  const userData: UserProfile = {
-    name: "Dr. Amarachi Collins",
-    university: "University of Lagos",
-    course: "Computer Science",
-    publications: 3,
-    followers: 1,
-    contributions: 0,
-    bio: "Dr. Amarachi Collins is a development economist and researcher with a strong focus on social finance and inclusive growth. She has contributed to studies on impact measurement in West Africa and often collaborates with networks that advance sustainable investment practices.",
-    image: "/assets/images/avatar.png",
-    address: "Lagos, Nigeria",
-    email: "collinsamarachi@gmail.com",
-    linkedin: "linkedin.com/amarachi-collins",
-    website: "orcid.org/0000-0002-0875-2624",
-    phone: "+234 803 323 478",
-    researchInterests: ["Agriculture", "Education", "Healthcare"],
-    qualifications: [
-      {
-        title: "Faculty Member",
-        field: "Economics",
-        institution: "University of Lagos",
-      },
-      {
-        title: "Post Doctorate",
-        field: "Economics",
-        institution: "Julius–Maximzburgwilliams–Universität Würzburg",
-      },
-    ],
-    researchArea:
-      "Dr. Amarachi Collins is a development economist and researcher with a strong focus on social finance and inclusive growth.",
-  };
-
   const colorMap: Record<string, string> = {
     Agriculture: "bg-yellow-100 text-yellow-800",
     Education: "bg-green-100 text-green-800",

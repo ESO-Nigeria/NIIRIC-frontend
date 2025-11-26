@@ -38,6 +38,7 @@ import {
 } from "@/store/features/auth/selectors";
 import UserAvatarMenu from "./UserProfile";
 import { Profile } from "@/components/types/profile";
+import { useRouter } from "next/navigation";
 
 const TopMenu = [
 	{ name: "Timeline", href: "/dashboard/publications/timeline" },
@@ -91,6 +92,7 @@ const TopMenu = [
 
 export default function DashBoardHeader({userProfile}: {userProfile: Profile}) {
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const user = useSelector(selectCurrentUser);
 	const token = useSelector((state: RootState) => state.auth.token);
 
@@ -104,6 +106,7 @@ export default function DashBoardHeader({userProfile}: {userProfile: Profile}) {
 
 	const handleLogout = () => {
 		dispatch(logoutUser());
+		router.push('/auth/login');
 	};
 
 	useEffect(() => {

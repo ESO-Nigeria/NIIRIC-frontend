@@ -36,6 +36,7 @@ export const userSlice = createSlice({
 			state.refreshToken = null;
 			state.token = null;
 			Storage.remove("user");
+			
 		},
 		setProfile: (state, { payload }) => {
 			state.user_data = payload;

@@ -56,10 +56,8 @@ export default function RootLayout({
 				className={`${raleway.variable} ${raleway.variable} ${poppins.variable} ${DmSans.variable} antialiased`}
 			>
 				<ReduxProvider>
-					{/* <SessionProvider> */}
 					<ToastContainer limit={5} />
                         {children}
-					{/* </SessionProvider> */}
 				</ReduxProvider>
 			</body>
 		</html>

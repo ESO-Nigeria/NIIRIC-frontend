@@ -116,7 +116,8 @@ export default function ProfileCompletionForm() {
 	});
 
 	useEffect(() => {
-		const user_data = id ? userProfile?.[0] : user;
+		const user_data = id ? userProfile : user;
+
 		if (user_data) {
 			form.reset({
 				title: user_data?.title || "",
@@ -133,7 +134,7 @@ export default function ProfileCompletionForm() {
 			setBioCount(user_data?.bio?.length || 0);
 			// if (user_data?.profilePicture) setPreview(user_data.profilePicture);
 		}
-	}, [userProfile, user, id]);
+	}, [userProfile, id]);
 
 		const onSubmit = async (values: FormValues) => {
 			try {
@@ -183,6 +184,7 @@ export default function ProfileCompletionForm() {
 		}
 	};
 
+	console.log('edit', id, userProfile)
 	return (
 		<Card className="shadow-none border-none p-7 font-poppins">
 			<CardContent className="space-y-6 p-0">

@@ -39,6 +39,7 @@ import {
 	selectCurrentUser,
 } from "@/store/features/auth/selectors";
 import UserAvatarMenu from "./UserProfile";
+import { useRouter } from "next/navigation";
 
 const TopMenu = [
 	{ name: "About Us", href: "/about" },
@@ -107,6 +108,7 @@ const TopMenu = [
 
 export default function Header02() {
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const user = useSelector(selectCurrentUser);
 	const token = useSelector((state: RootState) => state.auth.token);
 
@@ -120,6 +122,7 @@ export default function Header02() {
 
 	const handleLogout = () => {
 		dispatch(logoutUser());
+		router.push('/auth/login');
 	};
 
 	useEffect(() => {
