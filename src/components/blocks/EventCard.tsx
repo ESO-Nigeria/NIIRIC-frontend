@@ -81,7 +81,11 @@ const EventCard: React.FC<EventCardProps> = ({ item, onPlusClick }) => {
             </Link>
 
             {/* Description */}
-            <p className="text-sm text-gray-700 line-clamp-3">{item.description}</p>
+            <div
+              className="text-sm text-gray-700 line-clamp-3 prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: item.description }}
+            />
+
           </div>
 
           {/* Plus (arrow-up-right) button */}
