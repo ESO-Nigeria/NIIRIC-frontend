@@ -102,7 +102,7 @@ const ForgetPassword = () => {
 										type="submit"
 										className="mt-4 h-11 w-full"
 									>
-										Request password request
+										Request password reset
 									</Button>
 									<Link
 										href="/auth/login"
