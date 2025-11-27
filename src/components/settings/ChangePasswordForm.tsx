@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useChangePasswordMutation } from "@/store/features/auth/actions";
 import { handleApiError } from "@/helpers/handleApiErrors";
-import { User } from "../../../auth.types";
+import { User } from "../types/profile";
 
 const ChangePasswordSchema = z
   .object({
@@ -56,7 +56,7 @@ export default function ChangePasswordForm({ user }: Props) {
       alert("Password changed successfully!");
       form.reset();
     } catch (error) {
-      handleApiError(error);
+      handleApiError(error as any);
     }
   };
 
