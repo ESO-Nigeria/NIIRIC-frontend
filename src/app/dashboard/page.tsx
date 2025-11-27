@@ -54,11 +54,11 @@ export default function DashboardPage(): JSX.Element {
     Boolean(interest_loading) ||
     Boolean(researchAreaLoading);
 
-  // useEffect(() => {
-  //   if (isTokenValid(token) === false) {
-  //     router.replace("/");
-  //   }
-  // }, [token, router]);
+  useEffect(() => {
+    if (isTokenValid(token) === false) {
+      router.replace("/");
+    }
+  }, [token, router]);
 
   // refetch all on mount (depend on the refetch funcs to avoid stale closures)
   useEffect(() => {
