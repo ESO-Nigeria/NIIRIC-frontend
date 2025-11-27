@@ -20,10 +20,15 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SettingsPage from "@/app/settings/page";
+import ChangePasswordForm from "@/components/settings/ChangePasswordForm";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/store/features/auth/selectors";
+import { RootState } from "@/store";
 
 export default function Settings() {
   const [statusValue, setStatusValue] = useState("profile");
-
+  const token = useSelector((state: RootState) => state.auth.token);
+  const user = useSelector(selectCurrentUser);
   const handleStatusChange = (value: string) => {
     setStatusValue(value);
   };
@@ -115,10 +120,14 @@ export default function Settings() {
           <TabsContent value="password">
             <Card className="shadow-sm border-none rounded-sm">
               <CardContent className="p-4">
-                <h2 className="text-lg font-semibold mb-4">Change Password</h2>
+                <div className="mb-6">
+ <h2 className="text-lg font-semibold mb-4">Change Password</h2>
                 <p className="text-sm text-gray-600">
                   Change your password securely here.
                 </p>
+                </div>
+               
+                <ChangePasswordForm user={user} />
               </CardContent>
             </Card>
           </TabsContent>

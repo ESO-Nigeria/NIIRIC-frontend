@@ -273,12 +273,12 @@ const ResearchPublicationPage = () => {
               </div>
 
               {/* Authors */}
-              <div className="flex items-center gap-2 font-raleway">
+             {data?.co_authors > 0 && <div className="flex items-center gap-2 font-raleway">
                 <span className="text-base text-gray-600">
                   <span className="text-primary-green ">Co-Author :</span>
                 </span>
                 {renderAuthors(data?.co_authors)}
-              </div>
+              </div> }
 
               {/* Stats */}
               <div className="flex items-center gap-6 ">

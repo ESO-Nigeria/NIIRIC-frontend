@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Book, File, Menu, Search, Trees } from "lucide-react";
+import { Badge, Book, Bookmark, Calendar, File, Menu, Search, Trees } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -39,52 +39,66 @@ import {
 import UserAvatarMenu from "./UserProfile";
 import { Profile } from "@/components/types/profile";
 import { useRouter } from "next/navigation";
+import { RiGalleryLine } from "react-icons/ri";
 
 const TopMenu = [
 	{ name: "Timeline", href: "/dashboard/publications/timeline" },
 	{
 		name: "Resources",
 		Dropdown: [
-			{
-				title: "Resources",
-				description:
-					"The latest research papers, case studies, and industry insights",
-				icon: (
-					<File
-						className="size-5 shrink-0 text-primary-green"
-						strokeWidth={3}
-					/>
-				),
-				href: "/reports",
-			},
-			{
-				title: "Opportunities",
-				description:
-					"Explore Opportunities for Growth, Funding, and Career Advancement",
-				icon: (
-					<Search
-						className="size-5 shrink-0 text-primary-green"
-						strokeWidth={3}
-					/>
-				),
-				href: "/opportunities",
-			},
-		],
+					{
+						title: "Reports",
+						description:
+							"The latest research papers, case studies, and industry insights",
+						icon: (
+							<File
+								className="size-5 shrink-0 text-primary-green"
+								strokeWidth={3}
+							/>
+						),
+						href: "/reports",
+					},
+					{
+						title: "Opportunities",
+						description:
+							"Explore Opportunities for Growth, Funding, and Career Advancement",
+						icon: (
+							<Search
+								className="size-5 shrink-0 text-primary-green"
+								strokeWidth={3}
+							/>
+						),
+						href: "/opportunities",
+					},
+					{
+						title: "Blogs",
+						description:
+							"Discover expert insights, practical guides, and industry stories that inspire growth and innovation",
+						icon: (
+							<Bookmark
+								className="size-5 shrink-0 text-primary-green"
+								strokeWidth={3}
+							/>
+						),
+						href: "/blogs",
+					},
+				],
 	},
-	{
+{
 		name: "Events",
 		Dropdown: [
 			{
 				title: "Upcoming Events",
 				description: "Check out our upcoming events and webinars",
-				icon: <Trees className="size-5 shrink-0" />,
+				icon: <Calendar className="size-5 shrink-0" />,
 				href: "/events/upcoming",
 			},
 			{
-				title: "Past Events",
-				description: "Explore our past events and webinars",
-				icon: <Book className="size-5 shrink-0" />,
-				href: "/events/past",
+				title: "Gallery",
+				description: "Explore our past events and webinars gallery",
+				icon: <RiGalleryLine className="size-5 shrink-0" />,
+				// <Calendar className="size-5 shrink-0" />,
+				href: "/events/gallery",
 			},
 		],
 	},

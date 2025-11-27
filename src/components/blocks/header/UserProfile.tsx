@@ -145,7 +145,7 @@ const checksLoading = profileLoading || qualificationsLoading;
           gated: true,
         })}
 				{renderItem({
-          href: "/dashboard/settings",
+          href: "/dashboard/messages",
           icon: <MessageSquare className="mr-1 h-4 w-4" />,
           label: "Messages",
           gated: true,
