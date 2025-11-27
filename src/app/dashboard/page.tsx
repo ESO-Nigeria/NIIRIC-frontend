@@ -71,7 +71,7 @@ export default function DashboardPage(): JSX.Element {
 
   return (
     <DashboardLayout>
-      <div className="pb-2">
+      <div className="pb-2 mt-5">
         <Breadcrumbs />
       </div>
 
