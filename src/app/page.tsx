@@ -136,7 +136,7 @@ export default function Home() {
 						</Badge>
 						<h2 className="text-3xl font-bold w-full lg:w-3/4 text-primary-green leading-12 sm:text-4xl">
 							<span className="block">
-								Explore insights, stories, and expert articles from across the NIIRIC community.
+								Highlights.
 							</span>
 						</h2>
 					</div>
