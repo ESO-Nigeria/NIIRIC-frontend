@@ -97,7 +97,7 @@ export const authApi = nirricApi.injectEndpoints({
     }),
     deleteUserQualification: builder.mutation({
       query: (credentials) => ({
-        url: `/api/qualifications/${credentials?.id}/`,
+        url: `/api/qualifications/${credentials}/`,
         method: "Delete",
         body: credentials,
       }),

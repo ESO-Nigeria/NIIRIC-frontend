@@ -238,7 +238,7 @@ export default function Home() {
 								Research, Case Studies and Industry Insights{" "}
 							</span>
 							<Link
-								href="/research"
+								href="/opportunities"
 								className={`${buttonVariants({
 									variant: "primary-green",
 									size: "lg",
@@ -267,11 +267,11 @@ export default function Home() {
 					</div>
 					<div className="flex justify-center">
 						<Link
-							href="/research"
+							href="/opportunities"
 							className={`${buttonVariants({
 								variant: "primary-green",
 								size: "lg",
-							})} inline lg:hidden mt-6 mx-auto`}
+							})} inline mt-6 mx-auto`}
 						>
 							See All <ArrowRight className="size-5 inline" />
 						</Link>
