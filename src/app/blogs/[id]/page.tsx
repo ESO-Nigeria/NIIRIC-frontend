@@ -80,7 +80,7 @@ export default function BlogDetailPage() {
   return (
     <GeneralLayout>
       <div className="pt-8 lg:pt-16 px-16">
-        <Breadcrumbs />
+        <Breadcrumbs dynamicLabels={{ [id as string]: blog?.title }} />
       </div>
 
       <div className="p-8 lg:p-16">
