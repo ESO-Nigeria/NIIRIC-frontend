@@ -4,6 +4,7 @@ export const {
 	useGetEventsQuery,
 	useGetSuggestedConnectionsQuery,
 	useGetEventsByIdQuery,
-	useGetGalleryImagesQuery
+	useGetGalleryImagesQuery,
+	useSubscribeNewsletterMutation
 } = generalApi;
 
