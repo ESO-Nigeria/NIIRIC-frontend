@@ -249,12 +249,12 @@ function page() {
 			<section className="bg-[#F2F5F2] relative py-20 px-6 lg:px-10">
 				<JoinCommunity
 					image={Image3}
-					imagePosition="right" // or "left"
+					imagePosition="right"
 					primaryButtonText="Become a member"
 					onPrimaryClick={() => window.open("https://bit.ly/joinNIIRIC", "_blank")}
-					onSecondaryClick={() => router.push("/about")}
-					// You can also override badgeText, title, description, etc.
+					showSecondaryButton={false} // hide the secondary button
 				/>
+
 				<DecorativeCurve
 					className=""
 					style={{ position: "absolute", top: "0", left: "150px" }}
