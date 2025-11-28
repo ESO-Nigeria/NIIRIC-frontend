@@ -40,7 +40,10 @@ export function EventAndOpportunityCard({
 				Deadline: 	{formatDeadline(deadline)}
 			</div>
 
-			<p className="text-xs text-[#242424] mt-1 line-clamp-3 overflow-hidden text-ellipsis">{description}</p>
+			 <div
+                className="text-xs text-[#242424] mt-1 line-clamp-3 overflow-hidden text-ellipsis"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
 		</div>
 	);
 }
