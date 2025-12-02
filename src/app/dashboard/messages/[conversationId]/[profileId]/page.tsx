@@ -1,242 +1,148 @@
 "use client";
 
-import MessageInput from "@/components/messages/MessageInput";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { dispatchWSMessage, onWS, smartTimeAgo } from "@/helpers/helpers";
-import { useWebSocket } from "@/hooks/useSocket";
+import React from "react";
+import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useGetPublisherProfileByIdQuery } from "@/store/features/auth/actions";
-import {
-  useGetConversationQuery,
-  useSendMessageMutation,
-} from "@/store/features/messages/actions";
-import { messageSentAndReceived } from "@/store/features/messages/message.slice";
-import { useParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMessaging } from "@/hooks/useMessaging";
+import ConversationView from "@/components/messages/v2/ConversationView";
+import { Loader2, AlertCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
-function page() {
-  const dispatch = useDispatch();
-  const { conversationId, profileId } = useParams();
-  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
-  const {
-    data: conversation,
-    isLoading: isGettingConversation,
-    refetch: refetchConversation,
-  } = useGetConversationQuery(conversationId);
-   const { data: recipientProfile, isLoading } = useGetPublisherProfileByIdQuery(profileId, {
-        skip: !profileId // Don't fetch if no ID provided
-    });
+export default function ConversationPage() {
+  const params = useParams();
+  const conversationId = params?.conversationId as string;
+  const profileId = params?.profileId as string;
 
-  const token: string = useSelector(
-    (state: RootState): any => state.auth.token
+  const currentUserId = useSelector(
+    (state: RootState) => (state.auth.user as any)?.id || ""
   );
-  const [run, setRun] = useState();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const userId = useSelector((state: any) => state.auth.user?.id);
-
-  useEffect(() => {
-    onWS(8, (data: any) => {
-      refetchConversation();
-      // dispatch(messageSentAndReceived(data));
-    });
-    onWS(9, (data: any) => {
-      refetchConversation();
-    });
-    onWS(6, (data: any) => {
-      refetchConversation();
-    });
-  }, []);
-
+  // Fetch recipient profile
   const {
-    isConnected,
-    isConnecting,
-    error,
-    connect,
-    disconnect,
-    send,
-    sendTyped,
-  } = useWebSocket({
-    url: `wss://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/chat_ws`,
-    path: "/chat_ws",
-    token,
-    autoConnect: true,
-    // reconnectAttempts,
-    onOpen: () => {
-    },
-    onMessage: (data: any) => {
-      const wsData = JSON.parse(data);
-      dispatchWSMessage(wsData); // 👈 this replaces your switch-case
-    },
-    onClose: (event: { code: any }) => {
-    },
-    onError: (error: any) => {
-      console.error("❌ Chat error:", error);
-    },
+    data: recipientProfile,
+    isLoading: isLoadingProfile,
+    error: profileError,
+  } = useGetPublisherProfileByIdQuery(profileId, {
+    skip: !profileId,
   });
 
-   useEffect(() => {
-          // if (conversationView && conversation?.data) {
-              messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-          // }
-      }, [conversation, isGettingConversation]);
+  // Use messaging hook
+  const {
+    conversation,
+    isLoadingMessages,
+    sendMessage,
+    handleTyping,
+    isConnected,
+    isConnecting,
+    wsError,
+  } = useMessaging(conversationId);
 
+  const [isSending, setIsSending] = React.useState(false);
+  const [shouldClearInput, setShouldClearInput] = React.useState(false);
+  const previousMessageCountRef = React.useRef(conversation.length);
 
-  useEffect(() => {
-    refetchConversation();
-  }, [run]);
+  // Clear input only after conversation is refetched with new message
+  React.useEffect(() => {
+    if (
+      shouldClearInput &&
+      conversation.length > previousMessageCountRef.current
+    ) {
+      setShouldClearInput(false);
+      setIsSending(false);
+      previousMessageCountRef.current = conversation.length;
+    }
+  }, [conversation.length, shouldClearInput]);
 
-  return (
-    <>
-      <div className="flex-[1.5]">
-        <Card className="border-none h-fit w-full">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <img
-                src={recipientProfile?.profile_pic || "/default-avatar.png"}
-                alt={recipientProfile?.name || recipientProfile?.first_name + ' ' + recipientProfile?.last_name}
-                className="w-10 h-10 rounded-full object-cover border border-[#039855]"
-              />
-              <div>
-                <h3 className="font-medium text-gray-800 capitalize">
-                  {recipientProfile?.name || recipientProfile?.first_name + ' ' + recipientProfile?.last_name}
-                </h3>
-                <p className="text-sm text-gray-500">
-                  {recipientProfile?.university || "Researcher"}
-                </p>
-              </div>
+  const handleSendMessage = (text: string) => {
+    if (!conversationId || !text.trim()) return false;
+
+    setIsSending(true);
+    try {
+      const success = sendMessage(text, conversationId);
+      console.log('success', success);
+      if (success) {
+        setShouldClearInput(true);
+        return true;
+      } else {
+        console.error("Failed to send message");
+        setIsSending(false);
+        return false;
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setIsSending(false);
+      return false;
+    }
+  };
+
+  // Loading state
+  if (isLoadingProfile && isLoadingMessages) {
+    return (
+      <div className="flex-[1.5] flex items-center justify-center h-[calc(100vh-200px)]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-primary-green animate-spin" />
+          <p className="text-sm text-gray-500">Loading conversation...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error states
+  if (profileError) {
+    return (
+      <div className="flex-[1.5] flex items-center justify-center h-[calc(100vh-200px)] p-6">
+        <Card className="max-w-md border-red-200 bg-red-50">
+          <CardContent className="flex items-start gap-3 p-4">
+            <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-red-900">
+                Error loading profile
+              </p>
+              <p className="text-sm text-red-700 mt-1">
+                Failed to load recipient profile. Please try again later.
+              </p>
             </div>
-          </CardHeader>
-
-          {/* Chat Display */}
-          <CardContent className="px-6 py-4 min-h-[100px] max-h-[400px] overflow-y-auto flex flex-col gap-3">
-            {isGettingConversation && <p>loading</p>}
-            {conversation?.data?.length === 0 ? (
-              <div className="text-gray-400 text-center py-20">
-                No messages yet. Say hello 👋
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {conversation?.data
-                  ?.slice()
-                  .reverse()
-                  ?.map((msg: any, idx: number) => {
-                    const isSelf = msg.sender == userId;
-                    const senderName = isSelf ? "You" : recipientProfile?.name || recipientProfile?.first_name + ' ' + recipientProfile?.last_name;
-
-                    // const avatar = isSelf
-                    //   ? {} // replace with your profile image
-                    //   : selectedUser?.avatar || "/default-avatar.png";
-
-                    return (
-                      <div
-                        key={idx}
-                        className={`flex flex-col ${isSelf ? "items-end" : "items-start"}`}
-                      >
-                        {/* Avatar + Name */}
-                        <div className="flex items-center gap-2 mb-1">
-                          {!isSelf && (
-                            <img
-                              src={recipientProfile?.profile_pic || "/default-avatar.png"}
-                              alt={senderName}
-                              className="w-[48px] h-[48px] rounded-full object-cover border border-gray-300"
-                            />
-                          )}
-                          <span className="text-[14px]  capitalize font-medium text-gray-600 ">
-                            {senderName}
-                          </span>
-                          {/*{isSelf && (*/}
-                          {/*  <img*/}
-                          {/*    src={msg?.sender_profile_pic}*/}
-                          {/*    alt={senderName}*/}
-                          {/*    className="w-[48px] h-[48px] rounded-full object-cover border border-gray-300"*/}
-                          {/*  />*/}
-                          {/*)}*/}
-                        </div>
-
-                        {/* Message Bubble */}
-                        <div
-                          dangerouslySetInnerHTML={{ __html: msg.text ?? "" }}
-                          className={`px-4 py-2 rounded-[10px] text-sm break-words max-w-[70%] ${
-                            isSelf
-                              ? "bg-gray-100 text-base-800 rounded-tr-none"
-                              : "bg-gray-50  rounded-tl-none"
-                          }`}
-                        />
-                        {/* Timestamp */}
-                        <span
-                          className={`text-[11px] text-gray-400 mt-1 ${
-                            isSelf ? "text-right" : "text-left"
-                          }`}
-                        >
-                          {smartTimeAgo(msg?.sent)}
-                        </span>
-                        {isSelf && (
-                          <span className="text-[11px]">
-                            {msg.read ? (
-                              // Double tick for read messages
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                className="inline"
-                              >
-                                <path
-                                  d="M2 8L5.5 11.5L10 7"
-                                  stroke="#0084FF"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M6 8L9.5 11.5L14 7"
-                                  stroke="#0084FF"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            ) : (
-                              // Single tick for sent but unread messages
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 16 16"
-                                fill="none"
-                                className="inline"
-                              >
-                                <path
-                                  d="M2 8L6 12L14 4"
-                                  stroke="#9CA3AF"
-                                  strokeWidth="1.5"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                            )}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
           </CardContent>
-
-          {/* Message Input */}
-          <MessageInput
-            selectedConversation={conversationId}
-            run={run}
-            send={send}
-            setRun={setRun}
-        />
         </Card>
       </div>
-    </>
+    );
+  }
+
+  if (wsError || !isConnected) {
+    return (
+      <div className="flex-[1.5] flex items-center justify-center h-[calc(100vh-200px)] p-6">
+        <Card className="max-w-md border-yellow-200 bg-yellow-50">
+          <CardContent className="flex items-start gap-3 p-4">
+            <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-yellow-900">
+                Connection Issue
+              </p>
+              <p className="text-sm text-yellow-700 mt-1">
+                {isConnecting
+                  ? "Connecting to chat server..."
+                  : "Connection lost. Messages may not send properly."}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <ConversationView
+      messages={conversation}
+      recipientProfile={recipientProfile}
+      currentUserId={currentUserId}
+      isLoadingMessages={isLoadingMessages}
+      isLoadingProfile={isLoadingProfile}
+      onSendMessage={handleSendMessage}
+      isSending={isSending}
+      isTyping={false}
+      shouldClearInput={shouldClearInput}
+    />
   );
 }
-
-export default page;

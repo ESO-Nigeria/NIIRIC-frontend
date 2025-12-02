@@ -1,103 +1,55 @@
 "use client";
-import Breadcrumbs from "@/components/common/Breadcrumb";
+
+import React from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
+import Breadcrumbs from "@/components/common/Breadcrumb";
 import MessageTab from "@/components/common/MessageTab";
-
 import { Button } from "@/components/ui/button";
-import React, { useEffect } from "react";
-import ConversationList from "@/components/messages/ConversationList";
-import { dispatchWSMessage, onWS } from "@/helpers/helpers";
-import { useGetMessageListQuery } from "@/store/features/messages/actions";
-import { useWebSocket } from "@/hooks/useSocket";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import Link from "next/link";
+import MessagesList from "@/components/messages/v2/MessagesList";
+import { useMessaging } from "@/hooks/useMessaging";
+import { MessageSquarePlus } from "lucide-react";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
-  const {
-    data: conversations,
-    isLoading,
-    refetch,
-  } = useGetMessageListQuery({});
-  const token: string = useSelector(
-    (state: RootState): any => state.auth.token
-  );
-  const {
-    isConnected,
-    isConnecting,
-    error,
-    connect,
-    disconnect,
-    send,
-    sendTyped,
-  } = useWebSocket({
-    url: `wss://niiric-api-d3f7b4baewdvfjbp.westeurope-01.azurewebsites.net/chat_ws`,
-    path: "/chat_ws",
-    token,
-    autoConnect: true,
-    onOpen: () => {
-    },
-    onMessage: (data: any) => {
-      const wsData = JSON.parse(data);
-      dispatchWSMessage(wsData); // 👈 this replaces your switch-case
-    },
-    onClose: (event: { code: any }) => {
-      console.log("🔌 Chat closed:", event.code);
-    },
-    onError: (error: any) => {
-      console.error("❌ Chat error:", error);
-    },
-  });
-  useEffect(() => {
-    onWS(8, (data) => {
-      refetch();
-    });
+export default function MessagesV2Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { conversationsList, isLoadingConversations, userId } = useMessaging();
 
-    onWS(9, (data) => {
-      refetch();
-    });
-  }, []);
-
+  console.log('conversationList', conversationsList)
   return (
-    <div>
-      <DashboardLayout>
-        <div className="pb-2">
-          <Breadcrumbs />
+    <DashboardLayout>
+      <div className="pb-2">
+        <Breadcrumbs />
+      </div>
+
+      <div className="space-y-4 font-dm_sans">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-normal font-poppins">Messages</h2>
+          <Button variant="primary-green" className="h-11 px-4 gap-2" asChild>
+            <Link href="/dashboard/messages">
+              <MessageSquarePlus className="w-4 h-4" />
+              New Message
+            </Link>
+          </Button>
         </div>
-        <div className="space-y-4 font-dm_sans">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-normal font-poppins">Messages</h2>
-            <Button
-              variant="primary-green"
-              className="h-11 px-3"
-              asChild
-              // onClick={() => setConversationView(false)}
-            >
-              <Link href="/dashboard/messages">
-                  Send Message
-              </Link>
-              
-            </Button>
-          </div>
 
-          <MessageTab />
+        <MessageTab />
 
-          <div className="flex flex-col md:flex-row gap-4 pt-4">
+        <div className="flex flex-col md:flex-row gap-4 pt-4">
+          {/* Conversations List */}
+          <MessagesList
+            conversations={conversationsList?.data || []}
+            isLoading={isLoadingConversations}
+            currentUserId={userId}
+          />
 
-            <ConversationList
-            // conversations={conversations}
-            // selectedUser={selectedUser}
-            // setSelectedUser={setSelectedUser}
-            // setConversationView={setConversationView}
-            />
-
-            <>{children}</>
-          </div>
+          {/* Main Content (Children) */}
+          {children}
         </div>
-      </DashboardLayout>
-    </div>
+      </div>
+    </DashboardLayout>
   );
-};
-
-export default layout;
+}

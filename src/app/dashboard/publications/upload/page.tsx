@@ -233,13 +233,14 @@ const [updatePublication] = useUpdatePublicationMutation();
         ? pendingData.publicationDate.toISOString().split("T")[0]
         : null,
       sectors_ids: pendingData.sectors,
+      sectors: pendingData.sectors,
       co_authors_ids: pendingData.coAuthors,
       collaborators_ids: pendingData.contributors,
       abstract: pendingData.abstract,
       title: pendingData.title,
       doi: pendingData.doi,
-      publication_type: pendingData.publicationTypes ?? ["research"],
-      keywords: pendingData.keywords ?? [],
+      publication_type: (pendingData.publicationTypes ?? ["research"]).map((type) => `"${type}"`),
+      keywords: pendingData.keywords.map((key) => `"${key}"`) ?? [],
       document: pendingData.file ?? null,
       status,
     };
