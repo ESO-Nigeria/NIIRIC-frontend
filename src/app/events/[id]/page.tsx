@@ -25,6 +25,12 @@ interface EventItemType {
 export default function EventDetailPage() {
   const { id } = useParams();
   const { data: event, isLoading, error } = useGetEventsByIdQuery(id);
+  const { data: allEvents } = useGetEventsQuery({});
+  
+  const related =
+    allEvents?.results
+    ?.filter((e: any) => e.id !== id)
+    .slice(0, 3) ?? [];
 
   // Normalize the structure of the API response
   // const events = Array.isArray(data)
@@ -163,7 +169,7 @@ export default function EventDetailPage() {
           <aside className="lg:col-span-1 space-y-4">
             <h3 className="text-xl font-normal font-poppins">Related Events</h3>
             <div className="flex flex-col gap-4">
-              {/* {related.length > 0 ? (
+              {related.length > 0 ? (
                 related.map((item: EventItemType) => (
                   <EventCard
                     key={item.id}
@@ -173,7 +179,7 @@ export default function EventDetailPage() {
                 ))
               ) : (
                 <p className="text-gray-500">No related events found.</p>
-              )} */}
+              )}
             </div>
           </aside>
         </div>

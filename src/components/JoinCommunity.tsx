@@ -13,6 +13,7 @@ interface JoinCommunityProps {
 	description?: string;
 	primaryButtonText?: string | boolean;
 	secondaryButtonText?: string | boolean;
+	showSecondaryButton?: boolean; // new prop
 	onPrimaryClick?: () => void;
 	onSecondaryClick?: () => void;
 	containerClassName?: string;
@@ -30,6 +31,7 @@ const JoinCommunity: React.FC<JoinCommunityProps> = ({
 	description = "Joining NIIRIC connects you to a dynamic network of stakeholders in Nigeria’s impact investing, research, and innovation ecosystem. Gain access to cutting-edge studies, reports, and trends, while showcasing your research or innovations on a platform that amplifies your impact.",
 	primaryButtonText = "Create an account",
 	secondaryButtonText = "Learn More",
+	showSecondaryButton = true, // default true
 	onPrimaryClick,
 	onSecondaryClick,
 	containerClassName = "",
@@ -77,7 +79,7 @@ const JoinCommunity: React.FC<JoinCommunityProps> = ({
 						{primaryButtonText} <ArrowRight className="size-5" />
 					</Button>
 				)}
-				{secondaryButtonText && (
+				{showSecondaryButton && secondaryButtonText && (
 					<Button
 						variant="primary-brown"
 						className="text-base mt-4 h-12 sm:mt-0 cursor-pointer"
