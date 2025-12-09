@@ -44,8 +44,15 @@ export default function objectToFormData(payload: Record<string, any>) {
   return fd;
 }
 
-export function mapTagsToPublicationColors(tagLabels: string[]) {
-  return tagLabels.map((label) => {
+export function mapTagsToPublicationColors(tagLabels?: string | string[]) {
+  // Normalize input to always be an array
+  const labelsArray = Array.isArray(tagLabels)
+    ? tagLabels
+    : tagLabels
+      ? [tagLabels]
+      : [];
+
+  return labelsArray.map((label) => {
     const matchedType = publicationTypeOptions.find(
       (type) => type.value === label
     );

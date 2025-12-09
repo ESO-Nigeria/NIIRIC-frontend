@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { useCommentOnPublicationMutation, useGetCommentsQuery, useGetPublicationByIdQuery, useGetPublicationsQuery, useLikeAndUnlikeCommentMutation, useLikeOrUnlikePublicationMutation } from "@/store/features/publications/actions";
+import { useCommentOnPublicationMutation, useDownloadPublicationMutation, useFollowUserMutation, useGetCommentsQuery, useGetPublicationByIdQuery, useGetPublicationsQuery, useLikeAndUnlikeCommentMutation, useLikeOrUnlikePublicationMutation, useSharePublicationMutation, useUnfollowUserMutation } from "@/store/features/publications/actions";
 import { useGetUserInterestsQuery } from "@/store/features/auth/actions";
 import { useGetSuggestedConnectionsQuery } from "@/store/features/general/actions";
 import { useGetOpportunitiesQuery } from "@/store/features/opportunities/actions";
@@ -88,6 +88,13 @@ const ResearchPublicationPage = () => {
     page: 1,
     page_size: 10
   })
+    const [isFollowing, setIsFollowing] = useState(false);
+  
+    const [followUser, { isLoading: followLoading }] = useFollowUserMutation();
+    const [unfollowUser, { isLoading: unfollowLoading }] =
+      useUnfollowUserMutation();
+    const [sharePublication] = useSharePublicationMutation();
+    const [downloadPublication] = useDownloadPublicationMutation();
   // --- API CALLS ---
   const { data, isLoading, refetch: refetchPublication } = useGetPublicationByIdQuery(id);
   const { data: interests, isLoading: interestLoading } = useGetUserInterestsQuery({});
@@ -148,6 +155,70 @@ const ResearchPublicationPage = () => {
         alert("Failed to add comment");
       }
     };
+
+    const handleFollowToggle = async (currentlyFollowing: boolean) => {
+        if (!data?.author) return;
+    
+        try {
+          if (currentlyFollowing) {
+            await unfollowUser(data.author).unwrap();
+            setIsFollowing(false);
+            toast.success("Unfollowed successfully");
+          } else {
+            await followUser(data.author).unwrap();
+            setIsFollowing(true);
+            toast.success("Following successfully");
+          }
+        } catch (err) {
+          console.error("Failed to toggle follow:", err);
+          toast.error("Failed to update follow status");
+        }
+      };
+    
+      const handleDownload = async () => {
+        if (!data?.id || !data?.document) return;
+    
+        try {
+          // Track download
+          await downloadPublication(data.id).unwrap();
+    
+          // Proceed with actual download
+          forceDownloadPdf(
+            data.document,
+            data.title ? `${data.title}.pdf` : "publication.pdf"
+          );
+    
+          // Refetch to update download count
+          refetchPublication();
+        } catch (err) {
+          console.error("Failed to track download:", err);
+          // Still allow download even if tracking fails
+          forceDownloadPdf(
+            data.document,
+            data.title ? `${data.title}.pdf` : "publication.pdf"
+          );
+        }
+      };
+    
+      const handleShare = async () => {
+        if (!data?.id) return;
+    
+        try {
+          // Track share
+          // if (data?.is_shared === false) {
+          //   await sharePublication(data.id).unwrap();
+          // }
+          // Open share modal
+          setShowShareModal(true);
+    
+          // Refetch to update share count
+          refetchPublication();
+        } catch (err) {
+          console.error("Failed to track share:", err);
+          // Still open modal even if tracking fails
+          setShowShareModal(true);
+        }
+      };
    // Helpers
   const renderAuthors = (authors?: { first_name: string; last_name: string }[]) =>
     authors?.map((author, idx) => (
@@ -284,21 +355,25 @@ const ResearchPublicationPage = () => {
 
               {/* Actions */}
               <div className="flex gap-3 mb-4">
-                <Button onClick={() => forceDownloadPdf (data?.document ?? "", data?.title ? `${data?.title}.pdf` : "publication.pdf")} variant="primary-green" className="px-6 py-2 w-[161px]">
+                <Button 
+                onClick={handleDownload} 
+                variant="primary-green" className="px-6 py-2 w-[161px]">
                   <FileText className="w-4 h-4" /> Download PDF
                 </Button>
-                <Button onClick={() => setShowShareModal(true)} variant="outline" className="px-6 py-2 w-[161px] border-primary-green text-primary-green">
+                <Button 
+                onClick={handleShare} 
+                variant="outline" className="px-6 py-2 w-[161px] border-primary-green text-primary-green">
                   <Share2 className="w-4 h-4" /> Share
                 </Button>
               </div>
 
               {/* Views */}
-               {/* <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
+               <div className="flex items-center font-raleway gap-3 mb-4 text-base text-[#242424]">
                 <div className="flex items-center gap-1">
                   <Eye className="size-5" />
-                  <span>15 Views</span>
+                  <span>0 views</span>
                 </div>
-              </div> */}
+              </div>
 
               {/* Abstract */}
               <section>
@@ -361,10 +436,12 @@ const ResearchPublicationPage = () => {
               }}
               user={user}
               showFollowButton
-              isFollowing={false}
-              onFollowToggle={(following) =>
-                console.log(following ? "Followed" : "Unfollowed")
-              }
+              isFollowing={isFollowing}
+              onFollowToggle={handleFollowToggle}
+              loading={followLoading || unfollowLoading}
+              // onFollowToggle={(following) =>
+              //   console.log(following ? "Followed" : "Unfollowed")
+              // }
             />
 
             {/* <ResearchInterestsCard
@@ -408,7 +485,16 @@ const ResearchPublicationPage = () => {
           publication_type: data?.publication_type ?? [],
           id: data?.id ?? "",
         }}
-       
+       onShareTrack={async () => {
+          if (data?.id) {
+            try {
+              await sharePublication(data.id).unwrap();
+              refetchPublication();
+            } catch (err) {
+              console.error("Failed to track share:", err);
+            }
+          }
+        }}
       />
     </PublicationsLayout>
   );

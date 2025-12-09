@@ -19,6 +19,7 @@ export interface User {
 	publication_count?: string;
 	follower_count?: string;
 	profile_pic?: string
+	is_following?: boolean | undefined;
 }
 
 export interface Qualification {
