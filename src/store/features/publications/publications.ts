@@ -24,7 +24,7 @@ export const publicationApi = nirricApi.injectEndpoints({
     updatePublication: builder.mutation({
       query: ({ id, data }) => ({
         url: `/api/publications/${id}/`,
-        method: "PUT", // or "PATCH" if your backend allows partial updates
+        method: "PATCH", // or "PATCH" if your backend allows partial updates
         body: data,
       }),
     }),
