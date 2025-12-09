@@ -12,7 +12,7 @@ export interface BlogCardItemType {
   title: string;
   brief_info: string;
   category?: string;
-  blog_image?: string | null;
+  blog_image?: string | null; 
   date?: string;
 }
 
@@ -25,7 +25,8 @@ export interface BlogItemType extends BlogCardItemType {
 
 
 export default function Blogs() {
-  const [searchValue, setSearchValue] = useState("");
+  const [inputValue, setInputValue] = useState(""); // typing state
+  const [searchValue, setSearchValue] = useState(""); // applied filter
   const [categoryValue, setCategoryValue] = useState("");
   const [sortOrder, setSortOrder] = useState<"newer" | "older">("newer");
 
@@ -75,20 +76,39 @@ export default function Blogs() {
 
   return (
     <GeneralLayout>
-      <InfoHero
-        tag="Blogs"
-        title="Latest Blogs"
-        description="Explore insights, stories, and expert articles from across the NIIRIC community."
-        imageUrl="/assets/images/events_hero.jpg"
-        imageAlt="Blogs Banner Image"
-        showSearch={true}
-        searchValue={searchValue}
-        placeholderText="Search for blogs"
-        onSearchValueChange={setSearchValue}
-        categoryValue={categoryValue}
-        onCategoryChange={setCategoryValue}
-        onSearch={() => {}}
-      />
+     <InfoHero
+      tag="Blogs"
+      title="Latest Blogs"
+      description="Explore insights, stories, and expert articles from across the NIIRIC community."
+      imageUrl="/assets/images/events_hero.jpg"
+      imageAlt="Blogs Banner Image"
+      showSearch={true}
+      // searchValue={searchValue}
+      placeholderText="Search for blogs"
+      searchValue={inputValue}
+      onSearchValueChange={(value) => {
+      setInputValue(value);
+
+      // If user clears input, also clear the applied filter
+      if (value.trim() === "") {
+        setSearchValue("");
+        setCurrentPage(1);
+      }
+    }}
+
+      categoryValue={categoryValue}
+      onCategoryChange={(value) => {
+        setCategoryValue(value);
+        setCurrentPage(1); 
+      }}
+      showCategorySelect={false}
+      onSearch={() => {
+        setSearchValue(inputValue); // apply filter ONLY when button is clicked
+        setCurrentPage(1);
+      }}
+
+    />
+
 
       {/* Header + Sort */}
       <div className="mx-auto container px-4 flex items-center justify-between mt-10">

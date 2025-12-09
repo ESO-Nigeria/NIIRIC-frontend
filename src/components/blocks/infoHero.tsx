@@ -26,7 +26,7 @@ interface HeroSectionProps {
 	categoryValue?: string;
 	showCategorySelect?: boolean;
 	onCategoryChange?: (value: string) => void;
-	onSearch?: (e: React.FormEvent<HTMLFormElement>) => void;
+	onSearch?: () => void;
 }
 
 const InfoHero: React.FC<HeroSectionProps> = ({
@@ -89,7 +89,10 @@ const InfoHero: React.FC<HeroSectionProps> = ({
 						<div className="mt-8 max-w-4xl">
 							<form
 								className="flex w-full items-center gap-2 bg-white rounded-lg shadow px-4 py-2 min-h-[62px]"
-								onSubmit={onSearch}
+								 onSubmit={(e) => {
+									e.preventDefault();   //  stops page refresh
+									onSearch?.();         //  triggers search logic
+								}}
 							>
 								<span className="text-[#1D1B20]">
 									<svg

@@ -30,24 +30,30 @@ const defaultFilters: FilterValues = {
 };
 
 function Page() {
-	const [searchValue, setSearchValue] = useState("");
+	const [inputValue, setInputValue] = useState("");   // typing only
+	const [searchValue, setSearchValue] = useState(""); // applied to API
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
 	const [currentPage, setCurrentPage] = useState(1);
 	const queryParams = useMemo(
-			() => ({
-				...filters,
-				page: currentPage,
-			}),
-			[filters, currentPage]
-		);
+	() => ({
+		...filters,
+		title: searchValue || undefined,   
+		category: categoryValue || undefined,
+		page: currentPage,
+	}),
+	[filters, currentPage, searchValue, categoryValue]
+	);
+
+
 	
 	const { data, isLoading } = useGetPublicationsQuery(queryParams);
 
-	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// Add your search logic here
+	const handleSearch = () => {
+	setSearchValue(inputValue);  // apply filter
+	setCurrentPage(1);
 	};
+
 
 	const handleFilterChange = (newFilters: FilterValues) => {
 		setFilters(newFilters);
@@ -68,13 +74,27 @@ function Page() {
 				imageUrl={"/assets/images/what_we_do_banner.png"}
 				imageAlt="Reports Banner Image"
 				showSearch={true}
-				searchValue={searchValue}
-        		placeholderText="Search for research papers, case studies, and industry insights. "
-				onSearchValueChange={setSearchValue}
+
+				searchValue={inputValue}  
+				placeholderText="Search for research papers, case studies, and industry insights."
+
+				onSearchValueChange={(value) => {
+					setInputValue(value);
+					if (value.trim() === "") {
+					setSearchValue("");
+					setCurrentPage(1);
+					}
+				}}
+
 				categoryValue={categoryValue}
-				onCategoryChange={setCategoryValue}
+				onCategoryChange={(value) => {
+					setCategoryValue(value);
+					setCurrentPage(1);
+				}}
+
 				onSearch={handleSearch}
-			/>
+				/>
+
 			<section className="">
 				<div className="container mx-auto  py-8">
 					<div className="flex flex-row gap-8">
