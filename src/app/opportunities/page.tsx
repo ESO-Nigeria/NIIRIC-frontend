@@ -75,6 +75,14 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
+	const categories = [
+		{ value: "all", label: "All" },
+		{ value: "grants", label: "Grants & Funding Opportunities" },
+		{ value: "training", label: "Training & Scholarships" },
+		{ value: "jobs", label: "Job Board" },
+	];
+
+
 	return (
 		<GeneralLayout withSponsors={false} withSubscribe={false}>
 			<InfoHero
@@ -98,11 +106,13 @@ function Page() {
 
 				categoryValue={categoryValue}
 				onCategoryChange={(value) => {
-				setCategoryValue(value);
+				setCategoryValue(value === "all" ? "" : value);
 				setCurrentPage(1);
 				}}
 
+
 				onSearch={handleSearch}
+				categories={categories}
 			/>
 			<section className="">
 				<div className="container mx-auto  py-8">

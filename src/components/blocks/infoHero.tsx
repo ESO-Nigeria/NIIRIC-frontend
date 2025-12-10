@@ -27,6 +27,7 @@ interface HeroSectionProps {
 	showCategorySelect?: boolean;
 	onCategoryChange?: (value: string) => void;
 	onSearch?: () => void;
+  	categories?: { value: string; label: string }[];
 }
 
 const InfoHero: React.FC<HeroSectionProps> = ({
@@ -44,6 +45,7 @@ const InfoHero: React.FC<HeroSectionProps> = ({
 	onCategoryChange,
 	showCategorySelect = true,
 	onSearch,
+	categories = [],
 }) => {
 	return (
 		<div className="relative w-full h-[500px] overflow-hidden">
@@ -85,73 +87,86 @@ const InfoHero: React.FC<HeroSectionProps> = ({
 						)}
 						<p className="text-base  leading-relaxed">{description}</p>
 					</div>
-					{showSearch && (
-						<div className="mt-8 max-w-4xl">
-							<form
-								className="flex w-full items-center gap-2 bg-white rounded-lg shadow px-4 py-2 min-h-[62px]"
-								 onSubmit={(e) => {
-									e.preventDefault();   //  stops page refresh
-									onSearch?.();         //  triggers search logic
-								}}
-							>
-								<span className="text-[#1D1B20]">
-									<svg
-										width="20"
-										height="20"
-										viewBox="0 0 20 20"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<title>search</title>
-										<path
-											d="M16.3333 17.5L11.0833 12.25C10.6667 12.5833 10.1875 12.8472 9.64583 13.0417C9.10417 13.2361 8.52778 13.3333 7.91667 13.3333C6.40278 13.3333 5.12153 12.809 4.07292 11.7604C3.02431 10.7118 2.5 9.43056 2.5 7.91667C2.5 6.40278 3.02431 5.12153 4.07292 4.07292C5.12153 3.02431 6.40278 2.5 7.91667 2.5C9.43056 2.5 10.7118 3.02431 11.7604 4.07292C12.809 5.12153 13.3333 6.40278 13.3333 7.91667C13.3333 8.52778 13.2361 9.10417 13.0417 9.64583C12.8472 10.1875 12.5833 10.6667 12.25 11.0833L17.5 16.3333L16.3333 17.5ZM7.91667 11.6667C8.95833 11.6667 9.84375 11.3021 10.5729 10.5729C11.3021 9.84375 11.6667 8.95833 11.6667 7.91667C11.6667 6.875 11.3021 5.98958 10.5729 5.26042C9.84375 4.53125 8.95833 4.16667 7.91667 4.16667C6.875 4.16667 5.98958 4.53125 5.26042 5.26042C4.53125 5.98958 4.16667 6.875 4.16667 7.91667C4.16667 8.95833 4.53125 9.84375 5.26042 10.5729C5.98958 11.3021 6.875 11.6667 7.91667 11.6667Z"
-											fill="#1D1B20"
-										/>
-									</svg>
-								</span>
-								<Input
-									type="text"
-									placeholder={placeholderText}
-									className="w-[55%] min-w-0 bg-white outline-none ring-0 flex text-gray-700 placeholder:text-gray-400 px-2 py-2 border-0 shadow-none focus:bg-transparent focus:ring-0 focus:outline-none focus:border-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:outline-none active:bg-transparent active:ring-0 active:outline-none active:border-0"
-									value={searchValue}
-									onChange={(e) => onSearchValueChange?.(e.target.value)}
-								/>
-								 {showCategorySelect && ( // Conditionally render the category select
-									<>
-									<span className="h-8 w-px bg-gray-200 mx-2" />
-									<Select value={categoryValue} onValueChange={onCategoryChange}>
-										<SelectTrigger className="w-[30%] min-w-0 bg-white shadow-none text-gray-700 px-2 py-2 border-0 focus:bg-white focus:ring-0 focus:outline-none focus:border-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:outline-none active:bg-transparent active:ring-0 active:outline-none active:border-0">
-										<SelectValue placeholder="Select Category" />
-										</SelectTrigger>
-										<SelectContent className="bg-white text-gray-700 border-0 shadow-none focus:bg-white focus:ring-0 focus:outline-none focus:border-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:outline-none active:bg-transparent active:ring-0 active:outline-none active:border-0">
-										<SelectItem value="funding">Funding</SelectItem>
-										<SelectItem value="training">Training</SelectItem>
-										<SelectItem value="jobs">Jobs</SelectItem>
-										</SelectContent>
-									</Select>
-									</>
-								)}
-								<div className={!showCategorySelect ? "ml-auto" : ""}>
-  <Button
-    type="submit"
-    className="w-[134px] min-w-0 bg-[#1B4137] text-white px-6 py-2 rounded-md font-semibold hover:bg-primary-green transition-colors flex items-center gap-2 min-h-[48px] justify-center"
-  >
-    Search
-    <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-      <title>search</title>
-      <path
-        d="M3 9h12m0 0-4.5-4.5M15 9l-4.5 4.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </Button>
-</div>
-							</form>
-						</div>
+				{showSearch && (
+				<div className="mt-8 max-w-4xl">
+				<form
+					className="flex w-full items-center gap-2 bg-white rounded-lg shadow px-4 py-2 min-h-[62px]"
+					onSubmit={(e) => {
+					e.preventDefault();   // Stops browser refresh
+					onSearch?.();         // Triggers your search logic safely
+				}}
+				>
+					{/* Search Icon */}
+					<span className="text-[#1D1B20]">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 20 20"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<title>search</title>
+						<path
+						d="M16.3333 17.5L11.0833 12.25C10.6667 12.5833 10.1875 12.8472 9.64583 13.0417C9.10417 13.2361 8.52778 13.3333 7.91667 13.3333C6.40278 13.3333 5.12153 12.809 4.07292 11.7604C3.02431 10.7118 2.5 9.43056 2.5 7.91667C2.5 6.40278 3.02431 5.12153 4.07292 4.07292C5.12153 3.02431 6.40278 2.5 7.91667 2.5C9.43056 2.5 10.7118 3.02431 11.7604 4.07292C12.809 5.12153 13.3333 6.40278 13.3333 7.91667C13.3333 8.52778 13.2361 9.10417 13.0417 9.64583C12.8472 10.1875 12.5833 10.6667 12.25 11.0833L17.5 16.3333L16.3333 17.5ZM7.91667 11.6667C8.95833 11.6667 9.84375 11.3021 10.5729 10.5729C11.3021 9.84375 11.6667 8.95833 11.6667 7.91667C11.6667 6.875 11.3021 5.98958 10.5729 5.26042C9.84375 4.53125 8.95833 4.16667 7.91667 4.16667C6.875 4.16667 5.98958 4.53125 5.26042 5.26042C4.53125 5.98958 4.16667 6.875 4.16667 7.91667C4.16667 8.95833 4.53125 9.84375 5.26042 10.5729C5.98958 11.3021 6.875 11.6667 7.91667 11.6667Z"
+						fill="#1D1B20"
+						/>
+					</svg>
+					</span>
+
+					{/* Search Input */}
+					<Input
+					type="text"
+					placeholder={placeholderText}
+					className="w-[55%] min-w-0 bg-white outline-none ring-0 flex text-gray-700 placeholder:text-gray-400 px-2 py-2 border-0 shadow-none focus:outline-none focus:ring-0 focus:border-0 focus-visible:outline-none focus-visible:ring-0"
+					value={searchValue}
+					onChange={(e) => onSearchValueChange?.(e.target.value)}
+					/>
+
+					{/* Category Select */}
+					{showCategorySelect && categories.length > 0 && (
+					<>
+						<span className="h-8 w-px bg-gray-200 mx-2" />
+
+						<Select value={categoryValue} onValueChange={onCategoryChange}>
+						<SelectTrigger className="w-[30%] min-w-0 bg-white shadow-none text-gray-700 px-2 py-2 border-0 focus:outline-none focus:ring-0 focus:border-0 focus-visible:outline-none focus-visible:ring-0">
+							<SelectValue placeholder="Select Category" />
+						</SelectTrigger>
+
+						<SelectContent className="bg-white text-gray-700 border-0 shadow-none">
+							{categories.map((cat) => (
+							<SelectItem key={cat.value} value={cat.value}>
+								{cat.label}
+							</SelectItem>
+							))}
+						</SelectContent>
+						</Select>
+					</>
 					)}
+
+					{/* Search Button */}
+					<div className={!showCategorySelect ? "ml-auto" : ""}>
+					<Button
+						type="submit"
+						className="w-[134px] min-w-0 bg-[#1B4137] text-white px-6 py-2 rounded-md font-semibold hover:bg-primary-green transition-colors flex items-center gap-2 min-h-[48px] justify-center focus:outline-none focus:ring-0"
+					>
+						Search
+						<svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+						<title>search</title>
+						<path
+							d="M3 9h12m0 0-4.5-4.5M15 9l-4.5 4.5"
+							stroke="currentColor"
+							strokeWidth="1.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+						</svg>
+					</Button>
+					</div>
+				</form>
+				</div>
+
+				)}
+
 				</div>
 			</div>
 		</div>

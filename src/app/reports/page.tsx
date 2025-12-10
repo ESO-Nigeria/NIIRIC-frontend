@@ -39,7 +39,7 @@ function Page() {
 	() => ({
 		...filters,
 		title: searchValue || undefined,   
-		category: categoryValue || undefined,
+		publication_type: categoryValue || undefined,
 		page: currentPage,
 	}),
 	[filters, currentPage, searchValue, categoryValue]
@@ -64,6 +64,15 @@ function Page() {
 		setFilters(defaultFilters);
 		// Optionally reset filtering logic here
 	};
+
+	const categories = [
+	{ value: "research", label: "Research" },
+	{ value: "report", label: "Report" },
+	{ value: "case-study", label: "Case Study" },
+	{ value: "industry-insights", label: "Industry Insights" },
+	{ value: "policy", label: "Policy" },
+	];
+
 
 	return (
 		<GeneralLayout withSubscribe={false}>
@@ -93,6 +102,8 @@ function Page() {
 				}}
 
 				onSearch={handleSearch}
+				categories={categories}
+
 				/>
 
 			<section className="">
