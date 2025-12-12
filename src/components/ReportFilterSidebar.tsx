@@ -1,8 +1,9 @@
 "use client";
 import type * as React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useGetSectorsQuery } from "@/store/features/general/actions"; // import the hook
 
-// Default options
+// Default options for publication type
 const CATEGORY_OPTIONS = [
     { label: "Research paper", value: "research" },
     { label: "Report", value: "report" },
@@ -11,24 +12,11 @@ const CATEGORY_OPTIONS = [
     { label: "Policy", value: "policy" },
 ];
 
-
-const SECTOR_OPTIONS = [
-    { label: "Manufacturing / Industrial", value: "1" }, 
-    { label: "Technology / Information & Communication", value: "2" },
-    { label: "Healthcare / Life Sciences", value: "3" },
-    { label: "Financial Services", value: "4" },
-    { label: "Construction & Real Estate", value: "5" },
-    { label: "Business & Professional Services", value: "6" },
-    { label: "Education", value: "7" },
-    { label: "Transport & Logistics", value: "8" },
-    { label: "Public Sector / Government", value: "9" },
-    { label: "Media, Arts & Entertainment", value: "10" },
-    { label: "Environment / Sustainability", value: "11" },
-    { label: "Emerging Technologies", value: "12" },
-    { label: "Energy / Utilities", value: "13" },
-    { label: "Agriculture / Food & Agritech", value: "14" },
-
-];
+// Type for a sector returned by the backend
+interface Sector {
+    id: string; // UUID
+    name: string;
+}
 
 export interface FilterValues {
     publication_type?: string;
@@ -47,6 +35,16 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     onChange,
     onReset,
 }) => {
+    // Fetch sectors from backend
+    const { data: sectorsData, isLoading: sectorsLoading } = useGetSectorsQuery(undefined);
+
+    // Map backend sectors to sidebar options
+    const SECTOR_OPTIONS: { label: string; value: string }[] =
+        sectorsData?.map((sector: Sector) => ({
+            label: sector.name,
+            value: sector.id, // UUID
+        })) || [];
+
     const handleCategoryChange = (val: string) => {
         const newValue = value.publication_type === val ? undefined : val;
         onChange({ ...value, publication_type: newValue });
@@ -57,10 +55,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
         const newSectors = currentValues.includes(sectorValue)
             ? currentValues.filter((v) => v !== sectorValue)
             : [...currentValues, sectorValue];
-        
-        onChange({ 
-            ...value, 
-            sectors: newSectors.length > 0 ? newSectors : undefined 
+
+        onChange({
+            ...value,
+            sectors: newSectors.length > 0 ? newSectors : undefined,
         });
     };
 

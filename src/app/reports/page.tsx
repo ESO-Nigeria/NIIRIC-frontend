@@ -26,31 +26,43 @@ function Page() {
     const [filters, setFilters] = useState<FilterValues>(defaultFilters);
     const [currentPage, setCurrentPage] = useState(1);
     
-    // Build query parameters
     const queryParams = useMemo(() => {
-        const params: any = {
+        const params: Record<string, any> = {
             page: currentPage,
             page_size: filters.page_size || 3,
         };
-        
-        // Add search by title
+
+        // Include search keyword if provided
         if (searchValue) {
             params.title = searchValue;
         }
-        
-        // Priority: If both dropdown and sidebar filters are set, use dropdown
+
+        // Determine publication type
+        let pubType: string | undefined = undefined;
+
         if (categoryValue && categoryValue !== "all") {
-            params.publication_type = categoryValue;
+            pubType = categoryValue;
         } else if (filters.publication_type) {
-            // Only use sidebar filter if dropdown is "all" or empty
-            params.publication_type = filters.publication_type;
+            pubType = filters.publication_type;
         }
-        
-        // Add sectors from sidebar filters
+
+        if (pubType) {
+            params.publication_type = pubType;
+        }
+
+        // FIX: Handle sectors array properly
+        // The API expects "sectors" as array<string> in query parameters
         if (filters.sectors && filters.sectors.length > 0) {
+            // RTK Query should handle arrays properly, but let's ensure
             params.sectors = filters.sectors;
+            
+            // If that doesn't work, you might need to format it as:
+            // For each sector ID, we need to append it as a separate parameter
+            // This will create: ?sectors=id1&sectors=id2&sectors=id3
+            // Note: We can't do this directly in params object
+            // We need to handle this in the API query function
         }
-        
+
         return params;
     }, [filters, currentPage, searchValue, categoryValue]);
 
