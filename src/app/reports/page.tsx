@@ -53,14 +53,8 @@ function Page() {
         // FIX: Handle sectors array properly
         // The API expects "sectors" as array<string> in query parameters
         if (filters.sectors && filters.sectors.length > 0) {
-            // RTK Query should handle arrays properly, but let's ensure
             params.sectors = filters.sectors;
             
-            // If that doesn't work, you might need to format it as:
-            // For each sector ID, we need to append it as a separate parameter
-            // This will create: ?sectors=id1&sectors=id2&sectors=id3
-            // Note: We can't do this directly in params object
-            // We need to handle this in the API query function
         }
 
         return params;
