@@ -38,25 +38,30 @@ const defaultFilters: FilterValues = {
   page_size: 3,
 };
 function Page() {
-	const [searchValue, setSearchValue] = useState("");
+	const [inputValue, setInputValue] = useState("");   // typing only
+	const [searchValue, setSearchValue] = useState(""); // applied to API
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
 	  const [currentPage, setCurrentPage] = useState(1);
 		const queryParams = useMemo(
-				() => ({
-					...filters,
-					page: currentPage,
-				}),
-				[filters, currentPage]
-			);
+		() => ({
+			...filters,
+			search: searchValue || undefined, // API search
+			category: categoryValue || undefined, // category filter
+			page: currentPage,
+		}),
+		[filters, currentPage, searchValue, categoryValue]
+		);
+
 
 
 	const { data, isLoading } = useGetOpportunitiesQuery(queryParams);
 
-	const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// Add your search logic here
+	const handleSearch = () => {
+	setSearchValue(inputValue);  //  apply search
+	setCurrentPage(1);
 	};
+
 
 	const handleFilterChange = (newFilters: FilterValues) => {
 		setFilters(newFilters);
@@ -70,6 +75,14 @@ function Page() {
 		// Optionally reset filtering logic here
 	};
 
+	const categories = [
+		{ value: "all", label: "All" },
+		{ value: "grants", label: "Grants & Funding Opportunities" },
+		{ value: "training", label: "Training & Scholarships" },
+		{ value: "jobs", label: "Job Board" },
+	];
+
+
 	return (
 		<GeneralLayout withSponsors={false} withSubscribe={false}>
 			<InfoHero
@@ -81,10 +94,25 @@ function Page() {
 				showSearch={true}
 				searchValue={searchValue}
 				placeholderText="Looking for funding, training, jobs?"
-				onSearchValueChange={setSearchValue}
+				onSearchValueChange={(value) => {
+				setInputValue(value);
+
+				// If input is cleared, remove active filter
+				if (value.trim() === "") {
+					setSearchValue("");
+					setCurrentPage(1);
+				}
+				}}
+
 				categoryValue={categoryValue}
-				onCategoryChange={setCategoryValue}
+				onCategoryChange={(value) => {
+				setCategoryValue(value === "all" ? "" : value);
+				setCurrentPage(1);
+				}}
+
+
 				onSearch={handleSearch}
+				categories={categories}
 			/>
 			<section className="">
 				<div className="container mx-auto  py-8">
