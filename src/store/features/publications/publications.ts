@@ -2,6 +2,7 @@ import { nirricApi } from "../api";
 
 export const publicationApi = nirricApi.injectEndpoints({
   endpoints: (builder) => ({
+
     getPublications: builder.query({
       query: (params = {}) => ({
         url: "/api/publications/",
@@ -11,6 +12,8 @@ export const publicationApi = nirricApi.injectEndpoints({
     getUserPublications: builder.query({
       query: () => "/api/publications/my_publications/",
     }),
+
+    
 
     uploadPublication: builder.mutation({
       query: (newPublication) => ({
@@ -46,6 +49,13 @@ export const publicationApi = nirricApi.injectEndpoints({
     likeOrUnlikePublication: builder.mutation({
       query: ({ id, action }: { id: string; action: "like" | "unlike" }) => ({
         url: `/api/publications/${id}/like/`,
+        method: "POST",
+      }),
+    }),
+
+    recordPublicationView: builder.mutation({
+      query: (id: string) => ({
+        url: `/api/publications/${id}/view/`,
         method: "POST",
       }),
     }),

@@ -31,12 +31,12 @@ export default function PublisherProfileCard({
   // Use user?.is_following as the source of truth for follow state
   const isFollowing = user?.is_following ?? initialFollowing;
 
+  console.log('user', user)
   const handleFollowClick = () => {
-    const newFollowState = !isFollowing;
+    const newFollowState = isFollowing;
     onFollowToggle?.(newFollowState);
   };
 
-  console.log("PublisherProfileCard loading:", loading, user, publisher);
 
   return (
     <Card className={`shadow-none border-0 rounded-xl ${className}`}>
@@ -63,13 +63,13 @@ export default function PublisherProfileCard({
         <div className="flex gap-8 my-4">
           <div className="text-center">
             <div className="text-base font-medium text-[#475467]">
-              {user?.publication_count ?? 0}
+              {publisher?.publication_count ?? 0}
             </div>
             <div className="text-[9px] text-[#475467]">Publications</div>
           </div>
           <div className="text-center">
             <div className="text-base font-medium text-[#475467]">
-              {user?.follower_count ?? 0}
+              {publisher?.follower_count ?? 0}
             </div>
             <div className="text-[9px] text-[#475467]">Followers</div>
           </div>

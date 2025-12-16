@@ -18,6 +18,7 @@ export const {
 	useUnfollowUserMutation,
 	useDownloadPublicationMutation,
 	useSharePublicationMutation,
+	useRecordPublicationViewMutation,
 	// useLikePublicationMutation,
 	// useCommentOnPublicationMutation,
 	// useSharePublicationMutation,

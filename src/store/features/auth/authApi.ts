@@ -62,6 +62,10 @@ export const authApi = nirricApi.injectEndpoints({
       query: () => "/api/profile/",
     }),
 
+    // getPublisherProfile: builder.query({
+    //   query: (publisherId: string) => `/api/profile/${publisherId}/`,
+    // }),
+
     updateUserProfile: builder.mutation({
       query: (credentials) => ({
         url: "/api/profile/",
@@ -154,7 +158,7 @@ export const authApi = nirricApi.injectEndpoints({
     }),
 
     getPublisherProfileById: builder.query({
-      query: (id) => `/api/profile/${id}/`, // /api/profile/{id}/
+      query: (id) => `/api/profile/${id}/`,
     }),
 
     changePassword: builder.mutation({

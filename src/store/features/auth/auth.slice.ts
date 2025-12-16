@@ -10,6 +10,7 @@ const defaultUser = {
 	accessToken: null,
 	refreshToken: null,
 	profile: null,
+	
 };
 
 const initialUser = defaultUser || cachedUser;
