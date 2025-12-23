@@ -37,25 +37,133 @@ const defaultFilters: FilterValues = {
   target_groups: [],
   page_size: 3,
 };
+
+const dummyOpportunitiesResponse = {
+  count: 9,
+  results: [
+    {
+      id: 1,
+      title: "Youth Innovation Grant 2025",
+      deadline: "2025-03-30",
+      description:
+        "Funding opportunity for young innovators working on climate, fintech, and health solutions.",
+      funding_types: [{ id: 1, name: "Grant" }],
+      sectors: [{ id: 1, name: "Climate" }, { id: 2, name: "Fintech" }],
+    },
+    {
+      id: 2,
+      title: "Tech Skills Training Fellowship",
+      deadline: "2025-04-15",
+      description:
+        "A fully funded 6-month training program for aspiring software developers.",
+      funding_types: [{ id: 2, name: "Scholarship" }],
+      sectors: [{ id: 3, name: "Technology" }],
+    },
+    {
+      id: 3,
+      title: "Junior Frontend Developer Role",
+      deadline: "2025-02-28",
+      description:
+        "Entry-level frontend developer position open to recent graduates.",
+		funding_types: [{ id: 3, name: "Job" }],
+      sectors: [{ id: 4, name: "Software Development" }],
+    },
+    {
+      id: 4,
+      title: "Women in Agribusiness Fund",
+      deadline: "2025-05-10",
+      description:
+	  "Grant program supporting women-led agribusiness startups in Nigeria.",
+      funding_types: [{ id: 1, name: "Grant" }],
+      sectors: [{ id: 5, name: "Agriculture" }],
+    },
+    {
+		id: 5,
+		title: "Data Science Internship",
+		deadline: "2025-01-31",
+      description:
+	  "Paid internship for students and early-career data scientists.",
+      funding_types: [{ id: 3, name: "Job" }],
+      sectors: [{ id: 6, name: "Data & AI" }],
+    },
+  ],
+};
+
+const USE_DUMMY_DATA = false;
+
 function Page() {
 	const [inputValue, setInputValue] = useState("");   // typing only
 	const [searchValue, setSearchValue] = useState(""); // applied to API
 	const [categoryValue, setCategoryValue] = useState("");
 	const [filters, setFilters] = useState<FilterValues>(defaultFilters);
-	  const [currentPage, setCurrentPage] = useState(1);
-		const queryParams = useMemo(
-		() => ({
-			...filters,
-			search: searchValue || undefined, // API search
-			category: categoryValue || undefined, // category filter
-			page: currentPage,
-		}),
-		[filters, currentPage, searchValue, categoryValue]
-		);
+	const [currentPage, setCurrentPage] = useState(1);
+	const queryParams = useMemo(() => {
+	const params: Record<string, any> = {
+		page: currentPage,
+		page_size: filters.page_size || 3,
+	};
+
+	// Search
+	if (searchValue) {
+		params.search = searchValue;
+	}
+
+	// Category
+	if (categoryValue && categoryValue !== "all") {
+		params.category = categoryValue;
+	}
+
+	// Deadline
+	if (filters.deadline) {
+		params.deadline = filters.deadline;
+	}
+
+	// Ordering
+	if (filters.ordering) {
+		params.ordering = filters.ordering;
+	}
+
+	// Array-based filters (only send if not empty)
+	if (filters.funding_types?.length) {
+		params.funding_types = filters.funding_types;
+	}
+
+	if (filters.job_levels?.length) {
+		params.job_levels = filters.job_levels;
+	}
+
+	if (filters.job_types?.length) {
+		params.job_types = filters.job_types;
+	}
+
+	if (filters.locations?.length) {
+		params.locations = filters.locations;
+	}
+
+	if (filters.program_formats?.length) {
+		params.program_formats = filters.program_formats;
+	}
+
+	if (filters.program_types?.length) {
+		params.program_types = filters.program_types;
+	}
+
+	if (filters.sectors?.length) {
+		params.sectors = filters.sectors;
+	}
+
+	if (filters.target_groups?.length) {
+		params.target_groups = filters.target_groups;
+	}
+
+	return params;
+	}, [filters, currentPage, searchValue, categoryValue]);
 
 
 
-	const { data, isLoading } = useGetOpportunitiesQuery(queryParams);
+const { data, isLoading } = USE_DUMMY_DATA
+  ? { data: dummyOpportunitiesResponse, isLoading: false }
+  : useGetOpportunitiesQuery(queryParams);
 
 	const handleSearch = () => {
 	setSearchValue(inputValue);  //  apply search

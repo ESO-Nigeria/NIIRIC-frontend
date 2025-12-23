@@ -15,6 +15,13 @@ import { Button } from "@/components/ui/button"
 import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils";
+import { useGetSectorsQuery } from "@/store/features/general/actions"; // import the hook
+
+// Type for a sector returned by the backend
+interface Sector {
+    id: string; // UUID
+    name: string;
+}
 
 // Default options
 const OPPORTUNITY_OPTIONS = [
@@ -22,18 +29,18 @@ const OPPORTUNITY_OPTIONS = [
 	{ label: "Training & Scholarships", value: "training" },
 	{ label: "Job Board", value: "jobs" },
 ];
-const SECTOR_OPTIONS = [
-	{ label: "Agriculture", value: "agriculture" },
-	{ label: "Healthcare", value: "healthcare" },
-	{ label: "Education", value: "education" },
-	{ label: "Renewable Energy", value: "renewable" },
-	{ label: "Climate", value: "climate" },
-	{ label: "Mobility/ Transportation", value: "mobility" },
-	{ label: "Technology", value: "technology" },
-	{ label: "Consulting", value: "consulting" },
-	{ label: "Services", value: "services" },
-	{ label: "Others", value: "others" },
-];
+// const SECTOR_OPTIONS = [
+// 	{ label: "Agriculture", value: "agriculture" },
+// 	{ label: "Healthcare", value: "healthcare" },
+// 	{ label: "Education", value: "education" },
+// 	{ label: "Renewable Energy", value: "renewable" },
+// 	{ label: "Climate", value: "climate" },
+// 	{ label: "Mobility/ Transportation", value: "mobility" },
+// 	{ label: "Technology", value: "technology" },
+// 	{ label: "Consulting", value: "consulting" },
+// 	{ label: "Services", value: "services" },
+// 	{ label: "Others", value: "others" },
+// ];
 const DEADLINE_OPTIONS = [
 	{ label: "This Week", value: "week" },
 	{ label: "This Month", value: "month" },
@@ -122,6 +129,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 	onChange,
 	onReset,
 }) => {
+
+	const { data: sectorsData, isLoading: sectorsLoading } = useGetSectorsQuery(undefined);
+    const SECTOR_OPTIONS: { label: string; value: string }[] =
+        sectorsData?.map((sector: Sector) => ({
+            label: sector.name,
+            value: sector.id, // UUID
+        })) || [];
+
 	const handleCategoryChange = (val: string) => {
 		onChange({ ...value, category: val });
 	};
@@ -135,6 +150,18 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 			: [val]; // If it's not an array, start a new array with the value
 		onChange({ ...value, [group]: arr });
 	};
+
+    const handleSectorChange = (sectorValue: string) => {
+    const currentValues = value.sectors || [];
+    const newSectors = currentValues.includes(sectorValue)
+            ? currentValues.filter((v) => v !== sectorValue)
+            : [...currentValues, sectorValue];
+
+        onChange({
+            ...value,
+            sectors: newSectors.length > 0 ? newSectors : undefined,
+        });
+    };
 
 	const handleReset = () => {
 		onReset?.();
@@ -214,7 +241,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 									htmlFor={`sector-${opt.value}`}
 								>
 									<Checkbox
-										checked={value?.sectors?.includes(opt.value)}
+										checked={value?.sectors?.includes(opt.value) || false}
 										onCheckedChange={() =>
 											handleCheckboxChange("sectors", opt.value)
 										}
