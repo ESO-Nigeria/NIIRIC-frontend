@@ -41,9 +41,10 @@ const OpportunityCard: React.FC<Opportunity> = ({
 				<div className="text-main-text-color text-base mb-1">
 					<span className=" text-primary-green">Deadline:</span> {deadline}
 				</div>
-				<p className="text-main-text-color text-sm leading-relaxed mb-2">
-					{description}
+				<p className="text-main-text-color text-sm leading-relaxed mb-2 line-clamp-2">
+				{description}
 				</p>
+
 				<div className="text-main-text-color text-xs md:text-sm ">
 					<span className="font-semibold text-primary-green">Type:</span> {type}{" "}
 					<span className="mx-1">|</span>{" "}
