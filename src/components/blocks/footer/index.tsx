@@ -192,8 +192,7 @@ const Footer = ({
 										/>
 									</span>
 									<span>
-										Standard Chartered Building, 989 Workspace, 10th Floor, 142
-										Ahmadu Bello Way, Victoria Island Lagos.
+										The Chair Centre, 18 Providence Street, Lekki, Lagos.
 									</span>
 								</li>
 
