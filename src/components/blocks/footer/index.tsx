@@ -192,7 +192,7 @@ const Footer = ({
 										/>
 									</span>
 									<span>
-										The Chair Centre, 18 Providence Street, Lekki, Lagos.
+										The Hub, Plot 18, Providence Road, Beside Keystone Bank, Marwa Bus stop, Lekki Phase One, Lagos State.
 									</span>
 								</li>
 
